@@ -1,0 +1,148 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-10-10T00:41:40.183388+00:00",
+  "repo": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOMNntIs6Qwe4i",
+      "title": "Fix IANA section for Mediatype registration",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/2",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From David Dong\r\nIANA Services Sr. Specialist:\r\n\r\n1) Could you please add the registration template for application/vcon to the I-D? Please see Section 5.6 of RFC 6838 ([https:/ / datatracker. ietf. org/ doc/ rfc6838/](https://datatracker.ietf.org/doc/rfc6838/) ).\r\n\r\nIf you have any questions, just let us know. If you'd like to talk in person, you can find us next to the RFC Editor's table from Monday through Thursday. You can also request another review at any time by contacting us at [iana@ iana. org](mailto:iana@iana.org).\r\n\r\nFor more information about IANA Considerations section requirements, please see\r\n\r\n[https:/ / www. iana. org/ help/ protocol-registration](https://www.iana.org/help/protocol-registration)",
+      "createdAt": "2024-07-24T23:24:05Z",
+      "updatedAt": "2024-07-24T23:24:05Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOMNntIs6Q5b1A",
+      "title": "Add informative reference to draft-rosenberg-cc-usecases",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/3",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-07-25T21:04:49Z",
+      "updatedAt": "2024-07-25T21:04:49Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOMNntIs6S3A8t",
+      "title": "JWS vCon Header Object SHOULD contain uuid",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/4",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As a convenience to not requires base64url decoding of protected and then parsing JSON.\r\n",
+      "createdAt": "2024-08-13T17:48:29Z",
+      "updatedAt": "2024-08-13T17:48:29Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOMNntIs6T7QYU",
+      "title": " unprotected object in JWE form of vCon should contain uuid",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/5",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-08-22T21:27:03Z",
+      "updatedAt": "2024-10-07T23:50:22Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOMNntIs50kcQX",
+      "title": "Pull in CC-use case and CDDL edits",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/pull/1",
+      "state": "MERGED",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-07-05T22:15:32Z",
+      "updatedAt": "2024-07-08T04:54:44Z",
+      "baseRepository": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
+      "baseRefName": "main",
+      "baseRefOid": "1f154cfa87fda3bd93de69fc596ba2a03d707a09",
+      "headRepository": "dgpetrie/draft-petrie-vcon",
+      "headRefName": "main",
+      "headRefOid": "5e8dc4169362b6d548368e61052c6f83b55d9414",
+      "closedAt": "2024-07-08T04:54:44Z",
+      "mergedAt": "2024-07-08T04:54:44Z",
+      "mergedBy": "dgpetrie",
+      "mergeCommit": {
+        "oid": "19cd88178cf0c5248c47cbbd7914647b895af3dc"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
