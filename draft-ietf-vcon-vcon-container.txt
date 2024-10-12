@@ -5,8 +5,8 @@
 Virtualized Conversations                                   D. G. Petrie
 Internet-Draft                                                 SIPez LLC
 Intended status: Standards Track                        T. McCarthy-Howe
-Expires: 12 April 2025                                           Strolid
-                                                          9 October 2024
+Expires: 15 April 2025                                           Strolid
+                                                         12 October 2024
 
 
          The JSON format for vCon - Conversation Data Container
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 April 2025.
+   This Internet-Draft will expire on 15 April 2025.
 
 Copyright Notice
 
