@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-10T00:41:40.183388+00:00",
+  "timestamp": "2024-10-13T00:45:16.465401+00:00",
   "repo": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
   "labels": [
     {
@@ -113,6 +113,38 @@
       "updatedAt": "2024-10-07T23:50:22Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOMNntIs6Z6eRz",
+      "title": "application/vcon+json",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/7",
+      "state": "OPEN",
+      "author": "SteveLasker",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Referencing https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-container/draft-ietf-vcon-vcon-container.html#section-5.3.1, should the content-type include json? `application/vcon+json`",
+      "createdAt": "2024-10-11T21:52:16Z",
+      "updatedAt": "2024-10-11T21:52:16Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOMNntIs6Z6fkD",
+      "title": "vcon or version to represent the version",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/8",
+      "state": "OPEN",
+      "author": "SteveLasker",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-container/draft-ietf-vcon-vcon-container.html#section-4.1.1 specifies:\r\n\r\n> For syntax defined in this document, the string MUST have the value: \"0.0.1\"\r\n\r\nWhen using the vcon, I was surprised to see the vcon property to be a version, rather than the vcon object.\r\n\r\nI do appreciate we need a version to deliniate changes over the life of the draft and life post draft.\r\n\r\nRather than use the root object to represent a version, can a new `version` property be added?\r\n\r\nOr, if that becomes confusing for the version of the vcon content, as opposed to the schema version, perhaps `schema-version`, or `spec-version`\r\n",
+      "createdAt": "2024-10-11T21:56:00Z",
+      "updatedAt": "2024-10-11T21:56:00Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -141,6 +173,32 @@
       "mergeCommit": {
         "oid": "19cd88178cf0c5248c47cbbd7914647b895af3dc"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOMNntIs5-SBvK",
+      "title": "Markdown nit and spelling fixes",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/pull/6",
+      "state": "OPEN",
+      "author": "SteveLasker",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "A bunch of consistency, markdown and itef tooling fixes to reduce the errors and warnings. \r\nI've preserved the line wrapping with \"  \" at the end of the line where it seemed intended.\r\n\r\nThere are no draft changes in this pr, just formatting to make subsequent PRs easier to parse through the ietf tools.\r\n\r\nThere were several warnings for _\"no link definitions for...\"_, however I've left those in case those were reminders to reference.",
+      "createdAt": "2024-10-10T23:43:04Z",
+      "updatedAt": "2024-10-10T23:43:05Z",
+      "baseRepository": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
+      "baseRefName": "main",
+      "baseRefOid": "76dab3b0ed7ef4076085147805389ff22e4ee07a",
+      "headRepository": "SteveLasker/draft-ietf-vcon-vcon-container",
+      "headRefName": "markdown-fixes",
+      "headRefOid": "f297875c354e6aa14d20fad25131029a324bbbb3",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
