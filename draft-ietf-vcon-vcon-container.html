@@ -1462,10 +1462,10 @@ A standardized conversation container enables many applications, establishes a c
                 <p id="section-toc.1-1.9.2.7.1"><a href="#appendix-B.7" class="auto internal xref">B.7</a>.  <a href="#name-signed-vcon" class="internal xref">Signed vCon</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.8">
-                <p id="section-toc.1-1.9.2.8.1"><a href="#appendix-B.8" class="auto internal xref">B.8</a>.  <a href="#name-encrypted-vcon" class="internal xref">Encrypted  vCon</a></p>
+                <p id="section-toc.1-1.9.2.8.1"><a href="#appendix-B.8" class="auto internal xref">B.8</a>.  <a href="#name-encrypted-vcon" class="internal xref">Encrypted vCon</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.9">
-                <p id="section-toc.1-1.9.2.9.1"><a href="#appendix-B.9" class="auto internal xref">B.9</a>.  <a href="#name-redacted-signed-vcon" class="internal xref">Redacted Signed vCon</a></p>
+                <p id="section-toc.1-1.9.2.9.1"><a href="#appendix-B.9" class="auto internal xref">B.9</a>.  <a href="#name-redacted-vcon" class="internal xref">Redacted vCon</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.10">
                 <p id="section-toc.1-1.9.2.10.1"><a href="#appendix-B.10" class="auto internal xref">B.10</a>. <a href="#name-appended-signed-vcon" class="internal xref">Appended Signed vCon</a></p>
@@ -5353,7 +5353,7 @@ https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
 <div id="encrypted-vcon">
 <section id="appendix-B.8">
         <h3 id="name-encrypted-vcon">
-<a href="#appendix-B.8" class="section-number selfRef">B.8. </a><a href="#name-encrypted-vcon" class="section-name selfRef">Encrypted  vCon</a>
+<a href="#appendix-B.8" class="section-number selfRef">B.8. </a><a href="#name-encrypted-vcon" class="section-name selfRef">Encrypted vCon</a>
         </h3>
 <p id="appendix-B.8-1">This example vCon is the encrypted form of the <span><a href="#signed-vcon" class="internal xref">Signed vCon</a> (<a href="#signed-vcon" class="auto internal xref">Appendix B.7</a>)</span> example.
 The private key to decrypt it can be found at:<a href="#appendix-B.8-1" class="pilcrow">¶</a></p>
@@ -5681,12 +5681,89 @@ https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
 </div>
 </section>
 </div>
-<div id="redacted-signed-vcon">
+<div id="redacted-vcon">
 <section id="appendix-B.9">
-        <h3 id="name-redacted-signed-vcon">
-<a href="#appendix-B.9" class="section-number selfRef">B.9. </a><a href="#name-redacted-signed-vcon" class="section-name selfRef">Redacted Signed vCon</a>
+        <h3 id="name-redacted-vcon">
+<a href="#appendix-B.9" class="section-number selfRef">B.9. </a><a href="#name-redacted-vcon" class="section-name selfRef">Redacted vCon</a>
         </h3>
-<p id="appendix-B.9-1">TODO: redacted vCon example<a href="#appendix-B.9-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.9-1">
+<pre>
+{
+  "vcon": "0.0.1",
+  "parties": [
+    {
+      "name": "Alice"
+    },
+    {
+      "name": "Bob"
+    }
+  ],
+  "dialog": [
+    {
+      "type": "recording",
+      "start": "2022-06-21T17:53:26.000+00:00",
+      "duration": 33.12,
+      "parties": [
+        0,
+        1
+      ],
+      "mimetype": "audio/x-mp3",
+      "filename": "ab_call.mp3",
+      "signature": "GLy6IPaIUM1GqzZqfIPZlWjaDsNgNvZM0iCONNThnH0a7
+        5fhUM6cYzLZ5GynSURREvZwmOh54-2lRRieyj82UQ",
+      "alg": "SHA-512"
+    }
+  ],
+  "analysis": [
+    {
+      "type": "transcript",
+      "dialog": 0,
+      "body": [
+        {
+          "parties": 0,
+          "start": "2022-06-21T17:53:27.200000+00:00",
+          "duration": 4.9800001,
+          "text": "Hello.  This is {{URL}}.  My name is Bob.  How
+             can I help you?  Hi."
+        },
+        {
+          "parties": 0,
+          "start": "2022-06-21T17:53:32.240000+00:00",
+          "duration": 15.194999999999999,
+          "text": "I'd like to add Fu to my service.  Okay.  Can
+            you give me your name and phone number so I can look
+            up your account?  My name is Alice, and my number is
+            {{PHONE_NUMBER}}.  Thank you."
+        },
+        {
+          "parties": 0,
+          "start": "2022-06-21T17:53:49.015000+00:00",
+          "duration": 6.239874999999998,
+          "text": "Okay.  I've added 2 to your service.  Is there
+             anything else I can help you with?  No.  Thank you."
+        },
+        {
+          "parties": 0,
+          "start": "2022-06-21T17:53:55.254875+00:00",
+          "duration": 2.9000020000000006,
+          "text": "Goodbye.  Goodbye.  Have a nice day."
+        }
+      ],
+      "encoding": "json",
+      "vendor": "CapitalOne",
+      "schema": "data_labeler_schema",
+      "product": "dataprofiler"
+    }
+  ],
+  "attachments": [],
+  "uuid": "01928e10-193e-8231-b9a2-279e0d16bc46",
+  "redacted": {
+    "uuid": "01928d46-fd43-8c6b-b9a2-279e0d16bc46",
+    "type": "PII Redaction"
+  }
+}
+</pre><a href="#appendix-B.9-1" class="pilcrow">¶</a>
+</div>
 </section>
 </div>
 <div id="appended-signed-vcon">
