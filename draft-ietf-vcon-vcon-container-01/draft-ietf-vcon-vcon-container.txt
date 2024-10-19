@@ -1,0 +1,4191 @@
+
+
+
+
+Virtualized Conversations                                   D. G. Petrie
+Internet-Draft                                                 SIPez LLC
+Intended status: Standards Track                        T. McCarthy-Howe
+Expires: 22 April 2025                                           Strolid
+                                                         19 October 2024
+
+
+         The JSON format for vCon - Conversation Data Container
+                 draft-ietf-vcon-vcon-container-latest
+
+Abstract
+
+   A vCon is the container for data and information relating to a real-
+   time, human conversation.  It is analogous to a [vCard] which enables
+   the definition, interchange and storage of an individual's various
+   points of contact.  The data contained in a vCon may be derived from
+   any multimedia session, traditional phone call, video conference, SMS
+   or MMS message exchange, webchat or email thread.  The data in the
+   container relating to the conversation may include Call Detail
+   Records (CDR), call meta data, participant identity information (e.g.
+   STIR PASSporT), the actual conversational data exchanged (e.g. audio,
+   video, text), realtime or post conversational analysis and
+   attachments of files exchanged during the conversation.  A
+   standardized conversation container enables many applications,
+   establishes a common method of storage and interchange, and supports
+   identity, privacy and security efforts (see [vCon-white-paper])
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   The latest revision of this draft can be found at https://ietf-wg-
+   vcon.github.io/draft-ietf-vcon-vcon-container/draft-ietf-vcon-vcon-
+   container.html.  Status information for this document may be found at
+   https://datatracker.ietf.org/doc/draft-ietf-vcon-vcon-container/.
+
+   Discussion of this document takes place on the Virtualized
+   Conversations Working Group mailing list (mailto:vcon@ietf.org),
+   which is archived at https://mailarchive.ietf.org/arch/browse/vcon/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/vcon/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 22 April 2025.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+     1.1.  What's in a vCon?
+     1.2.  Use Cases and Requirements
+   2.  Conventions and Definitions
+     2.1.  Terminology
+     2.2.  JSON Notation
+     2.3.  Inline Files
+       2.3.1.  body
+       2.3.2.  encoding
+     2.4.  Externally Referenced Files
+       2.4.1.  url
+       2.4.2.  alg
+       2.4.3.  signature
+   3.  vCon JSON Object
+   4.  Unsigned Form of vCon Object
+     4.1.  vCon JSON Object Keys and Values
+       4.1.1.  vcon
+       4.1.2.  uuid
+       4.1.3.  created_at
+       4.1.4.  updated_at
+       4.1.5.  subject
+       4.1.6.  redacted
+       4.1.7.  appended
+       4.1.8.  group Objects Array
+       4.1.9.  parties Objects Array
+       4.1.10. dialog Objects Array
+       4.1.11. analysis Objects Array
+       4.1.12. attachments Objects Array
+     4.2.  Party Object
+       4.2.1.  tel
+       4.2.2.  stir
+       4.2.3.  mailto
+       4.2.4.  name
+       4.2.5.  validation
+       4.2.6.  jCard
+       4.2.7.  gmlpos
+       4.2.8.  civicaddress
+       4.2.9.  timezone
+       4.2.10. uuid
+       4.2.11. role
+       4.2.12. contact_list
+     4.3.  Dialog Object
+       4.3.1.  type
+       4.3.2.  start
+       4.3.3.  duration
+       4.3.4.  parties
+       4.3.5.  originator
+       4.3.6.  mimetype
+       4.3.7.  filename
+       4.3.8.  Dialog Content
+       4.3.9.  disposition
+       4.3.10. party_history Objects Array
+       4.3.11. Dialog Transfer
+       4.3.12. campaign
+       4.3.13. interaction_type
+       4.3.14. interaction_id
+       4.3.15. skill
+       4.3.16. application
+     4.4.  Analysis Object
+       4.4.1.  type
+       4.4.2.  dialog
+       4.4.3.  mimetype
+       4.4.4.  filename
+       4.4.5.  vendor
+       4.4.6.  product
+       4.4.7.  schema
+       4.4.8.  Analysis Content
+     4.5.  Attachment Object
+       4.5.1.  type or purpose
+       4.5.2.  start
+       4.5.3.  party
+       4.5.4.  mimetype
+       4.5.5.  filename
+       4.5.6.  Attachment Content
+     4.6.  Group Object
+   5.  Security Considerations
+     5.1.  Signing Externally Referenced Files
+     5.2.  Signed Form of vCon Object
+       5.2.1.  Signature Object
+       5.2.2.  Header Object
+     5.3.  Encrypted Form of vCon Object
+       5.3.1.  Unprotected Object
+       5.3.2.  Recipient Object
+       5.3.3.  Header Object
+   6.  IANA Considerations
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
+   Appendix A.  Contact Center Use Cases
+   Appendix B.  Example vCons
+     B.1.  Two Party Call vCon With Inline Recording
+     B.2.  Text Chat vCon
+     B.3.  Email Thread Multipart vCon
+     B.4.  Email Thread Text vCon
+     B.5.  Two Party Call vCon With Externally Referenced Recording
+     B.6.  Two Party Call vCon with Analysis
+     B.7.  Signed vCon
+     B.8.  Encrypted vCon
+     B.9.  Redacted vCon
+     B.10. Appended Signed vCon
+     B.11. vCon Group
+   Acknowledgments
+   Authors' Addresses
+
+1.  Introduction
+
+   The generation of conversational data, contained in transcripts and
+   multi-media files, is common in business, especially in customer
+   facing organizations.  However, the storage, analysis and sharing of
+   the data they contain is not currently a standard.  Standardizing a
+   container for conversation data (vCon) has numerous advantages, and
+   enables the management of the conversation's content.  Very often the
+   system providing the communications service, the consumer and/or
+   owner of the communications data and the communications analysis
+   services are distinct systems and in many case separate business
+   entities.  The point of a vCon is to provide a standard means of
+   exchanging communications data between these systems and services.
+   The use of vCons can ease service integration by using a common
+   container and format for enterprise communications.  A vCon becomes
+   the standardized input to communication analysis tools and machine
+   learning and categorization.  For a sales lead organization, a vCon
+   can be the container of assets sold to sales teams.  For
+   conversations of record, the vCon can be a legal instrument.  For
+   machine learning efforts, vCons can track what information was used
+   in the training of models, so that as the result of a customer
+   requested deletion of their data, the affected models can be
+   identified.
+
+1.1.  What's in a vCon?
+
+   A vCon contains four major categories of data: metadata , dialog ,
+   analysis and attachments.  The metadata portion allows for an
+   expanded set of data from a typical call detail record ([CDR]), with
+   identifications of the participants or parties to the conversation,
+   references to related or earlier versions of the vCon.  The dialog
+   portion contains a set of multimedia and mime elements, each
+   representing the actual, physical conversation in it's original media
+   form: text, audio or video.  The analysis portion contains data
+   derived from the metadata and dialog portions, intended to carry
+   items like transcripts, translations, summaries, text to speech,
+   sentiment analysis and other semantic tagging.  Finally, the
+   attachment portion contains any other documents, such as slide deck
+   or sales lead information, which provides context and support for the
+   conversation itself.  The vCon may also container integrity checking
+   information such as the issuer of the vCon and tamperproof features
+   such as signatures.
+
+   A vCon acts as the definition of the conversation, and are created by
+   systems during and after the conversation itself.  Some communication
+   modes, like SMS texting, lack natural session boundaries and require
+   explicit definition. vCons may have two or more parties involved, but
+   at least one should be a human.  For instance, an interaction between
+   a bot and a human is an appropriate scope for vCons, but a
+   conversation between two bots would not.
+
+   Due to the size and complexity of some portions of a vCon, both
+   inline and externally referenced dialog, analysis, attachments and
+   other vCon reference assets are supported.  For instance, vCons may
+   reference a videoconference media recording as an external URL with
+   an accompanying signature of the contents to detect tampering.
+   Alternatively, vCons may directly contain the media of the entire
+   dialog internally, keeping the conversation in one place, and
+   optionally encrypted.
+
+   vCons are designed to be a digital asset, versioned and signed.  For
+   instance, different versions of vCon may arise due to redaction (e.g.
+   for PII or other reasons), added analysis or the addition of other
+   content.  In the metadata, vCons contain the unique ID of the parent
+   vCon, such that they may be traversed while maintaining their data
+   integrity and provenance.
+
+1.2.  Use Cases and Requirements
+
+   The use cases for vCon in a contact center environment are explored
+   in the appendix: cc-usecases (Appendix A).  These use cases and
+   others have led to the metadata contents of this definition of the
+   vCon container.
+
+   TODO: would love to see use case Internet-Drafts for ECRIT and
+   Messaging.
+
+   May of the initial set of use cases for vCons are expected to be in
+   the interchange between front end and back end application and lower
+   layers of the network stack, critical for enablement of analysis of
+   conversations.  It is expected that JavaScript handling of vCons in
+   the front end and RESTful interfaces and back end platforms will be
+   used for operations and manipulation of vCons.  Many media analysis
+   services which will be used with vCons, such as transcription,
+   already use JSON based interfaces.  For this reason, JSON has been
+   chosen for the initial format binding of vCons and the scope of this
+   document.  Other bindings (e.g.  [CBOR] or [CDDL]) may be consider
+   for vCon in the future in other documents.
+
+   An outline of the vCon requirements derived from the explored use
+   case follows:
+
+   *  Standardize container for conversational data exchange
+
+   *  Consolidation of data and information for a conversation
+
+   *  Multiple modes of communication, changing over time
+
+   *  Snapshots of conversation during or once completed along with
+      analysis
+
+   *  Ease of integration of services and analysis
+
+   *  Better organize conversational data so that it can be handled in a
+      consistent, privacy safer means
+
+   *  Immutable
+
+   *  Hiding of PII or entire conversation
+
+   *  Amendable with additional information and data elements
+
+   Define a standard for exchange of conversational data in a sea of
+   modes, platforms and service offerings for conversations.
+
+   Example conversational modes and protocols:
+
+   *  SMS
+
+   *  MMS
+
+   *  JABBER
+
+   *  SIMPLE
+
+   *  Proprietary web chat
+
+   *  SMTP
+
+   *  PSTN
+
+   *  SIP
+
+   *  WEBRTC
+
+   *  Proprietary video conferencing
+
+   The following are considered not in scope or non-requirements:
+
+   *  Real-time streaming or updating of conversational data
+
+   *  Transport mechanisms
+
+   *  Storage or databases specifications
+
+   *  Methods of redaction of text, audio or video media
+
+   *  Validation of redactions or appended data beyond the signature of
+      the domain making the changes to the conversational data (e.g.
+      Merkle tree like redactions)
+
+   *  Standardization of analysis data formats or file media types
+
+2.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2.1.  Terminology
+
+   *  analysis - analysis, transformations, summary, sentiment, or
+      translation typically of the dialog data
+
+   *  conversation - an exchange of communication using text, audio or
+      video medium between at least one human and one or more bots or
+      humans
+
+   *  de-identification - removal of all information that could identify
+      a party in a conversation.  This includes PII as well as audio and
+      video recordings.  Voice recordings might be re-vocalized with a
+      different speaker.
+
+   *  dialog - the captured conversation in its original form (e.g.
+      text, audio or video)
+
+   *  encrypted form - encrypted JWE document with the JWS signed vCon
+      form contained in the ciphertext
+
+   *  file - a data block either included or referenced in a vCon
+
+   *  object - JSON object containing key and value pairs
+
+   *  parameter - JSON key and value pair
+
+   *  party - an observer or participant to the conversation, either
+      passive or active
+
+   *  payload - the contents or bytes that make up a file
+
+   *  PII - Personal Identifiable Information
+
+   *  PII masked - may include voice recordings, but PII is removed from
+      transcripts and recordings (audio and video).
+
+   *  vCon - container for conversational information
+
+   *  vCon instance - a vCon populated with data for a specific
+      conversation
+
+   *  vCon instance version - a single version of an instance of a
+      conversation, which may be modified to redact or append additional
+      information forming a subsequent vCon instance version
+
+   *  vCon syntax version - the version for the data syntax used for
+      form a vCon
+
+   *  signed form - JWS signed document with the unsigned vCon form
+      contained in the payload
+
+2.2.  JSON Notation
+
+   For the ease of documentation, the convention for [JSON] notation
+   used in this document is copied from sections 1.1-1.5 of [JMAP].
+
+   Date - A string that MUST have the form of an [RFC3339] date string
+   as defined for the Date type in section 1.4 of [JMAP].
+
+   "String" - a JSON string type
+
+   "UnsignedInt" - a positive JSON integer as defined in section 1.3 of
+   [JMAP].
+
+   "UnsignedFloat" - a positive JSON floating point number containing a
+   decimal point as defined in section 6 of [JSON].
+
+   "Mime" - A "String" value that MUST be of the following form as
+   defined in section 5.1 of [MIME]: type "/" subtype
+
+   "A[]" and array of values of type A.
+
+   All parameters are assumed to be mandatory unless other wise noted.
+
+   Objects or arrays with no or null values MAY be excluded from the
+   vCon.
+
+2.3.  Inline Files
+
+   Objects that contain a file or data inline (i.e. within the vCon)
+   MUST have the parameters: body and encoding.  JSON does not support
+   binary data values.  For this reason inline files MUST be base64url
+   (see Section 2 [JWS]) encoded to be included as a valid JSON string
+   value if they are not already valid JSON strings.
+
+2.3.1.  body
+
+   The body parameter contains the payload of the file to be included
+   inline.  Depending upon the data in the file, it may require encoding
+   to be used as a valid JSON string value.
+
+   *  body: "String"
+
+2.3.2.  encoding
+
+   The encoding parameter describes the type of encoding that was
+   performed on the string value of the body parameter.
+
+   *  encoding: "String"
+
+      This MUST be one of the following strings:
+
+      -  "base64url": The payload of the file has been base64url encoded
+         and provided as the string value of the body parameter.
+
+      -  "json": The value of the body string is a JSON object.
+
+      -  "none": The payload of the file is a valid JSON string and can
+         be included without modification as the string value to the
+         body parameter.
+
+2.4.  Externally Referenced Files
+
+   Files and data stored externally from the vCon MUST be "signed" to
+   ensure that they have not been modified.  Objects that refer to a
+   file which is externally stored from the vCon MUST have the
+   parameters: url, alg and signature.  These parameters are defined in
+   the following subsections.  The use of [SHA-512] hash for ensuring
+   that the externally referenced data or file has not been modified, is
+   defined in this document.  Other methods of ensuring integrity may be
+   added in the future.  The following subsections define how the
+   specific algorithm used and how that signature information is
+   included in a vCon so that the content can be verified.
+
+2.4.1.  url
+
+   The url value contains the [HTTPS] URL where the externally
+   referenced file is stored.  HTTPS MUST be used for retrieval to
+   protect the privacy of the contents of the file.
+
+   *  url: "String"
+
+2.4.2.  alg
+
+   The alg parameter describes the method used for signing the file
+   payload at the given url.  Only one method of signing of externally
+   referenced files is defined in this document.  So only one value is
+   defined for the alg parameter.
+
+   *  alg: "String"
+
+      This SHOULD be the following string:
+
+      -  "SHA-512": The algorithm used for signing the externally
+         referenced file is defined in section 6.3 and 6.4 of [SHA-512].
+
+2.4.3.  signature
+
+   The [SHA-512] hash on the externally referenced file is included in
+   the signature string value.
+
+   *  signature: "String"
+
+      The string value of the signature parameter is the Base64Url
+      Encoded value of the SHA-512 hash (as defined in section 6.3 and
+      6.4 [SHA-512]) of the body of the content at the given url.
+
+3.  vCon JSON Object
+
+   The JSON form of a vCon is contained in a JSON object in one of three
+   forms:
+
+   *  unsigned
+
+   *  signed
+
+   *  encrypted
+
+   The unsigned form of the vCon has a single top level object.  This
+   top level vCon object is also contained as described in the signed
+   (Section 5.2) and encrypted (Section 5.3) forms of the vCon.  The
+   selection of the JSON format enables interchange between application
+   and lower layers of the network stack, critical for enablement of
+   analysis of conversations.
+
+4.  Unsigned Form of vCon Object
+
+   The unsigned form of the top level vCon object is necessary as in
+   many cases, a vCon will be partially constructed and in process as
+   conversation data is collected.  This may change while the
+   conversation is in progress or on-going.  The vCon may start with
+   only meta data and party information, then progress to contain dialog
+   information.  It may then get analysis added or it could be passed to
+   another security domain for analysis.
+
+   A vCon may be constructed across several security domains.  When a
+   vCon is to be exported from one security domain to another, it SHOULD
+   be signed or encyrpted by the domain that constructed it.  The
+   subsequent domain may have need to redact or append data to the vCon.
+   Alternatively the originating domain may want to redact the vCon
+   before providing it to an other domain.  The second or subsequent
+   domain, MAY modify the prior vCon instance version and when complete
+   or exporting to another security domain, it SHOULD sign or encrypt
+   the new vCon instance version.  The new vCon instance version SHOULD
+   refer to the prior vCon instance version via the redacted
+   (Section 4.1.6) or appended (Section 4.1.7) parameters.
+
+4.1.  vCon JSON Object Keys and Values
+
+   The keys and values for the top level vCon JSON object are defined in
+   the following subsections.
+
+4.1.1.  vcon
+
+   The the value of vcon parameter contains the syntactic version of the
+   JSON format used in the vCon.
+
+   *  vcon: "String"
+
+      For syntax defined in this document, the string MUST have the
+      value: "0.0.1"
+
+4.1.2.  uuid
+
+   The [UUID] for the vCon is used to refer to it when privacy or
+   security may not allow for inclusion or URL reference to a vCon.  The
+   UUID MUST be globally unique.
+
+   *  uuid: "String"
+
+      The value of the string SHOULD be generated using the version 8
+      UUID defined in [UUID] which is generated identically to a version
+      7 UUID with the exception that:
+
+      -  rand_b/custom_c is generated from the high 62 bits of the SHA-1
+         hash of the FQHN string
+
+      -  the variant and version fields are set as described for version
+         8 UUID
+
+      The DNS name string used in generating the uuid value SHOULD be
+      the same FQHN, or a subdomain to allow for more distributed
+      generation of UUIDs, as would used in the signing certificate as
+      they are the same domains of uniqueness.
+
+4.1.3.  created_at
+
+   The created_at parameter provides the creation time of this vcon,
+   which MUST be present, and should not changed once the vcon object is
+   created.
+
+   *  created_at: "Date"
+
+4.1.4.  updated_at
+
+   The updated_at parameter provides the last modified time of this
+   vcon, which MAY be present.  For unsigned forms, the updated_at of
+   the vcon object SHOULD be updated as it is modified.  For signed
+   forms of the vCon object, the updated_at contains the time when this
+   vcon was last signed.  Future updates MUST first set the updated_at
+   to the new signing time as the vcon object is signed again.
+
+   *  updated_at: "Date"
+
+4.1.5.  subject
+
+   The subject or the topic of the conversation is provided in the
+   subject parameter.  This parameter is optional as not all
+   conversations have a defined subject.  Email threads and prescheduled
+   calls and video conferences typically have a subject which can be
+   captured here.  The subject may also be derived from analysis of the
+   dialog.
+
+   *  subject: "String" (optional)
+
+      The string value of the subject parameter is a free formed JSON
+      string with no constrained syntax.
+
+4.1.6.  redacted
+
+   A redacted vCon SHOULD provide a reference to the unredacted or
+   prior, less redacted, vCon instance version of itself.  The purpose
+   of the Redacted Object is to provide the reference to the unredacted
+   or less redacted version of the vCon from which this vCon was
+   derived.  For privacy reasons, it may be necessary to redact a vCon
+   to construct another vCon without the PII.  This allows the non-PII
+   portion of the vCon to still be analyzed or used in a broader scope.
+   The Redacted Object SHOULD contain the uuid parameter and MAY include
+   the vCon inline via the body and encoding parameters or alternatively
+   the url, alg and signature parameters (see Inline Files (Section 2.3)
+   and Externally Referenced Files (Section 2.4)).  If the unredacted
+   vCon is included in the body, the unredacted vCon MUST be in the
+   encrypted form.  If a reference to the unredacted vCon is provided in
+   the url parameter, the access to that URL MUST be restricted to only
+   those who should be allowed to see the identity or PII for the
+   redacted vCon.
+
+   The method(s) for redaction of text, audio and video can be done with
+   existing post processing of media.  The method of redaction is out of
+   scope of this document.  The assurance of the accuracy of the
+   redaction is made by the entity that creates the redaction which
+   SHOULD sign the redacted version of the vCon.
+
+   All data and parameters in the prior, less redacted, vCon instance
+   version are either:
+
+   *  Removed entirely in the redacted version
+
+   *  Copied and partially redacted
+
+   *  Copied as is
+
+   Data which is to be completely removed from the redacted version,
+   that is contained in a JSON array in the unredacted vCon, SHOULD
+   create an empty placeholder such that object array indices do not
+   change for the rest of the elements of the array.
+
+   *  redacted: "Redacted" (optional, mutually exclusive with appended
+      and group parameters)
+
+   A Redacted Object contains the following parameters:
+
+   *  uuid: "String"
+
+      The value contains the uuid string value (Section 4.1.2) of the
+      unredacted/prior vCon instance version.  The absence of a value
+      for uuid indicates that the less redacted version of this vCon is
+      not available or does not exist.
+
+   *  type: "String"
+
+      The value of the redacted type parameter is used to indicate the
+      type of redaction that was performed on this vCon relative to the
+      less redacted version referenced by the redacted uuid parameter.
+      This should indicate the type of information that was redacted.
+
+   As defined in Inline Files (Section 2.3) body and encoding MAY be
+   included:
+
+   *  body: "String"
+
+   *  encoding: "String"
+
+   Alternatively, as defined in Externally Referenced Files
+   (Section 2.4) url, alg and signature MAY be included:
+
+   *  url: "String"
+
+   *  alg: "String"
+
+   *  signature: "String"
+
+   The following diagram illustrates an example partial JSON object tree
+   for a redacted vCon.  The top level object is a JWS signed vCon which
+   contains a vCon in the unsigned form in the payload parameter.  The
+   second level object is the redacted vcon which refers to the
+   encrypted unredacted vCon in it's redacted parameter.  Note that the
+   redacted vCon references the JWE encrypted vCon by UUID and may
+   reference it by URL or direct inclusion.  The JWE encrypted
+   unredacted vCon contains the signed version of the unredacted vCon in
+   the ciphertext parameter.  The signed unredacted vCon contains the
+   unredacted vCon in the unsigned form in it's payload parameter.
+
+                   --------------
+   Signed          | JWS        |
+   redacted vCon:  |            | payload parameter
+                   |    payload-|-- contains unsigned
+                   -------------- / redacted vCon
+                                 /
+               -------------    /
+   vCon which  |vCon       |<---
+   has been    |           | redacted parameter contains
+   redacted:   |  redacted-|-- or refers to JWE
+               ------------- / encrypted unredacted vCon
+                            /
+                           /
+                          /
+                         /
+                        /
+                       / ---------------
+                       ->| JWE         | cyphertext
+   Encrypted signed      |             | parameter
+   unredacted vCon:      |  cyphertext-|--- contains
+                         ---------------  / JWS signed
+                                         / unredacted
+                     -------------      / vCon
+   Signed            |JWS        |<-----
+   unredacted vcon:  |           | payload contains
+                     |   payload-|-- unsigned
+                     -------------  \ unredacted vCon
+                                     \   ----------
+                                      -->| vCon   |
+   Unsigned unredacted vCon:             |        |
+                                         ----------
+
+                    Figure 1: redacted vCon object tree
+
+4.1.7.  appended
+
+   A signed or encrypted vCon cannot be modified without invalidating
+   it.  In these cases, to allow for adding of additional information a
+   new vCon instance version MUST be created.  The prior vCon instance
+   version is referenced by the Appended Object.  Then the appended
+   information is added to the new vCon instance version (i.e. top level
+   vCon object).
+
+   The prior vCon instance version SHOULD be referenced via the uuid of
+   the prior vCon instance version, and MAY include the body and
+   encoding parameters or alternatively the url, alg and signature
+   parameters (see Inline Files (Section 2.3) and Externally Referenced
+   Files (Section 2.4)).
+
+   *  appended: "Appended" (optional, mutually exclusive with redacted
+      and group parameters)
+
+   The Appended Object contains the following parameters:
+
+   *  uuid: "String" (optional if inline or external reference provided)
+
+      The value contains the uuid string value (Section 4.1.2) of the
+      unredacted/original vCon instance version.
+
+   Alternatively, as defined in Inline Files (Section 2.3) body and
+   encoding MAY be included:
+
+   *  body: "String"
+
+   *  encoding: "String"
+
+   Alternatively, as defined in Externally Referenced Files
+   (Section 2.4) url, alg and signature MAY be included:
+
+   *  url: "String"
+
+   *  alg: "String"
+
+   *  signature: "String"
+
+   The following figure illustrates an example partial JSON object tree
+   for an appended vCon.  The top level object is the JWS signed
+   appended vCon which contains the unsigned form of the vCon in it's
+   payload parameter.  The second level object is the appended vCon with
+   additional conversational data (e.g. analysis data).  It refers to
+   its original parent (or prior vCon instance version) of the vCon in
+   its appended parameter.  Note: the appended parameter may include the
+   original in the body parameter or refer to it via URL.  The appended
+   vCon in this figure refers to the JWS signed version of the vCon,
+   which in turn contains the original vCon in unsigned form in its
+   payload parameter.
+
+                   --------------
+   Signed          | JWS        |
+   appended vCon:  |            | payload parameter
+                   |    payload-|-- contains unsigned
+                   -------------- / appended vCon
+                                 /
+               -------------    /
+   vCon with   |vCon       |<---
+   appended    |           | appended parameter contains
+   data:       |  appended-|--- or refers to JWS
+               |  analysis |  / signed original vCon
+               ------------- / along with additional
+                            / converstational data
+                           / (e.g. analysis)
+                          /
+                         /
+                        /
+                       / ------------
+                       ->| JWS      | payload
+   Encrypted signed      |          | parameter
+   original vCon:        |  payload-|--- contains
+                         ------------  / unsigned
+                                      / original
+                     -------------   / vCon
+   Original vCon:    |vCon       |<--
+                     |           |
+                     |   parties |
+                     |   dialog  |
+                     -------------
+
+                    Figure 2: appended vCon object tree
+
+4.1.8.  group Objects Array
+
+   The scope of a conversation is defined by the observer.  It may be
+   any of the following in this non-exhaustive list:
+
+   *  a quick text exchange
+
+   *  a simple 2-way call
+
+   *  an evolving group chat
+
+   *  a class lecture and question and answer session
+
+   *  a web chat, evolving to a 2 way call, progressing to a transferred
+      3-way call transitioning to a video conference
+
+   *  a series of weekly status calls
+
+   In support of these constructs, it may be desirable to aggregate a
+   group of vCons as opposed to including all of the dialog in a single
+   vCon.  The conversations may be over heterogeneous or homogeneous
+   medium.  A vCon MAY aggregated a group of vCon instances in the group
+   array, using a Group Object for each vCon instance.
+
+   *  group: "Group[]" (optional, mutually exclusive with redacted and
+      appended parameters)
+
+      The group array contains a Group Object (Section 4.6) for each
+      vCon.
+
+4.1.9.  parties Objects Array
+
+   The name, identity or contact information of all of the parties
+   involved with the conversation are included in the parties object
+   array.  Whether the parties were observers, passive or active
+   participants in the conversation, they each are included as a Party
+   Object in the parties array.
+
+   TODO: Should this be a object not an array to make it easier to
+   append parties (i.e. indices of append vCons change when appended)?
+
+   *  parties: "Party[]"
+
+      The value of the parties parameter is an array of Party Objects
+      (Section 4.2).
+
+4.1.10.  dialog Objects Array
+
+   The actual conversation which occurred over text, audio or video that
+   was captured, is contained in the dialog Objects Array.
+
+   *  dialog: "Dialog[]" (optional)
+
+      The value of the dialog parameter is an array of Dialog Objects
+      (Section 4.3).
+
+4.1.11.  analysis Objects Array
+
+   Analysis, which is performed on the conversational data, is stored in
+   the analysis Objects array.
+
+   *  analysis: "Analysis[]" (optional)
+
+      The value of the analysis parameter is an array of Analysis
+      Objects (Section 4.4).
+
+4.1.12.  attachments Objects Array
+
+   Ancillary documents, discussed, presented, referenced or related to
+   the conversation may be stored in the attachments array.
+
+   *  attachments: "Attachment[]" (optional)
+
+      The value of the attachments parameter is an array of Attachment
+      Objects (Section 4.5).
+
+4.2.  Party Object
+
+4.2.1.  tel
+
+   If the tel URL for the party is known, it can be included in the tel
+   parameter.
+
+   *  tel: "String" (optional)
+
+      The value of the tel parameter SHOULD be a valid [TEL] URL.  The
+      URL scheme prefix (i.e. "tel:") is optional.
+
+4.2.2.  stir
+
+   If the STIR [PASSporT] was provided to identify the party, the
+   PASSporT can be included in the stir parameter for the party.
+
+   *  stir: "String" (optional)
+
+      The string value of the stir parameter contains the [PASSporT] in
+      the JWS Compact Serialization form.
+
+4.2.3.  mailto
+
+   If the mailto URL is known for the party, it can be included in the
+   mailto parameter.
+
+   *  mailto: "String" (optional)
+
+      The value of the mailto parameter is a string of the format of a
+      valid [MAILTO] URL.  The URL scheme prefix (i.e. "mailto:") is
+      optional.
+
+4.2.4.  name
+
+   If the party's name is known, it can be included in the name
+   parameter.
+
+   *  name: "String" (optional)
+
+      The string value of the name parameter is a free form JSON string
+      in which part or all of the party's name can be included.
+
+4.2.5.  validation
+
+   Proof of authorization of the communication channel through STIR,
+   login or possession of a device, is often not sufficient proof of the
+   identity of the person at the other end of the communications
+   channel.  It is common in call centers to validate the identity of
+   the person on the communication channel through verification of some
+   sort of personal identification information.  The methods used, often
+   varies with the situation and is business practices specific.  The
+   purpose of the validation parameter, is to allow the validator to
+   save a label or token which identifies the method of identity
+   validation used to identify the person at the other end of the
+   communication channel.  For confidentially reasons, it SHOULD NOT
+   contain the data used to validate the name.  However it MAY name the
+   data used to validate the name (e.g.  "SSN", "DOB", "user ID and
+   password").  It is up to the domain creating the vCon to define the
+   set of tokens or values to be used for the validation parameter.
+
+   *  validation: "String" (SHOULD be provided if name parameter is
+      provided)
+
+      The value of the validation string MAY be "none" or enterprise or
+      domain defined token or string values.
+
+4.2.6.  jCard
+
+   TODO: Do we want to support including a jCard for the party?
+
+4.2.7.  gmlpos
+
+   If the geolocation of the party is known, it can be added in the
+   gmlpos parameter.  The gmlpos parameter contains the latitude and
+   longitude of the location of the party at the time of the
+   conversation start.
+
+   *  gmlpos: "String" (optional)
+
+      The gmlpos parameter value contains a string of the same format as
+      the gml:pos element defined in section 3.2 of the [PIDF-LO] PIDF.
+
+4.2.8.  civicaddress
+
+   The the civicaddress parameter value contains a Civicaddress Object
+   which is optional and contains civic address information about the
+   location for the party.
+
+   *  civicaddress: "Civicaddress" (optional)
+
+   The Civicaddress Object MAY contain any or all of the following
+   parameters: country, a1, a2, a3, a4, a5, a6, prd, pod, sts, hno, hns,
+   lmk, loc, flr, nam, pc as defined in section 2.2.1 of [GEOPRIV].  The
+   values of all of these parameters are of type String.  Note that the
+   parameter names MUST be in lower case when contained in the
+   Civicaddress Object even though they are in upper case in [GEOPRIV].
+
+   *  country: "String" (optional)
+
+   *  a1: "String" (optional)
+
+   *  a2: "String" (optional)
+
+   *  a3: "String" (optional)
+
+   *  a4: "String" (optional)
+
+   *  a5: "String" (optional)
+
+   *  a6: "String" (optional)
+
+   *  prd: "String" (optional)
+
+   *  pod: "String" (optional)
+
+   *  sts: "String" (optional)
+
+   *  hno: "String" (optional)
+
+   *  hns: "String" (optional)
+
+   *  lmk: "String" (optional)
+
+   *  loc: "String" (optional)
+
+   *  flr: "String" (optional)
+
+   *  nam: "String" (optional)
+
+   *  pc: "String" (optional)
+
+   TODO: Do we need RFC6848 civic address extensions?
+
+   TODO: Is there a need for any temporal location?  For example should
+   location be an array, each element with a time stamp?
+
+   TODO: Do we just specify for the start of the conversation?
+
+4.2.9.  timezone
+
+   TODO: timezone for the location of the party?
+
+4.2.10.  uuid
+
+   The uuid is a unique identifier for the participant.  In a contact
+   center, this is particularly important for the call agent
+   participant, and must be static across interactions to allow
+   correlation with the actual agent configuration provisioned into the
+   systems.
+
+   *  uuid: "String" (optional)
+
+4.2.11.  role
+
+   The role that the participant played in the conversation.  In a call
+   center there are roles: such as: agents, customer, supervisor and
+   specialist.  In conferences there are roles: host, cohost, speaker,
+   panelist, participant and other roles.  The role parameter provides
+   the ability to label the role that the part played in the
+   conversation.
+
+   *  role: "String" (optional)
+
+   The following values for the role parameter MAY be used:
+
+   *  "agent"
+
+   *  "customer"
+
+   *  "supervisor"
+
+   *  "sme" (for subject mater expert)
+
+   *  "thirdparty"
+
+   Other values for the role parameter MAY also be used.
+
+4.2.12.  contact_list
+
+   In a contact center scenario, the conversation with this party may be
+   part of a larger effort of contacting a group of parties,
+   individually or perhaps in groups.  It is sometimes useful to
+   reference the list from which this party was included.  The
+   contact_list may be used as a label for foreign key reference to the
+   contact list that this party was on.
+
+   *  contact_list "String" (optional)
+
+4.3.  Dialog Object
+
+   The Dialog object references or contains text, audio or video
+   captured from the conversation.  Currently two types of dialog
+   objects are defined in this document.  One for text media and the
+   other for audio or video recording files.
+
+   TODO: Is there other signalling data that we want to capture other
+   than start and duration and the media (e.g. from jabber, sms, mms,
+   email, SIP, etc.)?
+
+4.3.1.  type
+
+   *  type: "String"
+
+      The sting MUST have the value of either "recording", "text",
+      "transfer" or "incomplete".  A dialog of type "recording" has
+      Dialog Content that either contains a body or refers to via url,
+      which is a recording of the video and/or audio of a segment of the
+      conversation.  A dialog of type "text" had has Dialog Content that
+      either contains a body or refers to via url, which contains the
+      text from one of the parties for a segment of the conversation.  A
+      dialog of type "transfer" does not capture actual conversation
+      exchange, but rather captures operations, parties and relations
+      between dialog segments.  A dialog of type "incomplete" or
+      "transfer" MUST NOT have Dialog Content.  In the "incomplete" case
+      the call or conversation failed to be setup to the point of
+      exchanging any conversation.  Incomplete dialogs MUST have a
+      disposition parameter which indicates why the call or
+      conversations failed.  In the "transfer" case, the conversation is
+      recorded in other dialogs.  The Dialog Transfer parameters, are
+      used to show the roles and relationships between the parties and
+      other dialogs as the transfer process occurred.
+
+4.3.2.  start
+
+   The start parameter contains the date and time for the beginning of
+   the captured piece of dialog.  For text it is the time that the party
+   started typing or if not available, then it is the time the text was
+   sent.  For audio and video recordings, it is the time which
+   corresponds to the beginning of the recording.
+
+   *  start: "Date"
+
+4.3.3.  duration
+
+   The duration parameter contains the duration in seconds of the
+   referenced or included piece of dialog.  For text, if known, it is
+   the time duration from when the party started typing to when they
+   completed typing and the text was sent.  For recordings, it is the
+   duration of the recording.
+
+   *  duration: "UnsignedInt" | "UnsignedFloat" (optional)
+
+      The value MUST be the dialog duration in seconds.
+
+4.3.4.  parties
+
+   The party(s) which generated the text or recording for this piece of
+   dialog are indicated in the parties parameter.
+
+   *  parties: "UnsignedInt" | "UnsignedInt[]" | ("UnsignedInt" |
+      "UnsignedInt[]")[]
+
+      Single channel recordings should have a parties value of the form:
+      "UnisignedInt" or "UnsignedInt[]" where the integer value or array
+      of integer values are the indices to the Party Object(s) in the
+      parties array that contributed to the mix for the single channel
+      recording.  The index for the Party Object SHOULD be included even
+      if the indicated party was silent the entire piece of dialog.
+
+      Multi-channel recordings MUST have a parties value that is an
+      array of the same size as the number of channels in the recording.
+      The values in that array are either an integer or an array of
+      integers which are the indices to the parties that contributed to
+      the mix for the associated channel of the recording.  The index
+      for Party Objects SHOULD be included even if the party was silent
+      the entire conversation.
+
+      It is implied that the first party in the dialog Object parties
+      list, is the originator of the dialog.  However, in some
+      situations, it is difficult to impose the constraint that the
+      first channel of a recording is the originator.  If ensuring that
+      the first channel and party listed is the originator is not
+      possible, the optional originator parameter indicates the
+      originator party.  In other cases, there may be a separate
+      recording file for each party in a conversation, where only one
+      party is recorded per file.  In this situation, it is necessary to
+      indicate the originator as the dialog Object parties parameter
+      will contain only one party and may not be the originator.
+
+   TODO: For an email thread, To and Cc parties are all passive.  Do we
+   just put the sender as the party or do we want to list all of the
+   recipients and by convention the sender is the first party?  Note
+   that each dialog/email could have a difference set of recipients.
+
+4.3.5.  originator
+
+   The originator party for this dialog.  For email and text, this is
+   the sender of the text.  For audio and video, this is the caller or
+   host of the call or conference.  The originator parameter is only
+   provided if the first party of the dialog Object parties list is NOT
+   the originator.
+
+   *  originator: "UnsignedInt" (optional)
+
+      The originator value is the index into the parties Objects Array,
+      to the party that originated the dialog.
+
+4.3.6.  mimetype
+
+   The media type for the piece of dialog included or referenced is
+   provided in the mimetype parameter.  The mimetype parameter MUST be
+   provided for inline dialog files and MUST be provided if the Content-
+   Type header in the [HTTPS] response for the externally referenced URL
+   is not provided.
+
+   *  mimetype: "Mime" (optional for externally referenced files)
+
+      The media types SHOULD be one of the following strings:
+
+      -  "text/plain"
+
+      -  "audio/x-wav"
+
+      -  "audio/x-mp3"
+
+      -  "audio/x-mp4"
+
+      -  "audio/ogg"
+
+      -  "video/x-mp4"
+
+      -  "video/ogg"
+
+      -  "multipart/mixed"
+
+      Note: multi-part will also likely include the boundary parameter
+
+4.3.7.  filename
+
+   It is sometimes useful to preserve the name of the file which
+   originally contained this piece of dialog.  This can be done in the
+   filename parameter.
+
+   *  filename: "String" (optional)
+
+4.3.8.  Dialog Content
+
+   The Dialog Object SHOULD contain the body and encoding parameters or
+   the url, alg and signature parameters for all dialog types other than
+   "incomplete" and "transfer", these parameters MUST NOT be present for
+   "incomplete" or "transfer" dialog types (see Inline Files
+   (Section 2.3) and Externally Referenced Files (Section 2.4)).
+
+   For inline included dialog:
+
+   *  body: "String" (optional in an a redacted vCon)
+
+   *  encoding: "String"
+
+   Alternatively, for externally referenced dialog:
+
+   *  url: "String" (optional in an a redacted vCon)
+
+   *  alg: "String"
+
+   *  signature: "String"
+
+4.3.9.  disposition
+
+   If the dialog type is "incomplete", it must have a disposition
+   parameter.  The value of the disposition parameter provides the
+   reason that the "call control" failed.  The term: "call control" is
+   used in a loose sense, as there in not always a call involved, to
+   differentiate from a call disposition that an agent may assign to a
+   call to indicate the reason, issue addressed or outcome of a
+   conversation.  This latter definition of call disposition is not
+   dialog, but analysis of the conversation and is not included in the
+   dialog portion.
+
+   *  disposition: "String" (required for incomplete type dialogs,
+      SHOULD NOT be present for other dialog types)
+
+      The value of the disposition parameter MUST be one of the
+      following string:
+
+      -  "no-answer" - a call or connection was attempted, but no one
+         answered or accepted the connection
+
+      -  "congestion" - a call or connection was attempted, but was
+         unable to be completed due to system load
+
+      -  "failed" - a call or connection was attempted, but failed
+
+      -  "busy" - a call or connection was attempted, but the party was
+         busy with another conversation
+
+      -  "hung-up" - a call or connection was made, but the party hung-
+         up before any conversation occurred
+
+      -  "voicemail-no-message" - a call or connection was made, the
+         voicemail system answered, but no message was left
+
+      Note: if a message was left with the voicemail system this is no
+      longer an "incomplete" type dialog, it is a "recording" type and
+      the conversation SHOULD be included in the Dialog Content.
+
+4.3.10.  party_history Objects Array
+
+   Participants in a dialog may not all join and leave at the same time.
+   To support the capturing of the information when parties join, drop,
+   go on hold or mute and unmute, the party_history array may be added
+   to the Dialog Object.
+
+   *  party_history: "Party_History[]" (optional)
+
+4.3.10.1.  Party_History Object
+
+   The Party_History Object contains the following parameters:
+
+   *  party: "UnsignedInt"
+
+      The index of the party for this event.
+
+   *  event: "String"
+
+      The string token for the event which MUST be one of the following:
+
+      -  "join" - when the party joins the dialog
+
+      -  "drop" - when the party drops out of the dialog
+
+      -  "hold" - when the party is put on hold
+
+      -  "unhold" - when the part is taken off hold
+
+      -  "mute" - when the party is muted
+
+      -  "unmute" - when the part is taken off mute
+
+   *  time: "Date"
+
+4.3.11.  Dialog Transfer
+
+   A dialog of type "transfer" documents the rolls of three parties and
+   the relationship between 2 or three dialog segments.  In a transfer
+   operation, the roles of the three parties to a transfer are defined
+   in [SIP-XFER] as:
+
+   * Transferee
+   * Transferor
+   * Transfer Target
+
+   There are two or three calls in which the parties are connected:
+
+   * original call
+   * consultative call (optional as this call may not get created)
+   * target call
+
+   To capture the above roles and dialog segments, the following
+   parameters are defined and SHOULD be present in the "transfer" type
+   dialog and MUST NOT be present in other dialog types.
+
+* transferee: "UnsignedInt"
+
+The value of the transferee parameter is the index into the parties Object array to the party that played the role of the Transferee.
+
+* transferor: "UnsignedInt"
+
+The value of the transferor parameter is the index into the parties Object array to the party that played the role of the Transferor.
+
+* transfer-target: "UnsignedInt"
+
+The value of the transfer-target parameter is the index into the parties Object array to the party that played the role of the Transfer Target.
+
+* original: "UnsignedInt"
+
+The value of the original parameter is the index into the dialogs Object array to the "recording" or "text" type dialog for the original dialog between the Transferee and the Transferor.
+
+* consultation: "UnsignedInt" (optional)
+
+The value of the consultation parameter is the index into the dialogs Object array to the "recording", "text" or "incomplete" type dialog for the consultative dialog between the Transferor and the Transfer Target.
+
+* target-dialog: "UnsignedInt"
+
+The value of the target-dialog parameter is the index into the dialogs Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.
+
+A "transfer" type dialog MUST NOT contain the parties, originator, mimetype, filename or Dialog Content parameters.
+
+   The "transfer" type dialog only captures the roles, operations and
+   events of the parties and the dialog setup.  It does not capture the
+   purpose or reason for the transfer as that is analysis to be captures
+   in the analysis section of the Vcon after the conversation has
+   occurred.
+
+4.3.12.  campaign
+
+   In a contact center scenario, a dialog may be initiated as part of a
+   campaign or set of dialogs initiated with a common goal or focus or
+   to be handled or treated in a specific way.  The campaign parameter
+   is string that may be used as a label or foreign key in reference to
+   an external specification for how the communication is to be
+   initiated, handled or treated.  In some case it may be appropriate to
+   attached the campaign data as an Attachment Object.
+
+   *  campaign: "String" (optional)
+
+4.3.13.  interaction_type
+
+   *  interaction_type "String" (optional)
+
+   TODO: add enumerated values from JDR
+
+4.3.14.  interaction_id
+
+   In a contact center scenario, interactions with a party are often
+   labeled with an identifier.  In some case the interaction is
+   contained in a single dialog.  In others there may be multiple
+   dialogs (e.g. messages or calls) that are all part of a single
+   interaction.  There may also be many interactions for a single
+   conversation or vCon.  The interaction parameter is used as a label
+   or foreign key in reference to the interaction ID.
+
+   *  interaction_id "String" (optional)
+
+4.3.15.  skill
+
+   A contact center may service multiple purposes or customers.  In this
+   scenario it is important to label the conversation segment or dialog.
+   The agent or automata which services the dialog are required to have
+   a specific skill.  To facilitate this in a vCon dialog, the skill
+   parameter is provided.  The string values of the skill parameter are
+   contact center specific.
+
+   *  skill "String" (optional)
+
+4.3.16.  application
+
+   The application parameter is used to capture the application,
+   communication channel or context over which the conversation was
+   held.  The conversation mode can be identified by looking at the
+   dialog type.  However that does not different between different
+   communication platform service providers or hosting service.  For
+   example, the applicaiton parameter can be used to identify the web
+   conference hosting serivce.
+
+   *  application "String" (optional)
+
+4.4.  Analysis Object
+
+   Analysis is a broad and in some cases developing field.  This
+   document does not attempt to suggest a SHOULD support list of types.
+   Nor are formats for analysis data defined in this document.  That is
+   for research and specification outside the scope of this document.
+   For this reason the Analysis Object provides multiple ways to define
+   the media type of the analysis file.  If a well known media or mime
+   type is defined, it SHOULD be used.  For analysis data or files types
+   for which a media type is not defined, the vendor and schema
+   parameters SHOULD be used.
+
+4.4.1.  type
+
+   The type parameter is used to label the semantic type of analysis
+   data.
+
+   *  type: "String"
+
+      The string value SHOULD be one of the following:
+
+      -  "summary"
+
+      -  "transcript"
+
+      -  "translation"
+
+      -  "sentiment"
+
+      -  "tts"
+
+4.4.2.  dialog
+
+   Analysis typically pertains to one or more of the Dialog Objects in
+   the dialog array.  The dialog parameter is used to indicate which
+   Dialog Objects this analysis was based upon.
+
+   *  dialog: "UnsignedInt" | "UnsignedInt[]" (optional only if the
+      analysis was not derived from any of the dialog)
+
+      The value of the dialog parameter is the index to the dialog or
+      array of indices to dialogs in the dialog array to which this
+      analysis object corresponds.
+
+4.4.3.  mimetype
+
+   The media type for the included or referenced analysis file is
+   provided in the mimetype parameter.
+
+   *  mimetype: "Mime" (optional for externally referenced files, if it
+      this is provided in the [HTTPS] Content-Type header)
+
+      The mimetype string contains the media type or [MIME] type of the
+      analysis file.
+
+4.4.4.  filename
+
+   It is sometimes useful to preserve the name of the file which
+   originally contained this analysis data.  This can be done in the
+   filename parameter.
+
+   *  filename: "String" (optional)
+
+      The file name string contains an optional name for the analysis
+      data file referenced in this Analysis Object.
+
+4.4.5.  vendor
+
+   There may not be a IANA registered media type for the file format
+   containing the analysis data.  Even if a media type is defined, it is
+   often useful to keep a record of the vendor that produced the
+   software that produced the analysis.  Different implementations
+   perform differently and knowing the implementation can be useful in
+   interpreting the analysis.  For this reason, the vendor or product
+   name is provided in the vendor parameter.
+
+   *  vendor: "String"
+
+      The vendor string value contains the vendor or product name of the
+      software which generated this analysis.
+
+4.4.6.  product
+
+   As the vendor may have more than one product, the product parameter
+   may be used to differentiate it from other products which may have
+   different schemas of analysis data.
+
+   *  product: "string" (optional)
+
+4.4.7.  schema
+
+   The same vendor or software product may produce different formats or
+   data for the same analysis.  The schema parameter allows the data
+   format, schema or configuration used to generate the analysis to be
+   saved with the included or referenced analysis data.
+
+   *  schema: "String" (optional)
+
+      The schema string contains a token or label for the data format or
+      schema for the analysis data.  As the vendor name may not be
+      specific enough to identify the format of the analysis, the schema
+      value is provide to differentiate from potentially multiple data
+      formats for analysis provided by the same vendor or software.
+
+4.4.8.  Analysis Content
+
+   The Analysis Object SHOULD contain the body and encoding parameters
+   or the url, alg and signature parameters (see Inline Files
+   (Section 2.3) and Externally Referenced Files (Section 2.4)).
+
+   For inline included analysis:
+
+   *  body: "String"
+
+   *  encoding: "String"
+
+   Alternatively, for externally referenced analysis:
+
+   *  url: "String"
+
+   *  alg: "String"
+
+   *  signature: "String"
+
+4.5.  Attachment Object
+
+   Ancillary documents to the conversation are included or referenced in
+   the Attachment Object.  There is no constraint on the types files
+   which can be included or referenced.  As most modes of communication,
+   that allow the exchange of files, do not constrain the file type, any
+   file type may be included here.
+
+4.5.1.  type or purpose
+
+   TODO: Do we want a semantic type like: contract or presentation?  Or
+   a subject or title.
+
+4.5.2.  start
+
+   The start parameter contains the date and time that the Attachment
+   Object was sent/exchanged.
+
+   *  start: "Date"
+
+4.5.3.  party
+
+   In most conversations, ancillary documents originate from one of the
+   parties to the conversation.  This is not necessarily the author, but
+   the person who distributed the document.  This party is identified by
+   the party parameter in the Attachment Object.
+
+   *  party: "UnsignedInt"
+
+      The value of the party parameter is the index into the Parties
+      Object array to the party that contributed the attachment.
+
+4.5.4.  mimetype
+
+   The media type for the included or referenced attachment file is
+   provided in the mimetype parameter.
+
+   *  mimetype: "Mime" (optional for externally referenced files, if it
+      this is provided in the [HTTPS] Content-Type header)
+
+      The mimetype string contains the media type or [MIME] type of the
+      attached file.
+
+4.5.5.  filename
+
+   It is sometimes useful to preserve the name of the file which
+   originally contained this attachment file.  This can be done in the
+   filename parameter.
+
+   *  filename: "String" (optional)
+
+      The file name string contains an optional name for the attachment
+      file referenced in this Attachment Object.
+
+4.5.6.  Attachment Content
+
+   The Attachment Object SHOULD contain the body and encoding parameters
+   or the url, alg and signature parameters (see Inline Files
+   (Section 2.3) and Externally Referenced Files (Section 2.4)).
+
+   For inline included attachments:
+
+   *  body: "String"
+
+   *  encoding: "String"
+
+   Alternatively, for externally referenced attachments:
+
+   *  url: "String"
+
+   *  alg: "String"
+
+   *  signature: "String"
+
+4.6.  Group Object
+
+   A conversation may have take place using different modes (e.g. web
+   chat which evolves to email, which evolves to phone call, which
+   evolves to video conference).  A conversation could take place over
+   several calls (e.g. multiple calls regarding a support incident or
+   problem).  Each of these examples might be considered a single
+   conversation event though there are multiple sets of dialog in each.
+   What is considered the boundary of a conversation is a business
+   decision.  There are situations in the above example, where it is
+   desired to treat these as a single conversation, but each set of
+   dialog is created in a single vCon (e.g. each dialog occurred in a
+   separate communication silo or security domain) which gets signed.
+   For this reason, it may be necessary to aggregate the separate vCon
+   into a single vCon which is considered the whole of a conversation.
+   The Group Object includes or refers to a vCon to be aggregated into
+   the whole of a single vCon conversation.
+
+   The Group Object SHOULD contain the uuid and either the body and
+   encoding parameters or the url, alg and signature parameters (see
+   Inline Files (Section 2.3) and Externally Referenced Files
+   (Section 2.4)).  The vCon MAY be referenced via UUID:
+
+   *  uuid: "String"
+
+      The value of the uuid parameter, is the uuid string value
+      (Section 4.1.2) of the referenced vCon to be aggregated.
+
+   The vCon MAY be included in line as the value of the body parameter.
+   The encoding parameter MUST be included with the body parameter, if
+   provided, to describe the encoding of the vCon body.
+
+   *  body: "vCon"
+
+      The JSON unsigned form of the vCon, the JWS signed form of the
+      vCon or the JWE encrypted form of the vCon.
+
+   *  encoding: "String"
+
+      The encoding string MUST have the value: "json".
+
+   Alternatively, the vCon can be externally referenced.  The url, alg
+   and signature parameters and values are defined in Externally
+   Referenced Files (Section 2.4).
+
+   *  url: "String"
+
+   *  alg: "String"
+
+   *  signature: "String"
+
+5.  Security Considerations
+
+   The security concerns for vCons can put into two categories: making
+   the conversation immutable through integrity verification and
+   protecting the confidentiality of privacy of the parties to the
+   conversation and/or their PII.  These requirements along with need to
+   evolve a vCon (e.g. adding analysis, translations and transcriptions)
+   conflict in some ways.  To enable this, multiple versions of a vCon
+   may be created.  Versions of a vCon may add information (e.g.
+   analysis added to a prior vCon referenced by the appended
+   (Section 4.1.7)) and versions that remove information (e.g.
+   redactions of privacy information removed from the vCon referenced in
+   the redacted (Section 4.1.6)).  Redactions may be at different levels
+   for example:
+
+   *  PII masked to remove PII data in the text, audio, video or
+      transcripts
+
+   *  De-identified to remove segments or whole recordings that might be
+      used for voice printing or facial recognition
+
+   Different parts and versions of a vCon may be created in different
+   security domains over a period of time.  In addition, some
+   conversation data may be referenced externally through an HTTPS URL
+   as opposed to completely contained within the vCon.  Typically a
+   conversation of one mode, will be hosted or observed in a single
+   domain.  This will likely fall into one of the following hosting
+   situations:
+
+   *  Enterprise Hosted Communications
+
+   *  Software as a Service (SaaS) Hosted Communications
+
+   *  Service Provider Hosted Communications
+
+   The distinction among these has gotten clouded over recent years.
+   The import consideration is that each is a different security domain.
+   Information about a conversation captured in an enterprise
+   communications system (e.g. meta data and Dialog Object(s) recorded
+   in an IP PBX) is a different security domain from a SaaS
+   transcription service (i.e. an Analysis Object).  Before a vCon
+   leaves a security domain, it SHOULD be signed to prevent it from
+   being altered.  If the new security domain needs to alter it, a new
+   vCon is created with the removed or added data and the prior version
+   is referenced (i.e. via the redacted (Section 4.1.6) or appended
+   (Section 4.1.7)).  See the redacted vCon object tree figure-1 and
+   appended vCon object tree figure-2.  If information is redacted for
+   privacy reasons, the vCon referenced in the redacted (Section 4.1.6),
+   if inline, SHOULD be encrypted to protect the privacy information in
+   the unredacted version of the vCon.
+
+   The secure storage and access of externally referenced conversation
+   data is considered out of scope from this document.  Secure
+   mechanisms for HTTPS access and storage of files are well defined.
+   Identity and credentials for accessing externally stored data will be
+   exchanged out of band from the vCon.  The one requirement for
+   externally referenced data from the perspective of this document, is
+   proof of integrity of that data.
+
+   Using the above described approach for redaction and appending of
+   data, we can reduce the security operations on a vCon to signing and
+   encryption.  Two approaches to signing are needed as we have data, in
+   JSON format, that is contained within the vCon and may have data
+   (typically media and file formats, often binary) not contained,
+   inline in the vCon, that is externally referenced.
+
+   Externally referenced data will be "signed" using [SHA-512] hash
+   which along with the URL of the externally referenced data is
+   included in the vCon.  [SHA-512] was chosen due to the relatively low
+   cost to generate and verify the signature for what could be very
+   large externally referenced media files.  As the hash for each
+   externally referenced file is contained in the vCon which will be
+   signed, the chain of authentication is provided via the signature on
+   the vCon itself.
+
+   This document specifies the JSON format for vCons.  So it seemed the
+   logical solution for signing vCons, is JOSE [JWS] JSON Serialization
+   and likewise for encrypting vCons is JOSE [JWE] JSON Serialization.
+   The solutions are well documents, implementations are readily
+   available and tested.
+
+   Methods of redaction exist for text, audio and video using post
+   processing of the media.  The method of redaction used is out of the
+   scope of this document.  A redacted vCon SHOULD reference it's non-
+   redacted version.  The non-redacted version of the vCon referenced
+   from the redacted vCon MUST be encrypted such that only those with
+   permission to view the non-redacted content can decrypt it.
+
+   Any time a vCon is shared outside its original security domain, it
+   SHOULD be signed and optionally encrypted.  Files externally
+   referenced by a vCon SHOULD always be signed with the verification
+   information included in the vCon that references the external file as
+   defined in Externally Referenced Files (Section 2.4) and Signing
+   Externally Referenced Files (Section 5.1).  Externally referenced
+   files SHOULD only be transported over [HTTPS] and SHOULD be access
+   controlled to those who are permitted to read the contents of that
+   non-redacted vCon. vCons transported over non-secure channels such as
+   email MUST be in the encrypted form.
+
+5.1.  Signing Externally Referenced Files
+
+   In some deployments, it is not practical to include all of the file
+   contents of a vCon inline.  In support of that, a file may be
+   externally referenced.  When external files are referenced, the
+   signature on the vCon does not secure the file contents from
+   modification.  For this reason any externally referenced files SHOULD
+   also have a signature. vCons use the [SHA-512] hash method for
+   integrity checking of externally referenced file content and include
+   its url, alg and signature in the vCon which are included in the
+   integrity signature for the whole vCon.
+
+   After retrieving externally referenced files, before using its
+   content, the payload of the HTTPS request should be verified using
+   the signature parameter value for the hash for the url body using the
+   procedure defined in section 6.3 and 6.4 of [SHA-512].
+
+5.2.  Signed Form of vCon Object
+
+   A signed vCon uses [JWS] and takes the General JWS JSON Serialization
+   Syntax form as defined in section 7.2.1 of [JWS].  The vCon General
+   JWS JSON Serialization MUST include x5c or x5u in the unprotected
+   header.
+
+   *  payload: "String"
+
+      The value of the payload is the Base64Url Encoded string
+      containing the unsigned form of the JSON vCon.  The general
+      construction of the payload string value is described in section
+      7.2.1 of [JWK]
+
+   *  signatures "Signature[]"
+
+      The value of signatures is an array of Signature Objects
+      (Section 5.2.1)
+
+5.2.1.  Signature Object
+
+   The Signature Object MUST contain a header, protected and signature
+   parameter as defined in section 7.2.1 of [JWS].
+
+   *  header: "Header"
+
+      The value of header is defined in Header Object (Section 5.2.2)
+
+   *  protected: "String"
+
+   *  signature" "String"
+
+5.2.2.  Header Object
+
+   The Header Object and its contents are defined in section 4 of [JWS].
+   The Header Object for a signed vCon MUST include the alg and either
+   the x5c or x5u arrays.  The x5c or x5u requirement makes the
+   management and use of vCons easier, allowing the certificate chain to
+   be found as the vCon is moved.
+
+   *  alg: "String"
+
+      The string value of alg is defined in section 4.1.1 of [JWS].  For
+      a signed vCon this value SHOULD be "RS256" to maximize
+      interoperability.
+
+   *  x5c: "String[]" (MUST provide x5c or x5u)
+
+      The array of string values for x5c are defined in section 4.1.6 of
+      [JWS].
+
+   *  x5u: "String" (MUST provide x5c or x5u)
+
+      The string value of x5u MUST contain an [HTTPS] URL as defined in
+      section 4.1.5 of [JWS].
+
+   *  uuid: "String" (SHOULD be provided)
+
+      The string value of the UUID for the vCon contained in the payload
+      parameter.  This is added for convenience to not require
+      verification of the signed vCon to get it's UUID.  When the vCon
+      is verified, the value of this uuid parameter SHOULD be verified
+      against the UUID in the signed vCon.
+
+   TODO: How to deal with expired signatures?
+
+5.3.  Encrypted Form of vCon Object
+
+   TODO: Check this terminology:
+
+   A vCon MUST be signed first using JWS as defined in Signed Form of
+   vCon Object (Section 5.2), then encrypted using JWE as opposed to
+   just encrypted with integrity protection.  The rationale is that meta
+   data and dialog will typically be collected in one security domain,
+   then may be stored or exported to another.  The signing is likely for
+   the lifetime of the vCon, where the encryption may be shorter term or
+   domain specific. vCons may be stored in unencrypted form, but the
+   signed form MUST be maintained to ensure its integrity.
+
+   A encrypted vCon uses [JWE] and takes the General JWE JSON
+   Serialization Syntax form as defined in section 7.2.1 of [JWE].
+
+   *  unprotected: "Unprotected"
+
+   *  recipients: "Recipient[]"
+
+   *  iv: "String"
+
+      The string value of iv is the Initialization Vector as constructed
+      as defined in section 7.2.1 of [JWE].
+
+   *  ciphertext: "String"
+
+      The string value of ciphertext is constructed as defined in
+      section 7.2.1 of [JWE] using the signed form of the vCon as the
+      plaintext input for encryption.
+
+   *  tag: "String"
+
+      The string value of tag is the the Authentication Tag as defined
+      in section 7.2.1 of [JWE].
+
+5.3.1.  Unprotected Object
+
+   *  cty: "String"
+
+      The string value of cty SHOULD be "application/vcon"
+
+   *  enc: "String"
+
+      The string value of enc SHOULD be "A256CBC-HS512"
+
+   *  uuid: "String" (SHOULD be provided)
+
+      The string value of the UUID for the vCon contained in the
+      ciphertext parameter.  This is provided for identification of the
+      encrypted vCon without the need of the key to decrypt the vCon.
+      The value of this uuid parameter SHOULD be verified when the vCon
+      is decrypted.
+
+5.3.2.  Recipient Object
+
+   *  header: "Header"
+
+   *  encrypted_key: "String"
+
+      The string value of encrypted_key is defined in section 7.2.1 of
+      [JWE].
+
+5.3.3.  Header Object
+
+   *  alg: "String"
+
+      The string value of alg SHOULD be "RSA-OAEP".
+
+6.  IANA Considerations
+
+   This section includes the information required for IANA to register
+   the application/vcon media type per [MEDIATYPE].
+
+   Type name: application
+
+   Subtype name: vcon+json
+
+   Required parameters: N/A
+
+   Optional parameters: N/A; unrecognized parameters should be ignored.
+
+   Encoding considerations: [JSON]
+
+   Additional information:
+
+   Security considerations: See Security Considerations section of this
+   document.
+
+   Interoperability considerations:
+
+   Published specification: [VCON], this document
+
+   Applications that use this media type:
+
+   Fragment identifier considerations:
+
+   Additional Information:
+
+   Deprecated alias names for this type: N/A
+
+   Magic number(s): N/A
+
+   File extension(s): "vcon"
+
+   Macintosh file type code(s): N/A
+
+   Windows Clipboard Name: VCON
+
+   Author: See the Author's Addresses section of this document.
+
+   Change controller: IETF
+
+   TODO: what is needed for gzip compression?? TODO: do we need
+   mediatypes for JWS and JWE forms of vCon??
+
+7.  References
+
+7.1.  Normative References
+
+   [GEOPRIV]  Peterson, J., "A Presence-based GEOPRIV Location Object
+              Format", RFC 4119, DOI 10.17487/RFC4119, December 2005,
+              <https://www.rfc-editor.org/rfc/rfc4119>.
+
+   [HTTPS]    Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", STD 97, RFC 9110,
+              DOI 10.17487/RFC9110, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9110>.
+
+   [JSON]     Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
+              Interchange Format", STD 90, RFC 8259,
+              DOI 10.17487/RFC8259, December 2017,
+              <https://www.rfc-editor.org/rfc/rfc8259>.
+
+   [JWE]      Jones, M. and J. Hildebrand, "JSON Web Encryption (JWE)",
+              RFC 7516, DOI 10.17487/RFC7516, May 2015,
+              <https://www.rfc-editor.org/rfc/rfc7516>.
+
+   [JWK]      Jones, M., "JSON Web Key (JWK)", RFC 7517,
+              DOI 10.17487/RFC7517, May 2015,
+              <https://www.rfc-editor.org/rfc/rfc7517>.
+
+   [JWS]      Jones, M., Bradley, J., and N. Sakimura, "JSON Web
+              Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
+              2015, <https://www.rfc-editor.org/rfc/rfc7515>.
+
+   [MAILTO]   Duerst, M., Masinter, L., and J. Zawinski, "The 'mailto'
+              URI Scheme", RFC 6068, DOI 10.17487/RFC6068, October 2010,
+              <https://www.rfc-editor.org/rfc/rfc6068>.
+
+   [MEDIATYPE]
+              Freed, N., Klensin, J., and T. Hansen, "Media Type
+              Specifications and Registration Procedures", BCP 13,
+              RFC 6838, DOI 10.17487/RFC6838, January 2013,
+              <https://www.rfc-editor.org/rfc/rfc6838>.
+
+   [MIME]     Freed, N. and N. Borenstein, "Multipurpose Internet Mail
+              Extensions (MIME) Part One: Format of Internet Message
+              Bodies", RFC 2045, DOI 10.17487/RFC2045, November 1996,
+              <https://www.rfc-editor.org/rfc/rfc2045>.
+
+   [PASSporT] Wendt, C. and J. Peterson, "PASSporT: Personal Assertion
+              Token", RFC 8225, DOI 10.17487/RFC8225, February 2018,
+              <https://www.rfc-editor.org/rfc/rfc8225>.
+
+   [PIDF-LO]  Winterbottom, J., Thomson, M., and H. Tschofenig, "GEOPRIV
+              Presence Information Data Format Location Object (PIDF-LO)
+              Usage Clarification, Considerations, and Recommendations",
+              RFC 5491, DOI 10.17487/RFC5491, March 2009,
+              <https://www.rfc-editor.org/rfc/rfc5491>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
+              Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
+              <https://www.rfc-editor.org/rfc/rfc3339>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [TEL]      Schulzrinne, H., "The tel URI for Telephone Numbers",
+              RFC 3966, DOI 10.17487/RFC3966, December 2004,
+              <https://www.rfc-editor.org/rfc/rfc3966>.
+
+   [UUID]     Peabody, B. and K. R. Davis, "New UUID Formats", Work in
+              Progress, Internet-Draft, draft-peabody-dispatch-new-uuid-
+              format-04, 23 June 2022,
+              <https://datatracker.ietf.org/doc/html/draft-peabody-
+              dispatch-new-uuid-format-04>.
+
+7.2.  Informative References
+
+   [CBOR]     Bormann, C. and P. Hoffman, "Concise Binary Object
+              Representation (CBOR)", STD 94, RFC 8949,
+              DOI 10.17487/RFC8949, December 2020,
+              <https://www.rfc-editor.org/rfc/rfc8949>.
+
+   [CDDL]     Birkholz, H., Vigano, C., and C. Bormann, "Concise Data
+              Definition Language (CDDL): A Notational Convention to
+              Express Concise Binary Object Representation (CBOR) and
+              JSON Data Structures", RFC 8610, DOI 10.17487/RFC8610,
+              June 2019, <https://www.rfc-editor.org/rfc/rfc8610>.
+
+   [CDR]      ITU, "Recommendation Q.825: Specification of TMN
+              applications at the Q3 interface: Call detail recording",
+              n.d., <https://www.itu.int/rec/T-REC-Q.825>.
+
+   [ISOBMFF]  "Information technology -- Coding of audio-visual objects
+              -- Part 12: ISO base media file format", ISO/IEC
+              14496-12:2022, January 2022,
+              <https://www.iso.org/standard/83102.html>.
+
+   [JMAP]     Jenkins, N. and C. Newman, "The JSON Meta Application
+              Protocol (JMAP)", RFC 8620, DOI 10.17487/RFC8620, July
+              2019, <https://www.rfc-editor.org/rfc/rfc8620>.
+
+   [JWT]      Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
+              (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
+              <https://www.rfc-editor.org/rfc/rfc7519>.
+
+   [SHA-512]  Eastlake 3rd, D. and T. Hansen, "US Secure Hash Algorithms
+              (SHA and SHA-based HMAC and HKDF)", RFC 6234,
+              DOI 10.17487/RFC6234, May 2011,
+              <https://www.rfc-editor.org/rfc/rfc6234>.
+
+   [SIP-XFER] Sparks, R., Johnston, A., Ed., and D. Petrie, "Session
+              Initiation Protocol (SIP) Call Control - Transfer",
+              BCP 149, RFC 5589, DOI 10.17487/RFC5589, June 2009,
+              <https://www.rfc-editor.org/rfc/rfc5589>.
+
+   [vCard]    Kewisch, P., "jCard: The JSON Format for vCard", RFC 7095,
+              DOI 10.17487/RFC7095, January 2014,
+              <https://www.rfc-editor.org/rfc/rfc7095>.
+
+   [vCon-white-paper]
+              Howe, T., Petrie, D., Lieberman, M., and A. Quayle, "vCon:
+              an Open Standard for Conversation Data", n.d.,
+              <https://github.com/vcon-dev/vcon/blob/main/docs/vCons_%20
+              an%20Open%20Standard%20for%20Conversation%20Data.pdf>.
+
+Appendix A.  Contact Center Use Cases
+
+   TODO: insert draft-rosenberg-vcon-cc-usecases here
+
+Appendix B.  Example vCons
+
+   This appendix contains example vCons in the unsigned, signed and
+   encrypted form.  The JSON has been indented for readability.  Long
+   text lines have been wrapped with a left hand white space indent for
+   readability purposes.
+
+B.1.  Two Party Call vCon With Inline Recording
+
+   This example vCon is for a simple 2 party PSTN call.  It has a single
+   Dialog Object which contains a single channel wav format recording
+   with the two parties audio mixed into the single channel.
+
+   {
+     "vcon": "0.0.1",
+     "parties": [
+       {
+         "tel": "+12345678901",
+         "name": "Alice"
+       },
+       {
+         "tel": "+19876543210",
+         "name": "Bob"
+       }
+     ],
+     "dialog": [
+       {
+         "type": "recording",
+         "start": "2022-06-21T17:53:26.000+00:00",
+         "duration": 4.72,
+         "parties": [
+           0,
+           1
+         ],
+         "mimetype": "audio/x-wav",
+         "filename": "ab_call.wav",
+         "encoding": "base64url",
+         "body": "UklGRioeAABXQVZFZm10IBQAAAAxAAEAQB8AAFkGAABBAAAAAg
+           BAAWZhY3QEAAAAgJMAAGRhdGH2HQAAoxjXHYXCRekuye4gK4Tsiv4wZeN
+           htuvu3RMkgyPXme4NeahQLG0yeLayx5HCIiRWK7psbQrQTFm57NwQJvIb
+           q1aNxk6VpMYAXSm5Bb1rgStIStvEzmCaOIabxs2gjReJ02Rk0BQtOxHkh
+           UTIZd4VGKoq1KuoCGhrZTx1vRZICuZEcgkGjdH2jiCU1a0NMW6BE8lVHN
+           -OYFPHcZspr0CSl1aeo2hOWUx3CbovpGqKsApWteunk8gMPMOdynRVFWR
+           5o0l2BvaQDcWugGRHrQa9NcEbG1LWQq_AWLpsXKdMQefGrZu4ZE2ZSDIR
+           GJLTKpIzDybqSyZishQmjuVGztMKNlcyt2vW546JsutgllyppQWroAtHb
+           kyrrGAx3bIiX81g1sR-oVaBbtkobA08fpJYscQSlHHcGm7hDriuWTRm8A
+           6GKQ1Fbcn10M30DcHctnEchwaAI7dxI2knYCQ5biNHB2Djxm3bFmyU5TA
+           3ALZt3DaSeABIkiRJcm0AxpEkSZI7AEiSJEmSwUYZ1mQLYNu2bdumPWDb
+           tm3b9gOAJEmSJFkFgCRJkiQZbHRhTccDtm3btm0qAEaOJEmSPABIkiRJk
+           jAASJIkSZLBRhfW9CKAJEmS49gCgCRJkiQ5P2Dbtm3bZgSAJEmSJClkcm
+           VNLgBIkiRJkm8ASJIkSZIvAkiSJEmOswM2btu2bcMVmd3kIoDkyJEkySO
+           AJEmS3AgGgCRJkhypC2DjuG3j9mxOWQiyEUQ1DAtyvQJS9aTWWc4KuFqL
+           O9F4CCJX4yeFkMaSUWSLYMkYinzGa4HzyrEi6-pgHVdXe6mugKzW7VqHY
+           OzcDDsXWnJkeVXHFKpuLDZSrAroZOQohtASpE4dyZSRxozJQC6hJE2OLG
+           iNYLM1ruIWzsCcRhEW6c3AJhq6bmp9cZ0IvAy2a5xJVcUMNE8Qq3G0CEJ
+           y30SNxwrUqUy5NczWkI3S7UCk4iyrBM3AzCvJqkisQPQkcekWjYDoJk4D
+           pWiPmUzXCtKFMkuy1g7MtWnrqLwMSqpjR8vXDipSKzk1D-bOjdLzgNQol
+           lapqqCUmjChmctA6jRmYPOLYJtHbatocTAZCfAQ3LHs6O2zDuCC_LyStA
+           gkklFHZesUspXsSr0S5lCRYg-hXc2tKqMsgeqYkNzSVmLc9mk08zbhzUK
+           O3fhkzJQsvBTCcNk2s-oUxO5zpatkETyFn-xtrxRaTR0hZk3WDo5ELiFW
+           Oq7hmMxgKjdcY0SO4Fk7cijHC6EYNXEZI6oDUQz2EeJMMh1orxSOup04u
+           UUjOtyjwVQ3HdhpuSRyJv0WzpRTo-so7pMpdgKWUk0jlEwjiqBJAwcuw5
+           lca39VznGdMLAg6o-EEenbKEQxgkeS0xxEteISQcQUNPm8KxaV1xKKIq-
+           BFEpsm_bjIFPLiJwpRoEoSZEuqWuBJLuu1oxZC8ksQB0Wkt_IqrwaSMq8
+           p4mzEPrFksdx9i9KZVv36AvGkMmyKsHI864U2eThk-iNKRsvgRsqL1vMT
+           UHbPK2ZqVwNHW3oEIay3EaN7xJGgV4mmK8Q1k0O4jHPCFpRzHYxBtbOEZ
+           FMQeMoOVQ2F8GTOXvh9-qARmvOaH9MYaOpdTIFaS-ZJO4OGmZOvo3fEig
+           5M8lQvwxinfXKhc4QrPGM0pIJthKKkixBYjvlZJlNwXTljSW8VWFex6ts
+           hg7BUiVuU8VoDtlMwRBEkqXknPYWWNFMRtW_FMhsVIpV4RDESZlqtFXHV
+           I3GSmHZyNFMV24h48qsHAdLYeumkSKhTYG1Qp0LpWhr1UitEmaJ1DxuXw
+           gGEe62VbkIUKKbdkv2CFhIZMdnkebSjRKzoCG7Uc32ywDkqkauEsuAzOq
+           K1vnNoKFOtloMaa5YBWwbZI_aPtKzFMpyqx7WNBXEqt43TasSiiaAKW8U
+           2NSFxMuA6htzZ8ougZAbtgLVamHcwpHZgq6B40DSETuvriVpKyFIUpxog
+           TQvwrBFaY5MScRRE6GFMFGqYp5L26r4Eo2kooM941UsSSRC6NVuXVFmol
+           1pueTN7sLdPY-uiHbuECmzJFAvywh-KivWrRRtmK4u4p1Va666LNhrFMt
+           F3tZKlTDvgdOFlqN-zUGbWLWajishIrY5DTNLYovSDJJ2co6MCCwrxmmd
+           6u0wU-CtiptRtUQohlesWT1X0I4kR-NrCEmIIFRGelq51TpDpN2jnuxFr
+           UWfaop44QqkpsixOkeSsFwpyiIoHV4IN-NAtFJboRbtIqoILbeS0SJe1i
+           2_tl8Xi4xizaGMTbVg3w4C6biZ8LrTot8bmqK5TWIKQWqUWloIyQhHJaA
+           MTQaq4SQWNzTeTaoc5MHEkWrWHEY8moxcmLeQkQStoV9lsiM7S6HlKE6n
+           LKfAJK3GVq0WQeK8fmKNcascCXElWJJd9iwvNSi9mNvGsRwsvvxyHsw0O
+           qqptnxsWafZojyKIykTLXobrtrgcAoryw9tNE7TVstKaCBBmEJ2LMUsXJ
+           KCCBk1kWpsul1ZnZRgWoSnleyJ9njK9VrZXCrYFojg6ofqqAam-jOFbEv
+           QIIcLJF9f-quNDsQiS9ac_ljMEE30OjQXKrmVeCxG7iE3UmIcLO4g0zVP
+           FXAN5biakMaMydRuQRlJ2NuaTOEqKabgJg8hc8KNG6PLgDxn1fDGZAzRL
+           OsMhnEGF6--CEZJU6ly4hJmqiXpha4Wumlis26U5hAVtMxgmpVUIzPOoF
+           gpsVVLLOHiSOrKysoBq0Zx4xZZTVFJOwqozvXM7WEQtpmkq7GqF-ZKnqo
+           2YBGysVvsSJPm0I1kDMHOdHEkN09hm8NtJWnmgA1HDhVoL2ENW6odeXkN
+           2SjJCmjxotduUws-l3OyDu8KtGUMMc7ICrJu6XpMSsdQkSTuwEC3ddtk1
+           sBUQyktmMqA8Ti6G-crYSsVVlmFXE5VLeQOtC5kuFCrCEaqTeuJWQu662
+           W5sr4KQGcrRVjLFlHVdK1AV8Wt23ivgJmLsuU8TcEjG_ZdREvB1iiaHKh
+           cz1xJMxPOah1FhvcK8lOaK1nSFjSPk8iRxghUySuliw230olEzwCfOKfz
+           Wq1gbFMH82iPYAk3rlNhzICdTIYblWwvYSnWDliN3TRvLwcmQhMcPlYJ2
+           G0NuYpJD0KtVEqpSuaU1fJLgdp0aRyn1kAzM6_jW-6Ab1vxovqtwJTZzm
+           Z3YM0gTVgRVm-zNm61DvaQaqVr1A4IUsQ8LLkMJpXarHRIxlLSNK3Akqh
+           uGv2uQA6pcuSkrmCpllETvY4g4sgt3IZgbhUtSQ3orOouknUJ1taUPXRI
+           Dbq5EVeuvgzEsQQ5jgvmTk10zaCg2G2Tm9ZAzCJO3ZSLwN3M9XWerUD9y
+           motaWDvHEm_DMyQrMou9w7OsB05t1MLNLZrvBlRCyiKjkSNicYUzuazIJ
+           WzclQ3ziAtZVVs5a6Azhg6GYPKYGHFPaTKYO5ULdIIuIVksabFDJrRRdw
+           9tAxEiUvZpcIOmrAj69TTtpaJsMpgneyUu9ZtweRYk6l2zKDS5JJsq0xh
+           JBfulMtcL5kscBlAcSNHUsIK9qirs87yELpvrLnOzBCklpo5lYvGlJFUj
+           IBTKTkkcU2BGheP1KqrgF1TrSljrYDcpm5KK2RSYU1nAERu3LaNXQDIce
+           RIjmMASHIjSZI0AkiS5EiSgUcX1gQDgCRJkiR5B2Akx5EkqQOAJEmSJJk
+           FgOQ4kiQZcJQhMbwENm7bxnHnBLZx3MaRbwBIkiTJcTcAOHIkSZLBNhvW
+           xiSAJEmS5DgFYBxJkiRpB4AkSZIkeTxg27Zt28ZoLB1FqA84qpop2DMPx
+           B3yyHWxCEq-fmsS1w4YUjo9rZTHlFH0q2AdUZIptdIgy0RuGddqgdyotU
+           Kb6kDbE4ukV4FunQyxDEpOHKgiUSHekezIka8Kys0TR3PlCFqPHrR10te
+           OkYSnQKOlepQdzQALJTqbhIqAomiNxIiNQFTXZWWneXHhSPESVm4lyc1O
+           EahpnMKFsBQojionS9MISIq9u9dX59iNgu2gpbd5mlatoGmpjpyqjmBt5
+           mp0Za5gpVZzpUR17lgp0gqgLVIIdvMIpMbktErBDJqS65hy7ApUjiOjsZ
+           jXVtnitEDxJq5aG66ApGvxHWmugByp0ds4LmGdNmmEymntVCmzCtSY5M1
+           qUBO8kizbWc8NqLsw9nW0Gs7tY1vtFaiWTVDsoGVNdfvy7EFD0zJMJMuh
+           I8etAzstQSK9TqvpdEzdBMUeNm5USi3YDuxszZiSWgyyWeoovtoMyHWWq
+           2ZV91RVoMpgpZpQ1zgMgaS7rZxLzEDtpK2trKygm6OGJjhtTtkkxQyorh
+           vXclcNUm6s1VLtDlhq1joy3Qo2RpWU-ZK3zs1CNSH1RJqjWGsho6Zx2oS
+           sgGJIcZs6ziDMOLLqmo20XU34CDxWFAlOzAwIclQXst8MptWj3tLfCOz1
+           7dx5VMYMkhLXgCU1Tg1GjMAbNW7bZkNg47Zt2-bugBtDMS63bTCdKbESG
+           k7cNHK5EMBNJbmW4hLKcq0pfkQL4lCtJpZcZ5lRYExhk0XS7spt4ROnLe
+           TaHEJbJykFmkoBhLVwfG1lDRkpRBIW0aM6dXgKONwlc6IpD-5YTcW9ySC
+           6cTwpkhfWUFbUi2AfdLNotAyhFTuqiuqzQF43RreH1EHc2G2famXv3GQz
+           EbaFWyWKvA54ay1HF-0WaJMjq906C-JtlpSGDtaOkSItYVtKktMmrGCT1
+           qEbaSxh1DZOJObUoCBLiW2dhTBZSboKOn4bOVnLCsim9Vyu6wioklaqLM
+           wMRpELrXJT15RJUHWB4zRiZbPWgFzGEW1m7GCjCpoi6w7ArGdeWR1xUdV
+           E4AhQkiPNbtYLqG2e6JS1CkRf_tqZwgo4U6xWhpT3lokwzIBRsy3tVIsg
+           WTSNDUusYBTn6eN4rWCcrBCVxGDNVEXBCm6R5sZ2KBO2buNHk98WyK7DX
+           HWwCsQ1pNVVy-YUSnKsYVypCiTXrkDsqC4TR61A2aJ02vjOIJ2ujquiZO
+           -cSL4MSpGOSs3HCiZxVDdx8hbGiZS5qekUStXiHI5P1o5N0sqA6vpMc_u
+           tIDWYcuJI7GB2uf5jpa2A1k7O2hJ1S50MvwjebFu4sckMmFXwNDJdC2gP
+           GbeqYB24bSA5bg7XWI0ky2DTiDPkIu6A4WapZRrtoJu8rhnJy4CktZkdm
+           2QuWUj0CnjWs1anShG4kiTXnKkQFnggS42-DhS-8spVTOYSjjIvgZtOSi
+           QV7IC9NHYYg8yAy-Sq4mduYeU4rsSaXE-dSdsI1MmiVVS8ErZp3kBO5wj
+           EUZ4litUKhlYLm5QIFtPFgkxBVCWnInXNoIVYldbH66DrRk768I6gWceU
+           HbhsbZ1MuBLKqaPWZtUSumrm0pKsEkSW8bZx9gzKVdvYjBkIn41UzoBFK
+           3LyJsuA6kZz3MUuQeU0DhvnbYEcW5bdqWANoUQrDbibYg2RxwykcQtFxu
+           oKIuEcw871DDhunD4tzhWRiZKuwORIrt6cHWGatkIUN7RA5GRSnbytgA2
+           mUh5lce5QSPAOVI1y5IjtErKQGbd1vwxM0p1FrtcMZJIdtTLS1s6NgKxA
+           tkKwi3lMgWQ3umtJ7EAdaSMlRayAXbdarDp5LxEpxAgMd4zJkKwMhp4iu
+           TKzDKaQSkOh3w7Gkde4udP2zowSzGDUzMPuSMvAJUlVLASPgOSocix9s4
+           DzYFbqOmlN2Si5CDBPTUeN3AyiSASTj_gKQrGctqdxE0QupVatDbeMTdK
+           KQCOVhgu562BiGc8kqZSgbmtJFpWswNs2N6N8cTEdLcAIqLKKN2nHDKay
+           FL-VSAtmrgY5caoKppCbxnRPxkzJ4IxAzLamG0dPweK2jp0WzCAUF4lmu
+           GuB5PqpZGWxi-Tdu83IkRu58bvpIpTjyo49xVau11BOPq_Mb1I30pTKhu
+           LbE-qCppVr1bMoG5MWofRNaO9FTtUULKkcxK1se60u4PnCSpYeriVaxor
+           WtSTbT3ZK-p8kPe3OUiL2Y0mSV6vGnamuo-xkacV8jGIsCdadKA_ipsBK
+           XQamggPJeduCoXCctcQSaILpxDhsIvSya1mXrwzUEtw0g9UKyjCDNMmYF
+           xWa1G6BBUWGlK_WoJooLVmiBGHikq3TOO9AEUt8yriBEt1F5gjCrW17ll
+           gN6E7bRoi2FDau7PaxcRMsVt5Wr9go19VEzaBf2C4UUY5gmjI1SF2MQJU
+           7ZWVKrUDpFujiln1R4UivHsaQmzSNxgpGtiM9t9kSpn4bzbHvCnaKZmWq
+           2AfTjebrYBCpdao7zaCoRVZr8-pgwzgwjVDtAJ0mjdKkiRBhRbsKSrXlN
+           KtbD-aKFDROcw1Ehiq5jtAIKHooV3bV9lCVdKsge8N14oiuIJm0ccukra
+           AjR32iF89grKzNdamJcSEltQ7aTZpjxc0KIillx5XHCHysPSmv5gx4W2O
+           7Nxf4EFLybMEchVUcy81g-kryZoEsoRzLTe5Iz2DuuJGTo4TWsS7EEqZq
+           ZPWVzwm8cSfnTlMNZnTdRBWqLFRO0FhyCwrNsgWL4WWmlaQNfAKyp7a_o
+           iJiLDOWg3KsAU5ZdmQWsYhsm3Ua6JUbian3EvyU9yIn9BBIfVv4gU81SF
+           F9pZFK-RRuGcuho3tJyUIEIdS4jUsJZ2ElNbAWKI9ApOJ10yWFL91xwha
+           ia6MmSbQUVIm9V4avEEx1c5up0g7a8M1AJlYnF9pUb4H7NrZay2vBJrc2
+           k2XXIB0rbxGVbEHSTPLkdHVP3SiyFkrSfMuqxxSoUywTl7IK1nkqWR3qF
+           NigHFmJWfeOTZKu4OsYU5RWNWLaxG3QKsxAH0Xr5MYsgRRlrRxdeTFZKP
+           QOWKXeYsHHFFSVOiuy4xLmktxOiccSTLEdt06UeF2KVM1gajRx2oivgNS
+           oT9Uo1WEamTIm9CohXLeNQMbUdBiaxp2WflvGlTgayFeymZpJEhaXJbvJ
+           bhY-6rEiNo1q35r2NWEeGLEiFZUh7qBmzS6rAtsoEfP2qgIqN07jV62KJ
+           L5mJ8xvQMXyuSqOmKTZmr0gILnRjZnWLNy3E6apVcqEmXur4e1Ezc0Mhk
+           FCmGVjYezBbFiQqsRKoZqj4hX5pCtSP8sQhnUaqW1RJSqSNgF3q6VIkts
+           6gbI6OvI3h4nQmlz1ozQkau0juIS0Qiw7auE3tEEvYXRsZuaB2jJr6uOY
+           LyWaxR4Y1iR7T2sS6u4Z3ULmGNjN21tO7hS4nJs8rxUoT9HUi6Ds6-5mx
+           y1BJLdNZmZPgc7IbpV61UCqx7FkV4FwUSi1CpI5kpRt8Agwbx1liMIIYg
+           vVuNbBCKTsXsSQmQeVyYQ0IV2XedKKrSAvabkyS-5gMV0WNe3twGuVgdy
+           kiZNZTb8MQkvFX_GvDiqZ7Jqx6Qy4kc0YieoUxlCMptKYB1WRQO_AZunS
+           7XqsYBZOkdyUruCy6A2gRc6A21apH0mB9Slu2wbkbbohLvQWuEnhBE2qF
+           qZQlXpJsBRaRZ4qzkyZ5SIjVEHMJknKsq1BI7RtG_eKABbHbKrC7kCkWI
+           dGQ4GyoUnzCjItYBipvAq8yFbt7WcMKI5j6s3iDkRSmwxGV-cOlub0oNv
+           Y0poFzYBrV5kx60thYpm17IgtARLGrKsJfdFYkcIUJrr1mHrzCMLzKzV9
+           xgy6Vh1Hpe0SuDYd125Nm9hzUw-hHjlS3JiNQJ1Ijdu2fWbj2CcZ14pk8
+           msp48awbTU3Vhr-TrTvKFIcJPojF333KkjyGUaSZTV6aQ3L1U5roOuwHE
+           eaE3BkySIiTaBS7LYsgZnfdoSZBqHdpK1LJ6nQXJpwFchNZ-vv8xp4cqv
+           Lqa0cGpWl9XayEpCRW4nNE_pKXYuXQZRLUfXLKmFox06kAmxhaUUlY2rP
+           QBndZc5KgVBZVccIYtqqta31CDpUHcdw6hTWRcLIlSsKUoKsXoqS1xKRs
+           q3AEDV1YXdNQVsLcavky2BUuV3TLK2A5BI-god9seFE9A6yU9tW2-oKUq
+           Z0RZLgCjw5p0l25BC4kZnYadDW1I1grKALt9LbprSAbMalGvUuQSahbhP
+           JagGlRHEktWixXCXhDOQRDBlSVh0mU7LYCU0RTgM_Q7Y6EtCuUUuyS_aO
+           ldRNYTI30c12jsDe9orzdy2Bs1qyYl1X4TtVsuuqWM4YTasUyMbarHYtE
+           byJ3Bo12BWYivAUrq0sGlIcSajNGBOaV83iXSaO2orMgR1LTvvmbqIkV1
+           bqhycBO6edpup4cqVNsBKorPfKk-kQVj4uOb2vFDR71CiSzRK2yQu9bRk
+           2U5GA74Bmmc-a3Duh2wt71OqKId1YaORWTKF70pIrx4lS3SjKDFAtoq5N
+           RBOoUKRmaXYWRJGeyNbGFNphZDhQSOeQyWBtYUOViaKmq4Ds5tTbOi1hV
+           D-ObJWqoF3EMeuQZM0kSbIUxka8to7uDEI22iqLLA1GVqU1kdkKUm7juL
+           HMxtBJwoygoxXHHceqgNI0coPGksAkukX7kCphGrtuXkWBENVIzxI-MSU
+           nUrAIukf69lHJDDYvE0teUQ1Y1V9IUo3mzkVUz6AUtQccy8pgLSQ5BXnL
+           IBYzmirr7WBhyUVr9WjuHE0rCwhyWueNtw5IbfpWqrgUNnoiaXLDCiy50
+           lvsjtdQkWKLAKNekZZirKCnaDVvVu3gHNlVYX3MQLIoSq6KgTCdRPIO0I
+           2jusa2CmbG5uautQ5Ipl3WT64IOLVbW9PQKNcZZ8-A7Dp3pswbQdQ6PYG
+           NK6HaxUDiVs2AZRnOzRaRUJ1Z6RRI0iTHyfYKRI4cOjrxEqgqospuKyO4
+           VZK_1lMokw2JQ2EolrXkqIzAI9wynWjn4FHvUqacrIC0RnZac4WPmUzNE
+           CZOpSgqWw2qbCREedIMNFu0NS7rDCQRm5iOledUzULLgCLLkIOJzyDaI6
+           6hO--g3DQi01zLYCJHtJ2biVHhKPYMtKkxqW7hDEp1K9Uh1g6aTE04qTY
+           AYJ3fXApcCBWS5MWA3OSpIoePwJXFTVo2rGAVRlHst8tgbmeSpDZxUJUk
+           sA6kcd4lkuUIso2UtZG9ClrW79RZ6QpmbuLiclb31E2k7CAqw45ki60A4
+           6rW27Yq4D2fkhOizUDkok4SxYkyWSmyCFauWgc2xgT6dKJu7dAIqpENKQ
+           bnCDROpEfX1vfUiXK1YHY3fvRXzGD8yJUhCY0A3TJtU4XvgNpMip1KbQ-
+           VLPQMwoxUJ1rIDDQuKyN5qg5Ek_28smIPSHotx9XY9lJF5MxAqi4uJffq
+           QLS4qSZr12BVG3lb7q1gmRdtnJiNcF0kyAqGNkw5KuoOyG3XXJbpCMxxZ
+           zuZ9A7IjBzXzRQHk4Xi66Ciak0sa9ZAk7uQJJmtIBrDQhIZDCCisukrYW
+           2QWUj1CrhUGrmp9grYb-oYUuwMOGlkzJLUCMht7lzQHpubADSzYJ1ftv4
+           KrIGVNW4YtUphGyv65IpeYkaXigzfwRxbJK4eULOsuofVTeKhI0V7rVx6
+           syVN58RFipMWLcXb7HWa0ool1tVSbRerw1U13_R970Yst2rTUDSHiqJEk
+           dDB3u8tLXXEZRi3iLuKOJJsq89gTZ4TTUs9wXJSZIUvXR-7sZUYe8uDt1
+           KkJhPJMc6uUfVsadMGMupEzmqFtXHdstEeH4X3qL6u60iO3kZOOfwyo_K
+           eppGj8RXzk2zV00dWW80n0QTMxLbTfSB8jmdFp02aKlNlK1l97XheSYTX
+           kOLGwR4faduDnqHCOE2_ZLbx6rq35oJe0p26lepuXOWTt7Ie_DmLNi4ID
+           SZom4YzSEtD47tmVUra4GERBpUJACE0Uua5njuKvpK2ddy599W22r4k_U
+           2rbBguUz2dY6tWrvTZuZr9sdZE7-olvZu1lUrIGj9QIfauaCtaeXRZr4k
+           fW5Hlxb0fr3U2lWqt6sOSaYEyZJEIdkWdSu89fZvqdnrVNRmum_xp2jTn
+           h2ISAYJiKwN0oNFtnSyD5Eiyw3dPBAY5diql0b9ecXVDBo2Rs63nWNr6t
+           fuyXTmu8nIabShdNojSNGobq52IxMKBgybmG60GIeX0pUNWh0AA9KxbRY
+           yBJnluZH2Jc4hI2iigbuXGkTgINqqeKLVUDKTR2dQt6gpWMhzXTRd4B2B
+           ULCDiSHXDgy8AnTuMqiROgCsJsYs4tGAjt1WcVdE2SATnCLSKbNhtyAJQ
+           ciPHaL0Eyo0bWcX0DiZu29hwFntXxIIy4KuVckrtDCD4tGYSHctAFDmNz
+           VbPQCvDauJGqTgafrcINDGcNGnZR7Zt3PoALxSCUqY0wbyrSHmTIZc"
+       }
+     ],
+     "analysis": [],
+     "attachments": [],
+     "uuid": "018b4f72-d342-8696-b9a2-279e0d16bc46"
+   }
+
+B.2.  Text Chat vCon
+
+   TODO: text vCon example
+
+B.3.  Email Thread Multipart vCon
+
+   The following is an unsigned form of an vCon for a 2 message email
+   thread between 2 parties.  The email messages are multipart MIME
+   message bodies.
+
+   {
+     "vcon": "0.0.1",
+     "group": [],
+     "parties": [
+       {
+         "mailto": "b@example.com",
+         "name": "Bob"
+       },
+       {
+         "mailto": "a@example.com",
+         "name": "Alice"
+       }
+     ],
+     "dialog": [
+       {
+         "type": "text",
+         "start": "2022-09-23T21:44:25.000+00:00",
+         "duration": 0,
+         "parties": [
+           0,
+           1
+         ],
+         "mimetype": "multipart/mixed; \n\tboundary=\"----=_Part_388
+           314_1108189513.1663969465698\"",
+         "encoding": "none",
+         "body": "------=_Part_388314_1108189513.1663969465698\r\nCo
+           ntent-Type: multipart/alternative;\r\n\tboundary=\"----=_
+           Part_388313_805631480.1663969465697\"\r\n\r\n------=_Part
+           _388313_805631480.1663969465697\r\nContent-Type: text/pla
+           in; charset=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\n\
+           r\nAlice:Please find the image attached.\r\n\r\nRegards,B
+           ob\r\n\r\n------=_Part_388313_805631480.1663969465697\r\n
+           Content-Type: text/html; charset=UTF-8\r\nContent-Transfe
+           r-Encoding: 7bit\r\n\r\n<html><head></head><body><div cla
+           ss=\"yahoo-style-wrap\" style=\"font-family:Helvetica Neu
+           e, Helvetica, Arial, sans-serif;font-size:16px;\"><div di
+           r=\"ltr\" data-setdir=\"false\"><div><div dir=\"ltr\" sty
+           le=\"font-family: &quot;Helvetica Neue&quot;, Helvetica,
+           Arial, sans-serif; font-size: 16px;\">Alice:</div><div di
+           r=\"ltr\" style=\"font-family: &quot;Helvetica Neue&quot;
+           , Helvetica, Arial, sans-serif; font-size: 16px;\">Please
+            find the image attached.<br></div><div dir=\"ltr\" style
+           =\"font-family: &quot;Helvetica Neue&quot;, Helvetica, Ar
+           ial, sans-serif; font-size: 16px;\"><br></div><div dir=\"
+           ltr\" style=\"font-family: &quot;Helvetica Neue&quot;, He
+           lvetica, Arial, sans-serif; font-size: 16px;\">Regards,</
+           div><div dir=\"ltr\" style=\"font-family: &quot;Helvetica
+            Neue&quot;, Helvetica, Arial, sans-serif; font-size: 16p
+           x;\">Bob</div></div><br></div></div></body></html>\r\n---
+           ---=_Part_388313_805631480.1663969465697--\r\n\r\n------=
+           _Part_388314_1108189513.1663969465698\r\nContent-Type: im
+           age/png\r\nContent-Transfer-Encoding: base64\r\nContent-D
+           isposition: attachment; filename=\"=?UTF-8?b?c2NyZWVuc2hv
+           dC5wbmc=?=\"\r\nContent-ID: <c4c28087-6fa1-395e-e50f-dcef
+           d3d6bf96@yahoo.com>\r\n\r\niVBORw0KGgoAAAANSUhEUgAAACYAAA
+           AeCAIAAADPdvs5AAAAA3NCSVQICAjb4U/gAAAAGXRFWHRT\r\nb2Z0d2F
+           yZQBnbm9tZS1zY3JlZW5zaG907wO/PgAAALpJREFUSInl1t0NgzAMBOC7
+           qPvP1gW6Qjdo\r\nj4f0J4qAJI6NROvniE8+mwCvtzv6imTnyf1K/UclH
+           UFWjIvaIL3CHCABSPKKtJckWfY6zw+sj5dq\r\nISdVIzmj2klzTZG2Rm
+           e7NKgOwY6qPrMcUs+2PqchL14P+oyz+fHx77K5Sv8xyxAyZ0uBaxn/Spc
+           U\r\n8NxcosAut1Y3NtjVX7UjZlmpgWTSFyvVQPKB16tSqW53bFnKtyyZ
+           vYT3rSsAWADWAlOjseYFfwAA\r\nAABJRU5ErkJggg==\r\n\r\n-----
+           -=_Part_388314_1108189513.1663969465698--\r\n"
+       },
+       {
+         "type": "text",
+         "start": "2022-09-23T21:44:59.000+00:00",
+         "duration": 0,
+         "parties": [
+           1,
+           0
+         ],
+         "mimetype": "multipart/alternative; \n\tboundary=\"----=_Pa
+           rt_390234_811845464.1663969499935\"",
+         "encoding": "none",
+         "body": "------=_Part_390234_811845464.1663969499935\r\nCon
+           tent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-
+           Encoding: 7bit\r\n\r\n Hi Bob:Got it. Thanks.\r\n\r\n
+           On Friday, September 23, 2022, 9:44:40 PM UTC, Bob <b@exa
+           mple.com> wrote:  \r\n \r\n Alice:Please find the image a
+           ttached.\r\n\r\nRegards,Bob\r\n  \r\n------=_Part_390234_
+           811845464.1663969499935\r\nContent-Type: text/html; chars
+           et=UTF-8\r\nContent-Transfer-Encoding: 7bit\r\n\r\n<html>
+           <head></head><body><div class=\"ydp89e479a0yahoo-style-wr
+           ap\" style=\"font-family:Helvetica Neue, Helvetica, Arial
+           , sans-serif;font-size:16px;\"><div></div>\r\n        <di
+           v><div><div dir=\"ltr\" style=\"font-family: Helvetica Ne
+           ue, Helvetica, Arial, sans-serif; font-size: 16px;\">Hi B
+           ob:</div><div dir=\"ltr\" style=\"font-family: Helvetica
+           Neue, Helvetica, Arial, sans-serif; font-size: 16px;\">Go
+           t it. Thanks.</div></div><br></div><div><br></div>\r\n
+                \r\n        </div><div id=\"ydpdc5150a3yahoo_quoted_
+           4829810715\" class=\"ydpdc5150a3yahoo_quoted\">\r\n
+                 <div style=\"font-family:'Helvetica Neue', Helvetic
+           a, Arial, sans-serif;font-size:13px;color:#26282a;\">\r\n
+                           \r\n                <div>\r\n
+                   On Friday, September 23, 2022, 9:44:40 PM UTC, Bo
+           b &lt;b@example.com&gt; wrote:\r\n                </div>\
+           r\n                <div><br></div>\r\n                <di
+           v><br></div>\r\n                <div><div id=\"ydpdc5150a
+           3yiv4578005613\"><div><div style=\"font-family:Helvetica
+           Neue, Helvetica, Arial, sans-serif;font-size:16px;\" clas
+           s=\"ydpdc5150a3yiv4578005613yahoo-style-wrap\"><div dir=\
+           "ltr\"><div><div dir=\"ltr\" style=\"font-family:Helvetic
+           a, Arial, sans-serif;font-size:16px;\">Alice:</div><div d
+           ir=\"ltr\" style=\"font-family:Helvetica, Arial, sans-ser
+           if;font-size:16px;\">Please find the image attached.<br><
+           /div><div dir=\"ltr\" style=\"font-family:Helvetica, Aria
+           l, sans-serif;font-size:16px;\"><br></div><div dir=\"ltr\
+           " style=\"font-family:Helvetica, Arial, sans-serif;font-s
+           ize:16px;\">Regards,</div><div dir=\"ltr\" style=\"font-f
+           amily:Helvetica, Arial, sans-serif;font-size:16px;\">Bob<
+           /div></div><br></div></div></div></div></div>\r\n
+               </div>\r\n        </div></body></html>\r\n------=_Par
+           t_390234_811845464.1663969499935--\r\n"
+       }
+     ],
+     "analysis": [],
+     "attachments": [],
+     "created_at": "2023-10-20T23:36:50.256+00:00",
+     "redacted": {},
+     "subject": "Account problem",
+     "uuid": "018b4f72-df56-82ac-b9a2-279e0d16bc46"
+   }
+
+B.4.  Email Thread Text vCon
+
+   The following is an unsigned form of an vCon for a 3 message email
+   thread between 2 parties.  The email messages are plain text message
+   bodies.
+
+   {
+     "vcon": "0.0.1",
+     "group": [],
+     "parties": [
+       {
+         "mailto": "a@example.com",
+         "name": "Alice"
+       },
+       {
+         "mailto": "b@example.com",
+         "name": "Bob"
+       }
+     ],
+     "dialog": [
+       {
+         "type": "text",
+         "start": "2022-09-23T23:24:59.000+00:00",
+         "duration": 0,
+         "parties": [
+           0,
+           1
+         ],
+         "mimetype": "text/plain",
+         "encoding": "none",
+         "body": "Hi Bob:\nI just wanted to follow up to see that yo
+           ur account is ok now.\n\nRegards,\nAlice\n\n"
+       },
+       {
+         "type": "text",
+         "start": "2022-09-23T23:34:32.000+00:00",
+         "duration": 0,
+         "parties": [
+           1,
+           0
+         ],
+         "mimetype": "text/plain; charset=UTF-8",
+         "encoding": "none",
+         "body": "Hi Alice:\nAll is fine. Thanks.\n\n    On Friday,
+           September 23, 2022, 23:24:59 PM UTC, Alice <a@example.com
+           > wrote:  \n \n  Hi Bob:\n  I just wanted to follow up to
+            see that your account is ok now.\n  \n  Regards,\n  Alic
+           e\n"
+       },
+       {
+         "type": "text",
+         "start": "2022-09-23T23:38:12.000+00:00",
+         "duration": 0,
+         "parties": [
+           0,
+           1
+         ],
+         "mimetype": "text/plain",
+         "encoding": "none",
+         "body": "Awesome!\n\n    On Friday, September 23, 2022, 23:
+           34: PM UTC, Bob <b@example.com> wrote:  \n\n  Hi Alice:\n
+             All is fine. Thanks.\n  \n      On Friday, September 23
+           , 2022, 23:24:59 PM UTC, Alice <a@example.com> wrote:  \n
+              \n    Hi Bob:\n    I just wanted to follow up to see t
+           hat your account is ok now.\n    \n    Regards,\n    Alic
+           e\n"
+       }
+     ],
+     "analysis": [],
+     "attachments": [],
+     "created_at": "2023-10-20T23:36:51.450+00:00",
+     "redacted": {},
+     "subject": "Account issue followup",
+     "uuid": "018b4f72-e3fb-8770-b9a2-279e0d16bc46"
+   }
+
+B.5.  Two Party Call vCon With Externally Referenced Recording
+
+   This example vCon is for a simple 2 party PSTN call.  It has a single
+   Dialog Object which reference a single channel wav format recording
+   with the two parties audio mixed into the single channel.
+
+   {
+     "vcon": "0.0.1",
+     "parties": [
+       {
+         "tel": "+12345678901",
+         "name": "Alice"
+       },
+       {
+         "tel": "+19876543210",
+         "name": "Bob"
+       }
+     ],
+     "dialog": [
+       {
+         "type": "recording",
+         "start": "2022-06-21T17:53:26.000+00:00",
+         "duration": 33.12,
+         "parties": [
+           0,
+           1
+         ],
+         "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vco
+           n-container/raw/refs/heads/main/examples/ab_call.mp3",
+         "mimetype": "audio/x-mp3",
+         "filename": "ab_call.mp3",
+         "signature": "GLy6IPaIUM1GqzZqfIPZlWjaDsNgNvZM0iCONNThnH0a7
+           5fhUM6cYzLZ5GynSURREvZwmOh54-2lRRieyj82UQ",
+         "alg": "SHA-512"
+       }
+     ],
+     "analysis": [],
+     "attachments": [],
+     "uuid": "01928d46-fd43-8c6b-b9a2-279e0d16bc46"
+   }
+
+B.6.  Two Party Call vCon with Analysis
+
+   TODO: fix diarization in transcript
+
+   {
+     "vcon": "0.0.1",
+     "parties": [
+       {
+         "tel": "+12345678901",
+         "name": "Alice"
+       },
+       {
+         "tel": "+19876543210",
+         "name": "Bob"
+       }
+     ],
+     "dialog": [
+       {
+         "type": "recording",
+         "start": "2022-06-21T17:53:26.000+00:00",
+         "duration": 33.12,
+         "parties": [
+           0,
+           1
+         ],
+         "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vco
+           n-container/raw/refs/heads/main/examples/ab_call.mp3",
+         "mimetype": "audio/x-mp3",
+         "filename": "ab_call.mp3",
+         "signature": "GLy6IPaIUM1GqzZqfIPZlWjaDsNgNvZM0iCONNThnH0a7
+           5fhUM6cYzLZ5GynSURREvZwmOh54-2lRRieyj82UQ",
+         "alg": "SHA-512"
+       }
+     ],
+     "analysis": [
+       {
+         "type": "transcript",
+         "dialog": 0,
+         "body": {
+           "metadata": {
+             "transaction_key": "deprecated",
+             "request_id": "410a0b7e-92e1-4a97-b724-a3ddd71d5706",
+             "sha256": "04dc074100461f5082f2a7a286d0161f0e2728025e83
+               c20592aa7ea3724c2933",
+             "created": "2024-10-14T23:04:58.518Z",
+             "duration": 33.119938,
+             "channels": 1,
+             "models": [
+               "ab6ddbae-6037-49fb-b0ca-0c8cd63849a1"
+             ],
+             "model_info": {
+               "ab6ddbae-6037-49fb-b0ca-0c8cd63849a1": {
+                 "name": "2-meeting-nova",
+                 "version": "2024-02-05.12156",
+                 "arch": "nova-2"
+               }
+             }
+           },
+           "results": {
+             "channels": [
+               {
+                 "alternatives": [
+                   {
+                     "transcript": "Hello. This is example.com. My n
+                       ame is Bob. How can I help you? Hi. I'd like
+                       to add Fu to my service. Okay. Can you give m
+                       e your name and phone number so I can look up
+                        your account? My name is Alice, and my numbe
+                       r is 123-456-7890. Thank you. Okay. I've adde
+                       d 2 to your service. Is there anything else I
+                        can help you with? No. Thank you. Goodbye. G
+                       oodbye. Have a nice day.",
+                     "confidence": 1,
+                     "words": [
+                       {
+                         "word": "hello",
+                         "start": 1.1999999,
+                         "end": 1.6999999,
+                         "confidence": 0.99560547,
+                         "speaker": 0,
+                         "speaker_confidence": 0.4401191,
+                         "punctuated_word": "Hello."
+                       },
+                       {
+                         "word": "this",
+                         "start": 1.92,
+                         "end": 2.08,
+                         "confidence": 0.9980469,
+                         "speaker": 0,
+                         "speaker_confidence": 0.4401191,
+                         "punctuated_word": "This"
+                       },
+                       {
+                         "word": "is",
+                         "start": 2.08,
+                         "end": 2.3999999,
+                         "confidence": 0.9892578,
+                         "speaker": 0,
+                         "speaker_confidence": 0.4401191,
+                         "punctuated_word": "is"
+                       },
+                       {
+                         "word": "example.com",
+                         "start": 2.3999999,
+                         "end": 2.8999999,
+                         "confidence": 0.9326172,
+                         "speaker": 0,
+                         "speaker_confidence": 0.4401191,
+                         "punctuated_word": "example.com."
+                       },
+                       {
+                         "word": "my",
+                         "start": 3.28,
+                         "end": 3.4399998,
+                         "confidence": 0.99609375,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7117348,
+                         "punctuated_word": "My"
+                       },
+                       {
+                         "word": "name",
+                         "start": 3.4399998,
+                         "end": 3.6,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7117348,
+                         "punctuated_word": "name"
+                       },
+                       {
+                         "word": "is",
+                         "start": 3.6,
+                         "end": 3.84,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7117348,
+                         "punctuated_word": "is"
+                       },
+                       {
+                         "word": "bob",
+                         "start": 3.84,
+                         "end": 4.24,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7117348,
+                         "punctuated_word": "Bob."
+                       },
+                       {
+                         "word": "how",
+                         "start": 4.24,
+                         "end": 4.4,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7117348,
+                         "punctuated_word": "How"
+                       },
+                       {
+                         "word": "can",
+                         "start": 4.4,
+                         "end": 4.56,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7117348,
+                         "punctuated_word": "can"
+                       },
+                       {
+                         "word": "i",
+                         "start": 4.56,
+                         "end": 4.72,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7117348,
+                         "punctuated_word": "I"
+                       },
+                       {
+                         "word": "help",
+                         "start": 4.72,
+                         "end": 4.88,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7117348,
+                         "punctuated_word": "help"
+                       },
+                       {
+                         "word": "you",
+                         "start": 4.88,
+                         "end": 5.38,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7117348,
+                         "punctuated_word": "you?"
+                       },
+                       {
+                         "word": "hi",
+                         "start": 5.68,
+                         "end": 6.18,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2953244,
+                         "punctuated_word": "Hi."
+                       },
+                       {
+                         "word": "i'd",
+                         "start": 6.24,
+                         "end": 6.56,
+                         "confidence": 0.9416504,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2953244,
+                         "punctuated_word": "I'd"
+                       },
+                       {
+                         "word": "like",
+                         "start": 6.56,
+                         "end": 6.7999997,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2953244,
+                         "punctuated_word": "like"
+                       },
+                       {
+                         "word": "to",
+                         "start": 6.7999997,
+                         "end": 6.96,
+                         "confidence": 0.99902344,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2953244,
+                         "punctuated_word": "to"
+                       },
+                       {
+                         "word": "add",
+                         "start": 6.96,
+                         "end": 7.3599997,
+                         "confidence": 0.96972656,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2953244,
+                         "punctuated_word": "add"
+                       },
+                       {
+                         "word": "fu",
+                         "start": 7.3599997,
+                         "end": 7.68,
+                         "confidence": 0.34643555,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2953244,
+                         "punctuated_word": "Fu"
+                       },
+                       {
+                         "word": "to",
+                         "start": 7.68,
+                         "end": 7.9199996,
+                         "confidence": 0.9980469,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2953244,
+                         "punctuated_word": "to"
+                       },
+                       {
+                         "word": "my",
+                         "start": 7.9199996,
+                         "end": 8.08,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2953244,
+                         "punctuated_word": "my"
+                       },
+                       {
+                         "word": "service",
+                         "start": 8.08,
+                         "end": 8.58,
+                         "confidence": 0.9902344,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2953244,
+                         "punctuated_word": "service."
+                       },
+                       {
+                         "word": "okay",
+                         "start": 9.12,
+                         "end": 9.62,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.68893933,
+                         "punctuated_word": "Okay."
+                       },
+                       {
+                         "word": "can",
+                         "start": 10,
+                         "end": 10.24,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.68893933,
+                         "punctuated_word": "Can"
+                       },
+                       {
+                         "word": "you",
+                         "start": 10.24,
+                         "end": 10.4,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.68893933,
+                         "punctuated_word": "you"
+                       },
+                       {
+                         "word": "give",
+                         "start": 10.4,
+                         "end": 10.639999,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.68893933,
+                         "punctuated_word": "give"
+                       },
+                       {
+                         "word": "me",
+                         "start": 10.639999,
+                         "end": 10.719999,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.68893933,
+                         "punctuated_word": "me"
+                       },
+                       {
+                         "word": "your",
+                         "start": 10.719999,
+                         "end": 10.96,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.68893933,
+                         "punctuated_word": "your"
+                       },
+                       {
+                         "word": "name",
+                         "start": 10.96,
+                         "end": 11.12,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.4418578,
+                         "punctuated_word": "name"
+                       },
+                       {
+                         "word": "and",
+                         "start": 11.12,
+                         "end": 11.28,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.4418578,
+                         "punctuated_word": "and"
+                       },
+                       {
+                         "word": "phone",
+                         "start": 11.28,
+                         "end": 11.5199995,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.4418578,
+                         "punctuated_word": "phone"
+                       },
+                       {
+                         "word": "number",
+                         "start": 11.5199995,
+                         "end": 11.84,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.4418578,
+                         "punctuated_word": "number"
+                       },
+                       {
+                         "word": "so",
+                         "start": 11.84,
+                         "end": 12,
+                         "confidence": 0.9453125,
+                         "speaker": 0,
+                         "speaker_confidence": 0.4418578,
+                         "punctuated_word": "so"
+                       },
+                       {
+                         "word": "i",
+                         "start": 12,
+                         "end": 12.08,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.3258028,
+                         "punctuated_word": "I"
+                       },
+                       {
+                         "word": "can",
+                         "start": 12.08,
+                         "end": 12.24,
+                         "confidence": 0.9980469,
+                         "speaker": 0,
+                         "speaker_confidence": 0.3258028,
+                         "punctuated_word": "can"
+                       },
+                       {
+                         "word": "look",
+                         "start": 12.24,
+                         "end": 12.48,
+                         "confidence": 0.9980469,
+                         "speaker": 0,
+                         "speaker_confidence": 0.3258028,
+                         "punctuated_word": "look"
+                       },
+                       {
+                         "word": "up",
+                         "start": 12.48,
+                         "end": 12.639999,
+                         "confidence": 0.9980469,
+                         "speaker": 0,
+                         "speaker_confidence": 0.3258028,
+                         "punctuated_word": "up"
+                       },
+                       {
+                         "word": "your",
+                         "start": 12.639999,
+                         "end": 12.799999,
+                         "confidence": 0.99902344,
+                         "speaker": 0,
+                         "speaker_confidence": 0.3258028,
+                         "punctuated_word": "your"
+                       },
+                       {
+                         "word": "account",
+                         "start": 12.799999,
+                         "end": 13.299999,
+                         "confidence": 0.99902344,
+                         "speaker": 0,
+                         "speaker_confidence": 0.3258028,
+                         "punctuated_word": "account?"
+                       },
+                       {
+                         "word": "my",
+                         "start": 13.815,
+                         "end": 13.974999,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.34063697,
+                         "punctuated_word": "My"
+                       },
+                       {
+                         "word": "name",
+                         "start": 13.974999,
+                         "end": 14.054999,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.34063697,
+                         "punctuated_word": "name"
+                       },
+                       {
+                         "word": "is",
+                         "start": 14.054999,
+                         "end": 14.455,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.34063697,
+                         "punctuated_word": "is"
+                       },
+                       {
+                         "word": "alice",
+                         "start": 14.455,
+                         "end": 14.955,
+                         "confidence": 0.97802734,
+                         "speaker": 0,
+                         "speaker_confidence": 0.34063697,
+                         "punctuated_word": "Alice,"
+                       },
+                       {
+                         "word": "and",
+                         "start": 15.094999,
+                         "end": 15.335,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.34063697,
+                         "punctuated_word": "and"
+                       },
+                       {
+                         "word": "my",
+                         "start": 15.335,
+                         "end": 15.495,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.34063697,
+                         "punctuated_word": "my"
+                       },
+                       {
+                         "word": "number",
+                         "start": 15.495,
+                         "end": 15.8949995,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.34063697,
+                         "punctuated_word": "number"
+                       },
+                       {
+                         "word": "is",
+                         "start": 15.8949995,
+                         "end": 16.395,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.34063697,
+                         "punctuated_word": "is"
+                       },
+                       {
+                         "word": "123-456-7890",
+                         "start": 16.855,
+                         "end": 17.355,
+                         "confidence": 0.9630999,
+                         "speaker": 0,
+                         "speaker_confidence": 0.34063697,
+                         "punctuated_word": "123-456-7890."
+                       },
+                       {
+                         "word": "thank",
+                         "start": 20.775,
+                         "end": 20.935,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7406098,
+                         "punctuated_word": "Thank"
+                       },
+                       {
+                         "word": "you",
+                         "start": 20.935,
+                         "end": 21.435,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7406098,
+                         "punctuated_word": "you."
+                       },
+                       {
+                         "word": "okay",
+                         "start": 23.015,
+                         "end": 23.515,
+                         "confidence": 0.99902344,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7406098,
+                         "punctuated_word": "Okay."
+                       },
+                       {
+                         "word": "i've",
+                         "start": 24.134874,
+                         "end": 24.454874,
+                         "confidence": 0.9941406,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7406098,
+                         "punctuated_word": "I've"
+                       },
+                       {
+                         "word": "added",
+                         "start": 24.454874,
+                         "end": 24.854876,
+                         "confidence": 0.9902344,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7406098,
+                         "punctuated_word": "added"
+                       },
+                       {
+                         "word": "2",
+                         "start": 24.854876,
+                         "end": 25.014875,
+                         "confidence": 0.45239258,
+                         "speaker": 0,
+                         "speaker_confidence": 0.7406098,
+                         "punctuated_word": "2"
+                       },
+                       {
+                         "word": "to",
+                         "start": 25.014875,
+                         "end": 25.174875,
+                         "confidence": 0.7583008,
+                         "speaker": 0,
+                         "speaker_confidence": 0.59809494,
+                         "punctuated_word": "to"
+                       },
+                       {
+                         "word": "your",
+                         "start": 25.174875,
+                         "end": 25.334875,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.59809494,
+                         "punctuated_word": "your"
+                       },
+                       {
+                         "word": "service",
+                         "start": 25.334875,
+                         "end": 25.654875,
+                         "confidence": 0.99365234,
+                         "speaker": 0,
+                         "speaker_confidence": 0.59809494,
+                         "punctuated_word": "service."
+                       },
+                       {
+                         "word": "is",
+                         "start": 25.654875,
+                         "end": 25.814875,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.59809494,
+                         "punctuated_word": "Is"
+                       },
+                       {
+                         "word": "there",
+                         "start": 25.814875,
+                         "end": 25.974874,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.59809494,
+                         "punctuated_word": "there"
+                       },
+                       {
+                         "word": "anything",
+                         "start": 25.974874,
+                         "end": 26.294874,
+                         "confidence": 0.99902344,
+                         "speaker": 0,
+                         "speaker_confidence": 0.59809494,
+                         "punctuated_word": "anything"
+                       },
+                       {
+                         "word": "else",
+                         "start": 26.294874,
+                         "end": 26.534874,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.59809494,
+                         "punctuated_word": "else"
+                       },
+                       {
+                         "word": "i",
+                         "start": 26.534874,
+                         "end": 26.614876,
+                         "confidence": 0.6582031,
+                         "speaker": 0,
+                         "speaker_confidence": 0.59809494,
+                         "punctuated_word": "I"
+                       },
+                       {
+                         "word": "can",
+                         "start": 26.614876,
+                         "end": 26.854874,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2911396,
+                         "punctuated_word": "can"
+                       },
+                       {
+                         "word": "help",
+                         "start": 26.854874,
+                         "end": 27.014875,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2911396,
+                         "punctuated_word": "help"
+                       },
+                       {
+                         "word": "you",
+                         "start": 27.014875,
+                         "end": 27.174875,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2911396,
+                         "punctuated_word": "you"
+                       },
+                       {
+                         "word": "with",
+                         "start": 27.174875,
+                         "end": 27.674875,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2911396,
+                         "punctuated_word": "with?"
+                       },
+                       {
+                         "word": "no",
+                         "start": 28.054874,
+                         "end": 28.454874,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.2911396,
+                         "punctuated_word": "No."
+                       },
+                       {
+                         "word": "thank",
+                         "start": 28.454874,
+                         "end": 28.774876,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.69196534,
+                         "punctuated_word": "Thank"
+                       },
+                       {
+                         "word": "you",
+                         "start": 28.774876,
+                         "end": 29.254875,
+                         "confidence": 1,
+                         "speaker": 0,
+                         "speaker_confidence": 0.69196534,
+                         "punctuated_word": "you."
+                       },
+                       {
+                         "word": "goodbye",
+                         "start": 29.254875,
+                         "end": 29.754875,
+                         "confidence": 0.9975586,
+                         "speaker": 0,
+                         "speaker_confidence": 0.69196534,
+                         "punctuated_word": "Goodbye."
+                       },
+                       {
+                         "word": "goodbye",
+                         "start": 30.454874,
+                         "end": 30.954874,
+                         "confidence": 0.9995117,
+                         "speaker": 0,
+                         "speaker_confidence": 0.69196534,
+                         "punctuated_word": "Goodbye."
+                       },
+                       {
+                         "word": "have",
+                         "start": 31.014874,
+                         "end": 31.254875,
+                         "confidence": 0.9980469,
+                         "speaker": 0,
+                         "speaker_confidence": 0.69196534,
+                         "punctuated_word": "Have"
+                       },
+                       {
+                         "word": "a",
+                         "start": 31.254875,
+                         "end": 31.334875,
+                         "confidence": 0.9970703,
+                         "speaker": 0,
+                         "speaker_confidence": 0.69196534,
+                         "punctuated_word": "a"
+                       },
+                       {
+                         "word": "nice",
+                         "start": 31.334875,
+                         "end": 31.654875,
+                         "confidence": 0.99902344,
+                         "speaker": 0,
+                         "speaker_confidence": 0.69196534,
+                         "punctuated_word": "nice"
+                       },
+                       {
+                         "word": "day",
+                         "start": 31.654875,
+                         "end": 32.154877,
+                         "confidence": 0.99902344,
+                         "speaker": 0,
+                         "speaker_confidence": 0.29370594,
+                         "punctuated_word": "day."
+                       }
+                     ],
+                     "paragraphs": {
+                       "transcript": "\nSpeaker 0: Hello. This is ex
+                         ample.com. My name is Bob. How can I help y
+                         ou? Hi.\n\nI'd like to add Fu to my service
+                         . Okay. Can you give me your name and phone
+                          number so I can look up your account? My n
+                         ame is Alice, and my number is 123-456-7890
+                         . Thank you.\n\nOkay. I've added 2 to your
+                         service. Is there anything else I can help
+                         you with? No. Thank you.\n\nGoodbye. Goodby
+                         e. Have a nice day.",
+                       "paragraphs": [
+                         {
+                           "sentences": [
+                             {
+                               "text": "Hello.",
+                               "start": 1.1999999,
+                               "end": 1.6999999
+                             },
+                             {
+                               "text": "This is example.com.",
+                               "start": 1.92,
+                               "end": 2.8999999
+                             },
+                             {
+                               "text": "My name is Bob.",
+                               "start": 3.28,
+                               "end": 4.24
+                             },
+                             {
+                               "text": "How can I help you?",
+                               "start": 4.24,
+                               "end": 5.38
+                             },
+                             {
+                               "text": "Hi.",
+                               "start": 5.68,
+                               "end": 6.18
+                             }
+                           ],
+                           "speaker": 0,
+                           "num_words": 14,
+                           "start": 1.1999999,
+                           "end": 6.18
+                         },
+                         {
+                           "sentences": [
+                             {
+                               "text": "I'd like to add Fu to my ser
+                                 vice.",
+                               "start": 6.24,
+                               "end": 8.58
+                             },
+                             {
+                               "text": "Okay.",
+                               "start": 9.12,
+                               "end": 9.62
+                             },
+                             {
+                               "text": "Can you give me your name an
+                                 d phone number so I can look up you
+                                 r account?",
+                               "start": 10,
+                               "end": 13.299999
+                             },
+                             {
+                               "text": "My name is Alice, and my num
+                                 ber is 123-456-7890.",
+                               "start": 13.815,
+                               "end": 17.355
+                             },
+                             {
+                               "text": "Thank you.",
+                               "start": 20.775,
+                               "end": 21.435
+                             }
+                           ],
+                           "speaker": 0,
+                           "num_words": 36,
+                           "start": 6.24,
+                           "end": 21.435
+                         },
+                         {
+                           "sentences": [
+                             {
+                               "text": "Okay.",
+                               "start": 23.015,
+                               "end": 23.515
+                             },
+                             {
+                               "text": "I've added 2 to your service
+                                 .",
+                               "start": 24.134874,
+                               "end": 25.654875
+                             },
+                             {
+                               "text": "Is there anything else I can
+                                  help you with?",
+                               "start": 25.654875,
+                               "end": 27.674875
+                             },
+                             {
+                               "text": "No.",
+                               "start": 28.054874,
+                               "end": 28.454874
+                             },
+                             {
+                               "text": "Thank you.",
+                               "start": 28.454874,
+                               "end": 29.254875
+                             }
+                           ],
+                           "speaker": 0,
+                           "num_words": 19,
+                           "start": 23.015,
+                           "end": 29.254875
+                         },
+                         {
+                           "sentences": [
+                             {
+                               "text": "Goodbye.",
+                               "start": 29.254875,
+                               "end": 29.754875
+                             },
+                             {
+                               "text": "Goodbye.",
+                               "start": 30.454874,
+                               "end": 30.954874
+                             },
+                             {
+                               "text": "Have a nice day.",
+                               "start": 31.014874,
+                               "end": 32.154877
+                             }
+                           ],
+                           "speaker": 0,
+                           "num_words": 6,
+                           "start": 29.254875,
+                           "end": 32.154877
+                         }
+                       ]
+                     }
+                   }
+                 ]
+               }
+             ]
+           }
+         },
+         "encoding": "json",
+         "vendor": "deepgram",
+         "schema": "deepgram_prerecorded",
+         "product": "transcription"
+       }
+     ],
+     "attachments": [],
+     "uuid": "01928d46-fd43-8c6b-b9a2-279e0d16bc46"
+   }
+
+B.7.  Signed vCon
+
+   This example vCon is the signed form of the Two Party Call vCon With
+   Externally Referenced Recording (Appendix B.5) example.  The private
+   key used to sign this can be found at:
+
+ https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
+
+   The certificate chain is included in the x5c parameter of the header
+   Object.
+
+   {
+     "payload": "eyJ2Y29uIjoiMC4wLjEiLCJwYXJ0aWVzIjpbeyJ0ZWwiOiIrMTI
+       zNDU2Nzg5MDEiLCJuYW1lIjoiQWxpY2UifSx7InRlbCI6IisxOTg3NjU0MzIx
+       MCIsIm5hbWUiOiJCb2IifV0sImRpYWxvZyI6W3sidHlwZSI6InJlY29yZGluZ
+       yIsInN0YXJ0IjoiMjAyMi0wNi0yMVQxNzo1MzoyNi4wMDArMDA6MDAiLCJkdX
+       JhdGlvbiI6MzMuMTIsInBhcnRpZXMiOlswLDFdLCJ1cmwiOiJodHRwczovL2d
+       pdGh1Yi5jb20vaWV0Zi13Zy12Y29uL2RyYWZ0LWlldGYtdmNvbi12Y29uLWNv
+       bnRhaW5lci9yYXcvcmVmcy9oZWFkcy9tYWluL2V4YW1wbGVzL2FiX2NhbGwub
+       XAzIiwibWltZXR5cGUiOiJhdWRpby94LW1wMyIsImZpbGVuYW1lIjoiYWJfY2
+       FsbC5tcDMiLCJzaWduYXR1cmUiOiJHTHk2SVBhSVVNMUdxelpxZklQWmxXamF
+       Ec05nTnZaTTBpQ09OTlRobkgwYTc1ZmhVTTZjWXpMWjVHeW5TVVJSRXZad21P
+       aDU0LTJsUlJpZXlqODJVUSIsImFsZyI6IlNIQS01MTIifV0sImFuYWx5c2lzI
+       jpbXSwiYXR0YWNobWVudHMiOltdLCJ1dWlkIjoiMDE5MjhkNDYtZmQ0My04Yz
+       ZiLWI5YTItMjc5ZTBkMTZiYzQ2In0",
+     "signatures": [
+       {
+         "header": {
+           "x5c": [
+             "MIID0TCCArkCAQEwDQYJKoZIhvcNAQELBQAwgasxCzAJBgNVBAYTAl
+               VTMQswCQYDVQQIDAJNQTERMA8GA1UEBwwIRmFrZXRvd24xETAPBgN
+               VBAoMCEZha2VWY29uMREwDwYDVQQLDAhEaXZpc2lvbjEYMBYGA1UE
+               AwwPZGl2LmZha2V2Y29uLmlvMSEwHwYJKoZIhvcNAQkBFhJhZG1pb
+               kBmYWtldmNvbi5vcmcxGTAXBgNVHREMEGRpdi5mYWtldmNvbi5vcm
+               cwHhcNMjIwNjA0MDE0MzI1WhcNMzIwNjAxMDE0MzI1WjCBsDELMAk
+               GA1UEBhMCVVMxCzAJBgNVBAgMAk1BMREwDwYDVQQHDAhGYWtldG93
+               bjERMA8GA1UECgwIRmFrZVZjb24xDjAMBgNVBAsMBUdyb3VwMRwwG
+               gYDVQQDDBNncnAuZGl2LmZha2V2Y29uLmlvMSEwHwYJKoZIhvcNAQ
+               kBFhJhZG1pbkBmYWtldmNvbi5vcmcxHTAbBgNVHREMFGdycC5kaXY
+               uZmFrZXZjb24ub3JnMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
+               CgKCAQEAtMtTCxeIROb1FmWIexe7Op95qYIVNEqn+fDghxWqoYm6T
+               75BGsl4rB9txFQeef3Q5SJIzeqffJDssXDsyREuwQ2iTcOrZaZxs8
+               h1NX9NjVD6MMAwx7tw0Cgmu8rj6+/Kjs0KI8OzCuDXZGTGf/bH6EQ
+               W85qYh9IF0Pvijf3uq+HCke6WApusx76LpUp36IzvYEuTbWBFeoLo
+               +dyUdWmXpj0ghHiWZtT5zxJn9VrUhJX5KlaI0palWd0fOnr7mkdq7
+               9sFsKjEOcr1lanceAicCpD3/zRW+7AS8atGKAMfe2CcXEABucI7Dt
+               tLMXcDIJM6EOkyW7n4due1RXGuNgnjeQIDAQABMA0GCSqGSIb3DQE
+               BCwUAA4IBAQAQLjhKomSx1OqThhcO+aK0rzX6RjKh0eM0X7O7pPC8
+               1HxZKCDLhDvnUO9++17U6ba0bTnznKYKKG7HnDcB4dKBbH8XP2u3E
+               nDskyoMrKpYRsRKwwJa8+RwOS7JEg+OtXYCRbWZvPjAC/z6o6OZK+
+               QPTyK5Grw2Px2mTr6BAdBQv7XsYWBRwOZyvSGnKyK60jcPlYUnu6Q
+               t0fYXiYp6qF5l956fuT0d2UyDkM7S/Z7K+OC9+aIBNKH32B3nfXqZ
+               PuP8WuiTOxcMwnefPwjxaqndFUkyk2Y+i6nXU8oN/DGUOTfY4xbm3
+               s3q7Dq5QPtq5kljB9yYkvcOULCSAmWBZl+G",
+             "MIIEyTCCArECAQEwDQYJKoZIhvcNAQELBQAwgagxCzAJBgNVBAYTAl
+               VTMQswCQYDVQQIDAJNQTERMA8GA1UEBwwIRmFrZXRvd24xFTATBgN
+               VBAoMDEZha2VWY29uIEluYzESMBAGA1UECwwJQ29ycG9yYXRlMRQw
+               EgYDVQQDDAtmYWtldmNvbi5pbzEhMB8GCSqGSIb3DQEJARYSYWRta
+               W5AZmFrZXZjb24ub3JnMRUwEwYDVR0RDAxmYWtldmNvbi5vcmcwHh
+               cNMjIwNTI5MjEzOTMxWhcNMzIwNTI2MjEzOTMxWjCBqzELMAkGA1U
+               EBhMCVVMxCzAJBgNVBAgMAk1BMREwDwYDVQQHDAhGYWtldG93bjER
+               MA8GA1UECgwIRmFrZVZjb24xETAPBgNVBAsMCERpdmlzaW9uMRgwF
+               gYDVQQDDA9kaXYuZmFrZXZjb24uaW8xITAfBgkqhkiG9w0BCQEWEm
+               FkbWluQGZha2V2Y29uLm9yZzEZMBcGA1UdEQwQZGl2LmZha2V2Y29
+               uLm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAM81
+               SKie1S78VAOBDc3LflYNSL9phecmjQs/9P+iqDXSVm3xpoqszGoLn
+               7w21aUAxl++F9Z80Tc70URn2qqUcVTYcx3SmgHuYgspEmJsMRor/m
+               n3HpHr2ajh+26RKgDGPBrtebeH1si8mX15a/ICzHxrUaE2Y/6DZ/2
+               wGTXrAE4bYAOUaYft5GGSZl6yP6dXg3EJy2bK2cUTdMIZG/Y7Ny1D
+               3N4V7MBirDd5FU7k6pMbyr3d/xoi8VL8F1mRCf6zxfFOjaMFT0atE
+               iTp3M0rw6iS08hy0cDFsPJzIcPgXEitUgGPo/NLgeb8ZmL1kg9B2v
+               MgaanbuZB6il79A4GgDIUCAwEAATANBgkqhkiG9w0BAQsFAAOCAgE
+               AWOJJlvSQDsDROQZNdX3kMkAH3HYyAlE7LHNtIYHVhyt7I7WuqS6Z
+               GvSoxSfkT0GdAN7cV+jchdZpAnpCXGX+yHuSvrw4oSqigdSLeSUMx
+               2zaSv4wLAvydC/zDkHIRObyuDEKyy/pa4Na0aunPU3E1Bg0V+JqQ3
+               RUJIy1v6AGLrliwaEIgP3Clzi/u640dWBHabOEjxFj9bX73+FRWhi
+               t4EzOJYKvti1EXlmRjMbj3SmsrcbGMrpu4WipEG5S05VlMhXXSyQq
+               9IScFho5CFtamDgI3jL49lyrx0+CcjDkw0nW9fXdAtB3BhSYEXdLu
+               JAvLRQixUQFwH23doumPi1uW8euEhHTRo1pEFWQ5U59NOTUA5Ghuu
+               po0aM2CnDD5Re8uO3ChilCUb0FlwgMD/7ABSd1LChU8iluhKy9CEB
+               R2zc8uTqW43Gcv/psBaejgOKJlxZuusGVvuV1nTHRa4hmFYxxPel7
+               ogeZzGQqFjBlb35CE+BcGYY0ViaHefy+fmi/fN6NrrN6pBOPjVZbp
+               CFn+wFTUyrMU5Vq/FaPe0us7i3paQcwIz9wyide5OztpxebY8UnXm
+               y22X+6PkHB0jnL35Qe8xl7Z0nMZNdy4xkzGgaa6talRDPhKkY1lId
+               w+KdCXJuUc7rkLKa5po9SPdvVLhEPu26SHkI0I+d5hz+gMp8=",
+             "MIIGMzCCBBugAwIBAgIUHk/6QbzjDZ9AONAFvwYJqB/jbvowDQYJKo
+               ZIhvcNAQELBQAwgagxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJNQTE
+               RMA8GA1UEBwwIRmFrZXRvd24xFTATBgNVBAoMDEZha2VWY29uIElu
+               YzESMBAGA1UECwwJQ29ycG9yYXRlMRQwEgYDVQQDDAtmYWtldmNvb
+               i5pbzEhMB8GCSqGSIb3DQEJARYSYWRtaW5AZmFrZXZjb24ub3JnMR
+               UwEwYDVR0RDAxmYWtldmNvbi5vcmcwHhcNMjIwNTI5MjEzOTMxWhc
+               NMzIwNTI2MjEzOTMxWjCBqDELMAkGA1UEBhMCVVMxCzAJBgNVBAgM
+               Ak1BMREwDwYDVQQHDAhGYWtldG93bjEVMBMGA1UECgwMRmFrZVZjb
+               24gSW5jMRIwEAYDVQQLDAlDb3Jwb3JhdGUxFDASBgNVBAMMC2Zha2
+               V2Y29uLmlvMSEwHwYJKoZIhvcNAQkBFhJhZG1pbkBmYWtldmNvbi5
+               vcmcxFTATBgNVHREMDGZha2V2Y29uLm9yZzCCAiIwDQYJKoZIhvcN
+               AQEBBQADggIPADCCAgoCggIBAMIeaqkm8pn6mwUzWBgnQiY9Jr3Vy
+               VamxBc9/duT8eCN9mmANGzX5zGj86KtGjlDcoAzANrtsr2Dpz4zra
+               29HWbwbOa1ZTOOaR93QgifkS802zp+zHGGRaKlq3euDqDVzyXinhs
+               vXOVlEwkOrAvV6kUcTIzcxVibrFfHttzv/hXUNxjCouAE7MIG6wO8
+               y+E2bBkg7R5ydfeU4Q9npBefwtiQ8oWf0C46mDYFQ8l31goae17Vp
+               iyS3t4h5HL+1yqdYJSWms5Qh0vp9req5AjwuHIDBxNLpO2gY1SQmS
+               dO03oLcZwBglGKlpQSwYgr9J5uo2B+NV9aYKEO51bySinSF8T4D/o
+               4cq6oyJLXBwmSsLbjjVIQBoSdRBmWh8zE2ZzFNaaBlYO9ikIaWXwb
+               tkbsE+4QpOaOj/kUIHLFI9iOhOidsInaOfgYzw12FtGE1Wq5x5Xsz
+               wWpPWU8NQw8gzTzFzVObxrfcsXrs0s6feuTCDMt5Zht2HCWFr9TmY
+               DFAfOB05kFWTi5sE5KYaP54iJvjAFmuTDjlif7Z8ZWVal9XB+g3sM
+               yQ8DVEj/0dXS+nRVuJQlUH4ql9SUIwK63RKdedALYC6X1j2lgK9aT
+               uL+cyNJ5SbuNA95CxNgvWtBrcO6HxlbmIDxKrAAo5aj4hnlQcY4RR
+               bNwppCAjK+zcASlpyvRAgMBAAGjUzBRMB0GA1UdDgQWBBSSDtfqU6
+               +DEyYPCar08yVnnZSFzTAfBgNVHSMEGDAWgBSSDtfqU6+DEyYPCar
+               08yVnnZSFzTAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUA
+               A4ICAQC8JDxTdmc86YFdKElWQnWxoPMsPeRyDYQoVTC2wydZsdJ5d
+               GbkAhYlPPxK+zypP18fGry5PHAHl9mZYz+FdGjNTwllcfN9/G0Sdo
+               y4kU9eN9KfC9OUIkBIq8D0r7ANT3l3XmGbnIxWJEtb0SyTcqk3dwW
+               cNTqGguhQ03jUKW5yUpVoQjN4TtmHyweoYTNi+HKsCUvEXGdA9wdh
+               4jVOqYeepmsax5eTUJsKuCKqQ3+xB7JONw85imfVotySCXsoMe7lu
+               SRYuldn8SBIpKYUGJlpWIi6Gr0mLwHarrYoi9bwtcKAxRNXZiGQgh
+               iUw2Zsw+jmgBrEtI4Iarg8wWqJ5Mov7MsTVpnoZ5Xywr0GznDlgcN
+               tyqMibOULeM8yLPQrHn/tQjSiP3eUPz6+Zb9FqzQJCCi2UiauD4mO
+               gzBSCCbew9PDYb2QeMZqNZmN3eVNMV4hh7t9jTc0zqPF5jluddVmp
+               dHxLx/T9XZuSV21p8clNprJNQxprtHpxDxjhNMIrcV39rzi9tNikw
+               mzRMf0r40f/JWnaV668sekDXtvIj8pZwyE4FNuaiJwojkQxDfjqk6
+               7Qs5NUQsFcaIwMes8It74ASHm8DUKEhDT2ASgMtUDwKWrOBefrSPq
+               jY7+EMh2yVZnQhMwpx4s7CH0za32Yq+KC8GotHdI6jisDEom7aHgl
+               g=="
+           ],
+           "alg": "RS256",
+           "uuid": "01928d46-fd43-8c6b-b9a2-279e0d16bc46"
+         },
+         "signature": "AxZzOJI0jdDp2gVXDg5iasQvac0wUj5Eh1pzolvxeausy
+           L51UhKDKKguzT6DJ9BrJf8kYUhQvr6B6FNJ6CDSq-Z84Oo4FCUK1vflGz
+           eDnwUvX97HM19-L3L2sQykuDNRi8ssTUVoaV51rLdvhsqfvTOUD6MIdxX
+           4gE_iLv0BxFK1pKdaYISeDfO31cXN8vQYnVfxgLwHVvnhRnTKdBqwSWO5
+           _PiQXsDAcQYEDxWQ92VWI40SvWmRGEDXOVVX5dMDc4DnrtQG4cwPYO89f
+           0LAcitUXVjNFZj15k6Ha5tZtdKw8-RLd9WbvICB9F_D2KMAkMLfmZjyXm
+           JU9TTWwLULuw",
+         "protected": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6W
+           yJNSUlEMFRDQ0Fya0NBUUV3RFFZSktvWklodmNOQVFFTEJRQXdnYXN4Q3
+           pBSkJnTlZCQVlUQWxWVE1Rc3dDUVlEVlFRSURBSk5RVEVSTUE4R0ExVUV
+           Cd3dJUm1GclpYUnZkMjR4RVRBUEJnTlZCQW9NQ0VaaGEyVldZMjl1TVJF
+           d0R3WURWUVFMREFoRWFYWnBjMmx2YmpFWU1CWUdBMVVFQXd3UFpHbDJMb
+           VpoYTJWMlkyOXVMbWx2TVNFd0h3WUpLb1pJaHZjTkFRa0JGaEpoWkcxcG
+           JrQm1ZV3RsZG1OdmJpNXZjbWN4R1RBWEJnTlZIUkVNRUdScGRpNW1ZV3R
+           sZG1OdmJpNXZjbWN3SGhjTk1qSXdOakEwTURFME16STFXaGNOTXpJd05q
+           QXhNREUwTXpJMVdqQ0JzREVMTUFrR0ExVUVCaE1DVlZNeEN6QUpCZ05WQ
+           kFnTUFrMUJNUkV3RHdZRFZRUUhEQWhHWVd0bGRHOTNiakVSTUE4R0ExVU
+           VDZ3dJUm1GclpWWmpiMjR4RGpBTUJnTlZCQXNNQlVkeWIzVndNUnd3R2d
+           ZRFZRUUREQk5uY25BdVpHbDJMbVpoYTJWMlkyOXVMbWx2TVNFd0h3WUpL
+           b1pJaHZjTkFRa0JGaEpoWkcxcGJrQm1ZV3RsZG1OdmJpNXZjbWN4SFRBY
+           kJnTlZIUkVNRkdkeWNDNWthWFl1Wm1GclpYWmpiMjR1YjNKbk1JSUJJak
+           FOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBdE10VEN
+           4ZUlST2IxRm1XSWV4ZTdPcDk1cVlJVk5FcW4rZkRnaHhXcW9ZbTZUNzVC
+           R3NsNHJCOXR4RlFlZWYzUTVTSkl6ZXFmZkpEc3NYRHN5UkV1d1EyaVRjT
+           3JaYVp4czhoMU5YOU5qVkQ2TU1Bd3g3dHcwQ2dtdThyajYrL0tqczBLST
+           hPekN1RFhaR1RHZi9iSDZFUVc4NXFZaDlJRjBQdmlqZjN1cStIQ2tlNld
+           BcHVzeDc2THBVcDM2SXp2WUV1VGJXQkZlb0xvK2R5VWRXbVhwajBnaEhp
+           V1p0VDV6eEpuOVZyVWhKWDVLbGFJMHBhbFdkMGZPbnI3bWtkcTc5c0ZzS
+           2pFT2NyMWxhbmNlQWljQ3BEMy96UlcrN0FTOGF0R0tBTWZlMkNjWEVBQn
+           VjSTdEdHRMTVhjRElKTTZFT2t5VzduNGR1ZTFSWEd1TmduamVRSURBUUF
+           CTUEwR0NTcUdTSWIzRFFFQkN3VUFBNElCQVFBUUxqaEtvbVN4MU9xVGho
+           Y08rYUswcnpYNlJqS2gwZU0wWDdPN3BQQzgxSHhaS0NETGhEdm5VTzkrK
+           zE3VTZiYTBiVG56bktZS0tHN0huRGNCNGRLQmJIOFhQMnUzRW5Ec2t5b0
+           1yS3BZUnNSS3d3SmE4K1J3T1M3SkVnK090WFlDUmJXWnZQakFDL3o2bzZ
+           PWksrUVBUeUs1R3J3MlB4Mm1UcjZCQWRCUXY3WHNZV0JSd09aeXZTR25L
+           eUs2MGpjUGxZVW51NlF0MGZZWGlZcDZxRjVsOTU2ZnVUMGQyVXlEa003U
+           y9aN0srT0M5K2FJQk5LSDMyQjNuZlhxWlB1UDhXdWlUT3hjTXduZWZQd2
+           p4YXFuZEZVa3lrMlkraTZuWFU4b04vREdVT1RmWTR4Ym0zczNxN0RxNVF
+           QdHE1a2xqQjl5WWt2Y09VTENTQW1XQlpsK0ciLCJNSUlFeVRDQ0FyRUNB
+           UUV3RFFZSktvWklodmNOQVFFTEJRQXdnYWd4Q3pBSkJnTlZCQVlUQWxWV
+           E1Rc3dDUVlEVlFRSURBSk5RVEVSTUE4R0ExVUVCd3dJUm1GclpYUnZkMj
+           R4RlRBVEJnTlZCQW9NREVaaGEyVldZMjl1SUVsdVl6RVNNQkFHQTFVRUN
+           3d0pRMjl5Y0c5eVlYUmxNUlF3RWdZRFZRUUREQXRtWVd0bGRtTnZiaTVw
+           YnpFaE1COEdDU3FHU0liM0RRRUpBUllTWVdSdGFXNUFabUZyWlhaamIyN
+           HViM0puTVJVd0V3WURWUjBSREF4bVlXdGxkbU52Ymk1dmNtY3dIaGNOTW
+           pJd05USTVNakV6T1RNeFdoY05Nekl3TlRJMk1qRXpPVE14V2pDQnF6RUx
+           NQWtHQTFVRUJoTUNWVk14Q3pBSkJnTlZCQWdNQWsxQk1SRXdEd1lEVlFR
+           SERBaEdZV3RsZEc5M2JqRVJNQThHQTFVRUNnd0lSbUZyWlZaamIyNHhFV
+           EFQQmdOVkJBc01DRVJwZG1semFXOXVNUmd3RmdZRFZRUUREQTlrYVhZdV
+           ptRnJaWFpqYjI0dWFXOHhJVEFmQmdrcWhraUc5dzBCQ1FFV0VtRmtiV2x
+           1UUdaaGEyVjJZMjl1TG05eVp6RVpNQmNHQTFVZEVRd1FaR2wyTG1aaGEy
+           VjJZMjl1TG05eVp6Q0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQ
+           URDQ0FRb0NnZ0VCQU04MVNLaWUxUzc4VkFPQkRjM0xmbFlOU0w5cGhlY2
+           1qUXMvOVAraXFEWFNWbTN4cG9xc3pHb0xuN3cyMWFVQXhsKytGOVo4MFR
+           jNzBVUm4ycXFVY1ZUWWN4M1NtZ0h1WWdzcEVtSnNNUm9yL21uM0hwSHIy
+           YWpoKzI2UktnREdQQnJ0ZWJlSDFzaThtWDE1YS9JQ3pIeHJVYUUyWS82R
+           FovMndHVFhyQUU0YllBT1VhWWZ0NUdHU1psNnlQNmRYZzNFSnkyYksyY1
+           VUZE1JWkcvWTdOeTFEM040VjdNQmlyRGQ1RlU3azZwTWJ5cjNkL3hvaTh
+           WTDhGMW1SQ2Y2enhmRk9qYU1GVDBhdEVpVHAzTTBydzZpUzA4aHkwY0RG
+           c1BKekljUGdYRWl0VWdHUG8vTkxnZWI4Wm1MMWtnOUIydk1nYWFuYnVaQ
+           jZpbDc5QTRHZ0RJVUNBd0VBQVRBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQW
+           dFQVdPSkpsdlNRRHNEUk9RWk5kWDNrTWtBSDNIWXlBbEU3TEhOdElZSFZ
+           oeXQ3STdXdXFTNlpHdlNveFNma1QwR2RBTjdjVitqY2hkWnBBbnBDWEdY
+           K3lIdVN2cnc0b1NxaWdkU0xlU1VNeDJ6YVN2NHdMQXZ5ZEMvekRrSElST
+           2J5dURFS3l5L3BhNE5hMGF1blBVM0UxQmcwVitKcVEzUlVKSXkxdjZBR0
+           xybGl3YUVJZ1AzQ2x6aS91NjQwZFdCSGFiT0VqeEZqOWJYNzMrRlJXaGl
+           0NEV6T0pZS3Z0aTFFWGxtUmpNYmozU21zcmNiR01ycHU0V2lwRUc1UzA1
+           VmxNaFhYU3lRcTlJU2NGaG81Q0Z0YW1EZ0kzakw0OWx5cngwK0NjakRrd
+           zBuVzlmWGRBdEIzQmhTWUVYZEx1SkF2TFJRaXhVUUZ3SDIzZG91bVBpMX
+           VXOGV1RWhIVFJvMXBFRldRNVU1OU5PVFVBNUdodXVwbzBhTTJDbkRENVJ
+           lOHVPM0NoaWxDVWIwRmx3Z01ELzdBQlNkMUxDaFU4aWx1aEt5OUNFQlIy
+           emM4dVRxVzQzR2N2L3BzQmFlamdPS0pseFp1dXNHVnZ1VjFuVEhSYTRob
+           UZZeHhQZWw3b2dlWnpHUXFGakJsYjM1Q0UrQmNHWVkwVmlhSGVmeStmbW
+           kvZk42TnJyTjZwQk9QalZaYnBDRm4rd0ZUVXlyTVU1VnEvRmFQZTB1czd
+           pM3BhUWN3SXo5d3lpZGU1T3p0cHhlYlk4VW5YbXkyMlgrNlBrSEIwam5M
+           MzVRZTh4bDdaMG5NWk5keTR4a3pHZ2FhNnRhbFJEUGhLa1kxbElkdytLZ
+           ENYSnVVYzdya0xLYTVwbzlTUGR2VkxoRVB1MjZTSGtJMEkrZDVoeitnTX
+           A4PSIsIk1JSUdNekNDQkJ1Z0F3SUJBZ0lVSGsvNlFiempEWjlBT05BRnZ
+           3WUpxQi9qYnZvd0RRWUpLb1pJaHZjTkFRRUxCUUF3Z2FneEN6QUpCZ05W
+           QkFZVEFsVlRNUXN3Q1FZRFZRUUlEQUpOUVRFUk1BOEdBMVVFQnd3SVJtR
+           nJaWFJ2ZDI0eEZUQVRCZ05WQkFvTURFWmhhMlZXWTI5dUlFbHVZekVTTU
+           JBR0ExVUVDd3dKUTI5eWNHOXlZWFJsTVJRd0VnWURWUVFEREF0bVlXdGx
+           kbU52Ymk1cGJ6RWhNQjhHQ1NxR1NJYjNEUUVKQVJZU1lXUnRhVzVBWm1G
+           clpYWmpiMjR1YjNKbk1SVXdFd1lEVlIwUkRBeG1ZV3RsZG1OdmJpNXZjb
+           WN3SGhjTk1qSXdOVEk1TWpFek9UTXhXaGNOTXpJd05USTJNakV6T1RNeF
+           dqQ0JxREVMTUFrR0ExVUVCaE1DVlZNeEN6QUpCZ05WQkFnTUFrMUJNUkV
+           3RHdZRFZRUUhEQWhHWVd0bGRHOTNiakVWTUJNR0ExVUVDZ3dNUm1GclpW
+           WmpiMjRnU1c1ak1SSXdFQVlEVlFRTERBbERiM0p3YjNKaGRHVXhGREFTQ
+           mdOVkJBTU1DMlpoYTJWMlkyOXVMbWx2TVNFd0h3WUpLb1pJaHZjTkFRa0
+           JGaEpoWkcxcGJrQm1ZV3RsZG1OdmJpNXZjbWN4RlRBVEJnTlZIUkVNREd
+           aaGEyVjJZMjl1TG05eVp6Q0NBaUl3RFFZSktvWklodmNOQVFFQkJRQURn
+           Z0lQQURDQ0Fnb0NnZ0lCQU1JZWFxa204cG42bXdVeldCZ25RaVk5SnIzV
+           nlWYW14QmM5L2R1VDhlQ045bW1BTkd6WDV6R2o4Nkt0R2psRGNvQXpBTn
+           J0c3IyRHB6NHpyYTI5SFdid2JPYTFaVE9PYVI5M1FnaWZrUzgwMnpwK3p
+           IR0dSYUtscTNldURxRFZ6eVhpbmhzdlhPVmxFd2tPckF2VjZrVWNUSXpj
+           eFZpYnJGZkh0dHp2L2hYVU54akNvdUFFN01JRzZ3Tzh5K0UyYkJrZzdSN
+           XlkZmVVNFE5bnBCZWZ3dGlROG9XZjBDNDZtRFlGUThsMzFnb2FlMTdWcG
+           l5UzN0NGg1SEwrMXlxZFlKU1dtczVRaDB2cDlyZXE1QWp3dUhJREJ4Tkx
+           wTzJnWTFTUW1TZE8wM29MY1p3QmdsR0tscFFTd1lncjlKNXVvMkIrTlY5
+           YVlLRU81MWJ5U2luU0Y4VDREL280Y3E2b3lKTFhCd21Tc0xiampWSVFCb
+           1NkUkJtV2g4ekUyWnpGTmFhQmxZTzlpa0lhV1h3YnRrYnNFKzRRcE9hT2
+           ova1VJSExGSTlpT2hPaWRzSW5hT2ZnWXp3MTJGdEdFMVdxNXg1WHN6d1d
+           wUFdVOE5RdzhnelR6RnpWT2J4cmZjc1hyczBzNmZldVRDRE10NVpodDJI
+           Q1dGcjlUbVlERkFmT0IwNWtGV1RpNXNFNUtZYVA1NGlKdmpBRm11VERqb
+           GlmN1o4WldWYWw5WEIrZzNzTXlROERWRWovMGRYUytuUlZ1SlFsVUg0cW
+           w5U1VJd0s2M1JLZGVkQUxZQzZYMWoybGdLOWFUdUwrY3lOSjVTYnVOQTk
+           1Q3hOZ3ZXdEJyY082SHhsYm1JRHhLckFBbzVhajRobmxRY1k0UlJiTndw
+           cENBaksremNBU2xweXZSQWdNQkFBR2pVekJSTUIwR0ExVWREZ1FXQkJTU
+           0R0ZnFVNitERXlZUENhcjA4eVZublpTRnpUQWZCZ05WSFNNRUdEQVdnQl
+           NTRHRmcVU2K0RFeVlQQ2FyMDh5Vm5uWlNGelRBUEJnTlZIUk1CQWY4RUJ
+           UQURBUUgvTUEwR0NTcUdTSWIzRFFFQkN3VUFBNElDQVFDOEpEeFRkbWM4
+           NllGZEtFbFdRbld4b1BNc1BlUnlEWVFvVlRDMnd5ZFpzZEo1ZEdia0FoW
+           WxQUHhLK3p5cFAxOGZHcnk1UEhBSGw5bVpZeitGZEdqTlR3bGxjZk45L0
+           cwU2RveTRrVTllTjlLZkM5T1VJa0JJcThEMHI3QU5UM2wzWG1HYm5JeFd
+           KRXRiMFN5VGNxazNkd1djTlRxR2d1aFEwM2pVS1c1eVVwVm9Rak40VHRt
+           SHl3ZW9ZVE5pK0hLc0NVdkVYR2RBOXdkaDRqVk9xWWVlcG1zYXg1ZVRVS
+           nNLdUNLcVEzK3hCN0pPTnc4NWltZlZvdHlTQ1hzb01lN2x1U1JZdWxkbj
+           hTQklwS1lVR0pscFdJaTZHcjBtTHdIYXJyWW9pOWJ3dGNLQXhSTlhaaUd
+           RZ2hpVXcyWnN3K2ptZ0JyRXRJNElhcmc4d1dxSjVNb3Y3TXNUVnBub1o1
+           WHl3cjBHem5EbGdjTnR5cU1pYk9VTGVNOHlMUFFySG4vdFFqU2lQM2VVU
+           Ho2K1piOUZxelFKQ0NpMlVpYXVENG1PZ3pCU0NDYmV3OVBEWWIyUWVNWn
+           FOWm1OM2VWTk1WNGhoN3Q5alRjMHpxUEY1amx1ZGRWbXBkSHhMeC9UOVh
+           adVNWMjFwOGNsTnBySk5ReHBydEhweER4amhOTUlyY1YzOXJ6aTl0Tmlr
+           d216Uk1mMHI0MGYvSlduYVY2NjhzZWtEWHR2SWo4cFp3eUU0Rk51YWlKd
+           29qa1F4RGZqcWs2N1FzNU5VUXNGY2FJd01lczhJdDc0QVNIbThEVUtFaE
+           RUMkFTZ010VUR3S1dyT0JlZnJTUHFqWTcrRU1oMnlWWm5RaE13cHg0czd
+           DSDB6YTMyWXErS0M4R290SGRJNmppc0RFb203YUhnbGc9PSJdfQ"
+       }
+     ]
+   }
+
+B.8.  Encrypted vCon
+
+   This example vCon is the encrypted form of the Signed vCon
+   (Appendix B.7) example.  The private key to decrypt it can be found
+   at:
+
+ https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
+
+   {
+     "protected": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1M
+       TIifQ",
+     "iv": "Cv7zMf2PBJ2EE9HbDGxHjA",
+     "ciphertext": "XFFfpREiVZc1_f74cYpM7qIDqyZdGnZWEnbhRg_QRUqz569M
+       nvUiRYZN1qZCCJl_gU2ql44bCSz-lPy47OSw7eWXo051ALOTyA3BMvCQacg3s
+       waMtNQE6rWUdbfVpOjh5D3PfwNhc_Y9PwJAjqT3verMjq4cRQhPkT0JO8w4h9
+       YnhK6KiAeVaUccMVscamxL6dp11iv6tPvAy_OZbbdZsqrTE6SAGZaedJtcxdG
+       8eJGtU8_jNzzm3Dk3rQgwnnkysqCAPdULYuKuvqHbdWjzLOsvhtJ8NLqZXixa
+       Tsw0D51HAlSo0WpaL_A5nDFRulBW2TETR--MP6XkyXV7rQMza7jLQALKlpfzO
+       EzAlr4Rcoize4aV7F47zdV8g5XyhEjKMGOxfQ-fSVtF_ceRVbgWGbVk-XgCZs
+       DqoGeXXj2c6AjNCdDo7i_swdFQ-y7NwNUBHAGNDl58zQzq4QJeCSjvoycbDcv
+       o7mURZr3cbPCTvCv9zIsCx7SBh3Bk99pSa73R9g3KGxgMSr0O-xnKfIi3bzso
+       EP5BczlamzLsRZ1sgCAhHXQSK7DoxSe3jOpEHzgNQQZf7dw4ubi3-CHq3jhMp
+       h2kcmDck9odJ2KbgVJ9JYXFKxB9EgMv8ti4HEq68YCZnbj4TfP8SczsS_-c9Q
+       _fzmll01_qaaMoZ2DV3bBq80Sy0nuY28677uKwA9PF3qt4zxJazmfmyddzjfo
+       if1IuGIHj7fyYWFAYEIdddw38wgCR26k5YEoVOQlTeZEUd7_90ungYDFXq19x
+       fqcPTifJDaUTVyiumfck35JSUuF5J2kVCR-yjZ395hwXZH0E-DJZheQxtoO1d
+       kmOBPdmKVR-nAOjg3yXm3KBjUKF4gufws7yUX-f5tlIlct2zSjQfNXRTWanae
+       pNdRW0SfLn72KazQfCJE8y3fiyJnNqXrnpFJUJa7B_Jkg3OOyKwQeGror7QIL
+       Pkrs4h0VapdeBE7rwFbMPyrMa8l20_xewauOCoxFb4_1LBnX9ZFQfhR3fEhFd
+       srfSWV0zXkZjd-g9jSWWqdLnFxOQsfujDcZcBzOwfSJFz60D-jIM2mAn586n6
+       fbqapc1K7xdSgHF1-rPdMEMwSqcfA7BdysMP0c8WZX6VWcKfJLjNI1-Q_kLNC
+       _nymhRIIhhBHkqppFiLvhxduXf1uTLMlCOuwjpqvjXnCbKfTLZ9UtmMzA3xQl
+       aEB4G0Ho-HItNo5GgBCwwY1ds2nQj7eS9WIXVr2BLhGadywLg8c7A2ypSlz9X
+       dKV0_GEyLeoRdnZMzwP4plcTjizMW9K3tMAMIGUxl9odqXZbFOw7myGCfGuhV
+       c6-eZ5a02xg2figOEPJQI_OFxmkKZMWETW9iHT6V-Iz4fbkVPfuaBDXitnyNv
+       iWzRlLiwJ0OzEwEwYeV-xVyA9FqHNwwgbYRc_UmbvAjVukvCnGYDqiY1i3NLy
+       0tgsaIrm3YfBtVhNyz_7hajN-OPzQFGzJVtpx9PlPwfNg7VAU5S8RfEg7NI0t
+       4RJ40Iyoo8_5fqtiXK_HvnSSI9XcgbIS-D70pe_aCRpFQth_M1BGSeA1P2RTQ
+       3p7Gj0iJW-6tenXZaIxqfpsrJRc7xBUDtrZFiOZdb6KSoh0cYsOxkxEZo9FyH
+       M87H69bQebqQVRSvedGDi_dKRjQN1p6P8XJWTDJUTCQrJDPiv56gJD3YcqGAF
+       IHZ78RIwnLkXEC5gSH81bLIuO_PZvKHhTAzqJUh5s-47S284AAcfH2xB_ONik
+       POMs-9X39GFGP4RnAarwFyPA3FrgVCppl36Gtu8LgXzfhjuwxSU2luXLJFNQe
+       ED5Q-dX6P7iIknL8VjtK2x3pgzmEFkkBCoJcrctLJtJK9MSMAMsUNljwgoKlA
+       iIvyqYPG7caeo8H0P1NvpNg9F3dz6067hFi0c3zlNzAHSNNxwS4_6PgeLX7qJ
+       GBOGr2-qsgcjwEQuwGaomGwnBxRX8W18CSoSJJkMEWCYisoqvyE4dfc4TL6b-
+       Uuty9B269_fh4f7rvJDPTE_GAcBofObaiF4X0BGfrt8qJaIkbh1MJJ9KEoG3w
+       mDy8rA3kEfwG2IGqd7T5cotQmxqzy35y5YUUcy4GZNM-gZ6_YF8TFLd7odUC6
+       mXraBORnbxIRrHaOn4GQL6TKpMLHnIg9RBaJfNVIRgVzIdJID2EqaOT88dVeK
+       7qK-KbW_JOWF8xwjMXwwNtV-DfbsnN1iiaZDNqLtptj6Pn0h0rS0WBAiSkYKO
+       8FoElfkpjStMAlvhm-zV28E2QNQZ5YbuhB3Zsr4kjOZ0AGzXr5Pe2B05f4EzU
+       a5QGBcmrBTzPK6O6pb5XI6mt25UFcL28PJrPGzyRN1wLfwzTFpg07xwCy_0IJ
+       crRew6T5rIuvfMrb83zzY35ACvT40-t2zvOQTRIQYvEb8cY-3d9SDs6-b-ovE
+       8pmwVdnIqwzNN_E8czEOf6rEmZ4ih9lrcoLrGvL7X26UOSdy5OFnGQ3GRZJEw
+       FIp1wtBu-YS17KNv3Dw4P4r9tNF-ek4gcO6nbu6YjMxPMcy7Me8fkIwb0D99_
+       2U9uzkOmQarfh-O0wGV4p4Vz19xfi5WhiM0eVC3OjCKdzswUhqnE0EArbcIg7
+       tD1hPwp25dSCXtDtVd21hEjUsZqbFT5OXNhozgUIbJ8r67Ze-1mMhlmmrEZ1O
+       ubv9D4psnk6MCSyVGuzF2J4GtL5QT2gpRpyTs4YmEUIaHhxNqIusB-EODDESB
+       J2OeKzomltKFce0gotKU3W-DlgqCp_ELjTsIrENleAKbBWP71H8i0f9wDIE8t
+       PESS4tCMM2CV2Kamg-nDf_tiIpLgBgT5ZCETvIS8su0Gbm-LPMp81QaWy4ExU
+       Ux9pj3WaY-kkGg3g6nmQb7EMwSOjuZy-tdy6vMC_Qz2XMMKNT4_o9y8Bpy7EF
+       oP4FvuwsFpqqYxYJ6qTGaa8BHDsNR3QI-2AHoeX4bngaVoKB66G_xH6867vkh
+       -JpQV9DnbmN9oa11WYpLW-qjMJW1tonVREDChgbRI1WXa3vuBFiEJ7uxXU0qm
+       pCV39L6SJlo7IjF2M_SKuGbefCJPLXoi3UqhXXKd3xWQLxea9_7R3x129WQsc
+       i0FdMMnvypszw6U0SJWoqxseKfVWRNJr15PI3YJiPXfxci3cD6gfBpZ0Lof7L
+       28OXmhDNLN2IYvESWiHC2wvE4SovluRGuaQrd8PKUAIdRfW8ShiQ6vjYsB2mQ
+       mZgbGo6DY4FQ0bYikvQ_k5tNHG4SXcT4URn4z_6KrYEIaIVB6A0p20V9mcfj4
+       ESyY3fnUpO6XRd8tU-NhHI-My5mn_SGWIkyIFF5bkVm5uHVMoa3GTt0_NfWae
+       3a95t6VvoUGprE_3nztZyBqMwFmWx2Bs2TnrmL_gZZuphHqTiA3LIaF423u6p
+       HqMUTEOiHw04RleBesXfHYvlfl0BrWo2c9OcrkfQFPocZ9GEsolvEetVkTJeI
+       VV426aqI1mfYqQ_6LlNkq66cjL4y4gxvjPMK46ZzwsyWFrgEbchH4wVRQMWQT
+       vPvzfleJFLxAfr32R8HYIq2pHxoO_3QPzr4s6dT9qTuB7SoM5h3WGoMJ-bDVh
+       N35_3I9xNbZ7ifeAqzwt7XfvFDrVcS3EsezvxhywbXRGUVJ07W2rJyScea7-M
+       LFwYbokVf_TWICAxwlpgO9441MaH_z2TNeq7ElA92Z7VQ7XMOUqVQZk7NccUl
+       ySl8VGbkchA0-9DfQ5dCoJZ0gqhhjHzqg6YB1nOaUfzZn0pG_OPuBnoLxgJyG
+       l4SkTX7fOkCh3yit67vEOhm-ar_mPJ4-QJoYdt7esn5Adc-TnOSW_5wA5oN4f
+       ZRJFiGo7Nnw0wdTQgOZLl88a8unmeuNu7qvcKjuFhDpwPRuL32VWUiNcRKGkm
+       HFgGblYdmS1SLTO_7a7890HTI1kIhNIrYPSUzZ8MDPnp3WDgK_Dp0kQn1Y3Il
+       jS5hoaKqeIQm0RnYikTMNZIHqBwsmVRbNJBrOvLbTTAcRJ1eGSRve6ImM6coC
+       LmMEQrom6SYibky660saAcDIuROOFcXCu7O-zmWtCiJhHFVXeHjl2zc0yci2-
+       6iGYICVrmuG-WcnyhRKWTii5I4muwhAot2zcxGUsPGCztvDBAbP5U4cc6DWGX
+       WvMHsNPumHFxXOcjPJHfLRv4y7Lam0IbBVJaVMXaZq0v_f8gaeh2K30iWlMdh
+       CvJIlfR_9Nwdghw0h2tg77Dd9XH3YdwqeVlUep4cdehri6dhXeXaMAGRW_eWS
+       kjJ0kx5V0QCIQXW6hogUYmDNgVvjRJPDLUNcsGzJ78V9YgYnv1SgzrI_H9bdS
+       BgykFWylWNpyEhrvBfKQqwpNv25s3FVzm6e8PwBxzWYBIZ3eezAzLLvArnXFP
+       sSPhflLEQbnSZqYNGIzigZN5YNPcvyeZZkGeiw7671zNTHK-HZMNwOjudhK1b
+       TsurJcutVT55t9SAy_jThkRq0lYZy-6mBvEJc0atJlnzeeDYrOTq-cCOifSEE
+       z1J14YwuM8rIK5Sed4ESDB547Ej0jFxeHDeNc6Jy3CO4LenN9Slms21JYYxwX
+       WyC18Z9lb4JqbTQA8g4c8A53oXhYSc5Vgy_xtLjAqef5dPkjphK8B2TSIMlHn
+       vYcNbwZR5rtLIPknp35oi7H7DmkDPf_ctpj8tJgwOlfA1eoKRWvk5MDjISibu
+       80ilFg7p-UuYllNpPrq_KFd0AhszUDnwC0iTnob-T-6wbFdM-kOf_7ZYPZmhP
+       59PGQx1zLdvN7kaC2jYPsaLU-1vJ3ACFJxs_REq-Al8SVCUrXR-x6pmsNNr2l
+       NcXT3Y7MMIx9zOKt92W13rZjfm6OV3dzrvk0SEg3_bMQmU8TOA3wJC7VwzLjr
+       CfSVO8MaLrlUlQoWAM98oFgCDkvxDhxe8emO-JTJpv1idA6KCaNRNFTprjazS
+       RMmqTrTdmDgvm1pODxcCiMXwH6sYa0L7j726KY3H4H3FGlh1pZfBxVmEXqGMH
+       elkUATTfqc4Sdk9qeXJbOiU_tvyn87l1X9ZmdZ9q84pP_u3rI5yUPxKG510w1
+       cGB_RYQh9uT5SYKenmeHEhCl5dCPoVRFFF-tF92bdG6BmlMxzATOQLHpXiPq3
+       Wpb644YTZUJUajIueu-Fq-s4u6zA5IJvFVdij_UgIAae26gl7XqJ07tfV3BXj
+       YvjyKWISa-CvLoBVxNZoypQ-qmUE1GQxi6WJESvDKlSA1z3U8REB6BCYnnAY_
+       QPTo9EzNzIn_ByccVkwz2fHeaOQZ9lEnTsUpJwt_r0l2SuOBdSdGS8gLxUtjx
+       QwVauNchgyi01UjgogBS6RQDRN-tQMaHM9f7x_oSYmR6VHeL6I9Ia76tjWDWU
+       X24R3kZRUdSoPdCuoXL0ETlzli4X6DBcRZLW48J4JDjs2q3wKoVFrNfLax4LL
+       Kj82NU7MotCGOJWz0k9mggwLWavTaT_zEp02VwJPJL8kYM2BQ9UJJpU77DmfW
+       MErtpAj5na_zTHmbbYE4Y0Kb9_s66dM-3b4xhKYGSZpDho2hJA0MmG4skkKfk
+       kAtjDiu3r4_OIhWoGJ4gWxj-9UXN2A9woZBd2xMrCByv9rhFiY9L677xc-x3j
+       EOormBIoidP1Xv6IzriuV-a8YuWUt3WjRJ3eFRD3pmPnJAvmRFj2YEQYYBSJX
+       FTyhdwFFRvaPFQ1yw-noYqOyC0eTjiIWxElD52eVDcoE3LYoRiP51RVhcH_Zx
+       Vw0RiAHFkWFZknWSHVvugOIe1xl31L2kGVrfaTkRmfaw5Ax7IqrdYnR_chN19
+       GyETTF_5Hrb5SxV4oWS70oxqt_T_RtTof6xa2ptza9vO7cUeq1wgykoZXcxfc
+       rBvb41_CqZGJg5JyRq7Ve5dvL49j5StAe7opmKW1aHUIRwZhQyWXxSAkc2YC-
+       ydH6Vn1a-ICDbzHtU-_BT0Me5Z3Mwx8orPe0DsSUNsqUnFR0RFtAv6Ta_YVxm
+       inwkZpMWK_D5rM2EXD-Kams7-i6lfjv3HblKxaKTLYfyHfewFGU40kWdV4WZs
+       -vVGZzXPpX2Q-mM8GplJ-FEa7hPnOB6DiWWA40Q3_zUrsgHbJH5ai8YCBObVO
+       Xv1BmjYLCPrG0KVKzP7_9x9AHL6Yw6DVz9IZ9XO9gAKMreUwxA0UejU5zizG7
+       hxHqh0F0m4p5mmmbMkd7mI3NufIJzfCzVUciVyjIYdWYtXxGfPKL2HzH03Fvk
+       rqQtDoN3aYgvzn0bKlvsMHZFyIgW9LarYHFNuRnC57gqQ2SXL4gcqlxCnhbLW
+       ohJVet-mZGPRfDkzu04A4UI5FhysHRzvRDSRV-N8vxGN69JkyQi3IykCFz961
+       y0pVtcD8bm61EUKMRcvH8DV7pVbb7amZhaXIJjXl-Xps4_7cgt10XqRIIZo3S
+       uJ31it1FZhheT2JkLENZE-R_LGqm3svqMROZqE04cQu5leWglCFjGt0IPaJFe
+       -LtkM3ay3WPlg-8xo5LH3zSMSjJBYQx_kSBNDrtXxxUYVBt7Mo8sxSmC9q-UZ
+       9XWGowYNwOI3ASxQhtqWHVvEyk-Sa6sKgYuHsXqYitw-4B3jkEKToq2PP8RQ0
+       BDQ0arf8CFIlu6fS7PAqEIb-k4WK5bdEJS7yeQks6IAiLH5p-FrPTETiunl_b
+       k6lpxnM1D4a0ZUTO6_MivfpjrhkazMVW8ieK3YqjRMpBW4Rb9doCHs9mzZpZK
+       K0GPUmYVGPx-d1SzizMaHqzFBfn5DU-6vIgVnpTmiesrGhRc3PLw8rCs91VUB
+       Jyq1R76nsdCI7Ug0D2k8LzR2mEkO87iw2YDN9fb8UegBq45h4ZMyOvjANhycP
+       hposvK1upHdt6UxJdxuxYpVNSWvYvY1xKrfmhIA3DHWzc5fBUeNS6GJGl4P77
+       jpt9Q5550peJWee3rpLPNOsZi5chDxsHwx-hDbVoRIMSSj-YTSfVIxYsAFJhu
+       bhk9TPtRM-ziTKqfvQR71Ul8txsXfyiJIXhkdtVC227b9YWh-kXV75IzJ3iig
+       ebvfXhQay1eoQib1cvimyf8jlRh-oLZxfQrzugnGy8WNuqLLgZTk9hHFt0oRc
+       HTh8OCyBbmHY-_QwNO0zQIjaGyFPdNmiS74BCD3I_JXbl2AYv4VJU7ShUDZPy
+       qW07l3If8d5FL-Mc3jjRdDqRHiLhPo7r_cf22G9Trpr6SAnDRsuTkmNtPLPKy
+       RZ22q0LEBj_8BXIf2jrx21T69Tq8rFsvSXoafyess3prfDpy3sqFQG5bZ6PHL
+       3jSuVcV0t3seqeC6Rpd8CD2pQSRYvHTO8Ch-xOXKfrnwHBF09TivOoMI-72SQ
+       5LcG7QbgovxK12dF5oYteaucvQb8f7iN7I1DBE5ev1DhGcrTBxAWV-eMAg6_a
+       sASmEsiIWSie4Gej2bBGaX7-RG7GsLtptSylPziFxSKFbaFid_bn60_unHQ5T
+       mCRF8RH8eOc4OoMfgRqLoQTZx41RIJEIMEHT9kXiNPic1Brjlp00O-nN4Mlm-
+       joRrXgVv-rvnGp1vRc-QFj4nQRssL-7-c9H-PVqQO_iottF9Tl-tgfmkveSbj
+       XzR_hXRGqpdz3yZyduiCHKrce3lx7uvnGeDRgaWmhc07LESIiI9ZQmMF1_Inj
+       sqBHOozEgS7z0vyJY1SlKFszTcwEaUacGuz7oFUY0zt0uEX5ce350-pn0cUed
+       Twp1oiIRDj-PaQ7zDKunnFPLLxbbx9aOCkM8JtFzewMOYKhJL-xMRV0Te5C4J
+       vBE1a81OrVFgTF0H-jUxx-YuoR9YDtb5Y_UUK_3ewIKakkoFjLz6hBGDGuWke
+       HwcosauJkLfYRizhOZFzmU3QgkMiC8p00-gH45B07Vt4vg1eX3kVeXlkG0MdG
+       dS2s1ofpYJh2ATR-xWHIQlNFvlA15d6GYIXNEwy3GpETfFKX7JcrgSLyEnhPt
+       QCHL-MYTWkMF7ast90TkhKnlxmMGyXjm5y00lUUm16cMW6iT2tMyge7wF3JTJ
+       yzpdl-7Ea1KkfRyfD8ERQ2XiNXzlxyd555yQRo2wqTpKce9hTwo3RUC-li8f7
+       lj-puEbn-_bMtZkpN1LSFfBGz0eLGmm41umD_DqEyCi2IK1KH-mEbJhAOSiNT
+       M-F4u0dufa6LPTrpRx6PDvqTTVV7a_2uUwtkzAxLEfrhdYZTPA2vnqmBsRUXk
+       beZam1_iKioNqy5CD5wWTS8Le-s3BCBxdPyBXjQH2GhuCPHaAodt3uuIffkrM
+       AYIaGUoUYw_uumCB0-puxiaP774VqZ_h3_S-z_msviUTwj_A6cDh8tyqIrxVe
+       gkh_N5OYgzNhexo7Msk_7TR54PvTaVTG4QgqXOzExbuqa3xCbnuBLN9bkYvqV
+       dxm8G2Lj3IF5muLGxzkQYh1nmaN_AqG5u6a7vFqlA45zHZBprqWhQZDnB_Ugj
+       WfgaFrCcce5NBOjQfMs4v9NB-Ji-l7qq4_1IKtt8IBKw5ihvVR8puW2lhX-ci
+       iqUIAqg7mExqS6QIy4i11hsdLvJzyzq2YbJk8CIihFmZpZqQhD-diaza6BxTP
+       JmJIafAEVM18ZjA2b6Kpg_FjEkm-7XOX_aOURiwTy_Z0QNkaaFPzoTclVfvkw
+       xpaobDxoinEG9519wHzOKT_fdKwi07yeZBcj87EsJw89QhYv0Z8CJ7By8aWwI
+       e559HETkP6uAGvGCB8MbuV45Ln7ozzdOuHxslwuo6KdpIWQVvKuk-rAN-jvaA
+       de-BR8wvGMkLVAO636Rd3oEYuOw0humAUO-q1_Jzyk50qG4VIBKIFJlbEaX56
+       ZEkqQAeztZth7t60uxqh_Mno1uwcz-kGtPtM3rDHUg7OrhNjSc26LV4FkCC2S
+       36ENX099AFCqWcYQS6WHxfEOSqVqAFxbXZ-wKDhUkYSgk4iyxRWw5-VUrnHZO
+       jbzOXXyuzKpLkeROlbt_pGdxFXhkr5ya_w1IldGMlXqZFRazZlixvgMsE05El
+       JnU9E2CWcsBGF3D7cSJx_EgwkMPHcNIS375SLungwd4ZkVKaQmvmjGEB2UAJJ
+       M0seXaqCPKtWkBEWhdpN64XYrixZkNf5OqsB4eYpCY28gkroCekSYyHSdE52y
+       xJY7JZ__revSUdzayELmQG9cOx4gtiEtcDi0yiNSza8d8q4LiAhjV9q5O8aVi
+       HZjIEGeUH8tbYGf9Rh8rAfdstQ6GiELT9VC8JRT4YZ6suZMDn-3mxKW8zsf2L
+       rJnhxajIAxtSvWWUfOVyRGr63gCd9vXiZl5j9_ayFU-b3l0nCahygbjtz93B7
+       FvRw7h3NZvZW4IeY__6DMCSgpDY0Y9JzBJz1AfB3Ufytras1w6poI_KpEtwgS
+       TJ7u4kN8EonwN5gAh_TNxk7t1Ee9q2VyiivOQw2p96XQc2LDuJSqRcZSkPB0K
+       uF42gF1tF8uOVI2Z3hqs-GLWZgeO7uXk4oHpFtwSRNH1nSPxSczP8Xl7WSeeu
+       ZDydkMSWBH1A0ZQa5Kxq3nR4akJpaHyTQrwiK_HGRSPdI6lDnpIWJi2EwBgPQ
+       4IqwFgFDtkMKkxA6Hlvx7RMlpBCJNXi5OI4yrCH9EhDIpVzOgFUp8alT4Zkrr
+       bQK1Qz1Nly_LRT9lG6xWTOo5o1klJkkMERDDQSDx8CB12VfBBxlv3TP3-p9gK
+       PK8JhiQNeijCb8JaSM4vTpGCUTeCZD8cpDmC81ddXyfHYFtJXmWPrx5D-V3ur
+       WzuiJzPpbpop2YctCtDWp4Dek13sh_bFk24UDwhGLFM4Dg0BatttWCACkpsQX
+       I1jjdfUW-3F_rs6z6naVa-T9fub8cjJ_g5EDQk8gdVMneAsH3y6IxwN3drZDb
+       qDJLQaSuZ94EAsLy9zs6uHqogEBBGjfnFqWSTE3OtGM8A4OvpPSNACLymHJeA
+       aq5XtMpTBbsUYgVFUUK8bF9RoM_M--SKbSfjtva2qEVZMlOnMZ0UvWSLyTqR_
+       B5A97CMQsL5DL-sgeZ2K_yKPgpVgEoPwHkyhv4HzqV-i6uV97FNNDvrul9R1D
+       7_1Xtx2SqKYN_Zvq209G82B0VFSX8ph7LWTVsF2PZkYO3hO_g9dtZ-4HUZoj9
+       buzlsH7Ybbt3H-_awzRRokooU8axmml0NFa8v_KQe3FEJZNPgvsuyOt1FYayF
+       UiE1LomakLjiP5f-gEPUlGP9p4Bc42l0pjtt6UXV8exy16-p3n9rFpLXh9Kur
+       Ll9lcgsU-L9L5R4Wen9ObNu1PepdfQIptvckpEvwPO2Q8YTx-PBsBPVIua_3e
+       ROI_KSBQj66Y3zNSeF_qBKSqR5_dlIhqzSjGHzoyQt-x8zCKJqtzw7UdpStIg
+       ktV-JwChR7q35MECbt6sMI-pZKvGf0dBWGJQ5Sv2Paw76VSytj8aCCgJZ6doL
+       MDwMfct8Gnp01Qteo0oJui8zBlYK4PLS2c2fFYD9a7gSQZLzPdH7UQVphntsZ
+       B1RjVn6H7PbQk67-THjT4CXgytFTqSwzyl9oDxv52BGaI3_UhMdJaohfywetG
+       9vyaxvch44sC7N8TabArZdfviu6T3dDbLZ3w81PTPx2kvv33sBwPOAbWXTKn_
+       nD7__gKEmum7CvJPpF5YEaxecxAA1poZW_Jw02Y-ZXwDqJD39PYzjPo9LynMb
+       tAH7IOut74J51o120RAjl6No-rAG_KkA9utp-r4fRDHEg5MB5opFpumcxRyLl
+       7LyUQLydMlCTWKF2FbBdNsEKWRqsG2NEKB_XY5tSQVBlmuVOee6z7biL2CA4D
+       FNPxqZY-kVkZUInv86sVzZB3CQ3fF_6TBZcYqzqrgYmpb1nF0usrxL5HRtzdv
+       c9PD0UsriW1mI89fhPHV9YHsntT5MbA11w9yT_9mGiqPklxHMGM0TW9Pf2cnS
+       mAA-3Pe6CGFx24LpmFtAf4oL6dAEwxLQZeN_ZrNWjY89HJdjaeOYsRBtEDc0h
+       MZATh0scc--v4Le7YI--y32w5E_-hGPStwlMo-OwVGb3x9c7YtXm2w-YYEJrg
+       Oib4o01jCjtlNFT2XLoiZDVAf32UQ_9ecTX4Wa2l_d8efo758WeqdqZSCfdyN
+       lo4xSHsEIZuasBbtjz4AP-vOuo7JEl92H9OTDPu5bVuz9Av9qs5f9oIusdzo0
+       kJOCi4wrK4O-PFw8YK9x9EzWYbjBlJmQaDjjk3AekNq2QDZqFTAXralQtJO5Z
+       tgsbqAZS0C8qJA4U7jwSX_qsOnbRlXe_rg648KVPBGO19TyrIhiCyHs_QwsuC
+       4WdlY9rDIlpMpLOdoKtyLzVRhNehzBWxtlPHcZ-RGb_e594_f3jvFAjllj4pp
+       4Ng3bWox1Q45m6vEf2ARupOEXD4xXYGd1iUPX-R7BEbGxFPiPOc6QiH3AwFrv
+       wDjQkmZ0bqQkVVB_G1c37sdkUbiAMY02LtIpIq-6CcLPdcyNTJquWzH-ACYs4
+       jzhvvDPlrnIVvA6heDl7PTXH4p2vT5e5LFWdzOhJ8FhaQRo1Z4wDZT81iJV7V
+       BQloxn2UiGUJDTm7BTGdqXsp_v4cdj4lo2sZv3Aklu_ciUR5oWuj_kYU-tkJW
+       lQpEp0ythfTO3BJafbgU5pV2HE0dh85Qnly2i5Nigq25RUW3if9KMId_4T1tc
+       wLKMSK3VQ90_VDYanTmJFJHAKj6aHqtU7hemMhDgirnIf9u2mF2el1icE7Dqo
+       2C8lz5lG-KcI0fnyBDQykeo9Hn59BUnBnomC9h-cXj2qntmyjuB_4fbh08O85
+       3SOrOgcbvAYwZjjUidopxA_ykcIuzirOO4cWMQngKZetm-q7kKemfrYBU6hga
+       YsJYrk1was9KxUDUlORXBDA4n7JFXU0XO65-ovzwYp-tgpQLMSTcGlzhmVzqD
+       2TdUqL-bQbv36mxgRsJnbbyXidlcYnvQTEf5443Ptp5EaBWyVrGsvYxdyPlDn
+       _6xsrWXm4BMHZa65aUs_BMbYVDmbWgYCc1Zz9SPR7yRJ-ddlUppI_ThmRfa3o
+       wDilBCq7TSBP01uyQyl8OYJo99esxQnftcW2PcFiz5V44Ji8jvELA3-2qt3te
+       1s2YGUVU9glJ0voP1TF0LtUagbw_cwcVb8z8i5A3jkhtg-6FTNIGV1Btbv-NE
+       JtyZ1EqMXWFRXJa0z2Q7TYYP4c9gVda7WRyeL_YYFz81ctcJ598fr-QlmqouF
+       JCiGIKZdK3APs2io32ZOP2p8v34p_U9JqcbDmRdQmh8ziJZ2PhQD_SDLAoqTj
+       wvb9Pi7-A5k8Lur7b_wqqxvy3XnE92xwWwADo4oYIu1htrPJIBDxpP1tDe7ni
+       DJKRPsNTZo5bzH8YV4Vc9vkPt0UV8jKgmTxo_CnQs1tUbdQrWH5vIgyfniLWA
+       yBLKq93B9fYaUl6l_iHasXcXH8R3aojJOdVK-ykLYFigqd2R9UPDvz2HhVdFI
+       M2y7gjBXjLBe2kMcRnkd1nHyg-8rIwBd06Whvhq9DgXfxI_LfjIuTfCQdQA-F
+       FUuf0nmKZW7r5me8SRSZ4qzwx6O4aO0aeHR8ARYOXdFzYDRATwpMF7bPZKDQt
+       NEAduTVLo_Ik4p90ivQ7qZiIAqed-DQDyQ-1afY2dr3Sgs5qJPXr068UaU7vw
+       IudvsNSCu-G-r36xGaCM7_fjU4eh5H6CON8z73OicbPigrbqk_KUhoAEmA5LE
+       z9UUTiIZ_34fHgc3J_Ir9Bj4ciZhhpnW9oLRGA3J5CkZzV2EByF8IiYD1WlCT
+       actil_LRex3k7wcCrKHfet-0NT6ot1u3bYyM97RSHXDPvmpZhQOwR0ckz44KK
+       4sfNwp60r79Ruh7HPy92NHrHyr3H7CT6W4jLp5r2RJ6sv7qyyF04hpTlsf7VE
+       guedEPbxrOJZq3SUnnQ4hEUbJwEPSOUfNYd6WW4-uJEnnwOcAiJMOOgDxKQqX
+       CgaUF83-131bukoIDtA_8nvJHGp9LEEjan62UCMm-psjor2TpQDKqa_Z3zxfo
+       qQHC8WBtvefBUSUIExvA0RbaeUhewQHtqlTgmBXzZyfFt_TIqZqRBpePCO1q2
+       ioPo1vRUwKUqfl-js2PFy1KzQ3CU16kwaX_gvMkC0Ahd3C_3KkMe0GhanSILo
+       zaiK1jUqSlX1uuE2tBZas99gj3zxNSs1RNRABS1CvwguSl6S2JFO112JmWxy0
+       1c4_AU63mkkIFuUndG28mwhIe3eWn8n8KX19dxJ3X1GgGTOKUui2p1mpHRczO
+       LIVa1XSaNiWNZKnpq-RAt99Rm78y-zrQyTsXcqwotWM_M-Y1K5_sZhp6SXi2N
+       RL-avYpiJukd0BZ2lf6ZZh61GynxF4N-dJGUOzh5cjcn0mu_luVlKTHwvr8Js
+       wFhLSBJGGguKCWmPr_XTezzNw6xgxCEGFTjoK4YLFCRqHtCoc1Yv_D4LL00um
+       w8bFdfDifyJll-1E_PLfm6whWm6OZuj_WL8TLcdDwJmDg3gKA83sLcJw94ZPl
+       gB5kcjV0gbvuFoqFJPfspRr7-hSegeNudbexaSJ6livR0bf7orLQnhOFBCEuk
+       0EL7stLfTn3hciEYTn6IT-i4lmzxGAU6O4hc16M2uoBCb2YrtYmYAZYHtH61j
+       bgakSZbAo3N4JxnYlsgb2ppQPh7xOZWBWeJvjdeaGGG4jHYtHiCA2EnjHrvfJ
+       Yo_f5HLXOjXEQYjpNI4yAy-eWSP6Cw_7uCefaz3GZB_h-WqHnH0TFRJLK7nqh
+       UzuvL2kBApQwcZYlp72htFvjYLkvB15OJZsovS1sKWj6zs9PsEpYh8T0M4UkW
+       3CdJGKQx2rikJY20yx-0ph7BvZnfuCYl3Hu6IB9k1grzsIqdZqGDxGlNAyDrl
+       4gZfTyKuPEcFT-FouGssGLWth06BjKRvf_RyXh35aJgQLAvIKxnX1TVfDHEZf
+       9TVhvcQShUKt0j-tEp-rtd8Oyzhwg1ueYTrTR6qu2dQwJ83Um4m1ICO5XQjQ2
+       -wEchZ9c6W3tvaHrOd16A10Lf5ecenDhj2UTadTaekdl_FNMlHiAFPvb0y47R
+       qokIYovqkWl5ujzRSdYzPLg9N90vytRL-03fL0e7PmadsEsRpoZ5MndlPrWJu
+       Veedn0nbn-JH0GxqSMCEvU2rjIZYCgXYsiUMRyNRqe4D0EqSSIMEYAd_DLCp4
+       h9jyNGlsV0eeqBkpb12-AZ8y_lFZi9gdiwf6yRFP6ZAHY1T-Od80VK8hRmJyw
+       HG5Ex74yVsEyI_FoDwCUiwmDLsT76LVnVU08pnHSOgSaNsmtslrGwRwLNfNQk
+       WUFwGtZplUTc1RL-Z_DlGTp7Q7oZmlpn27tdOEHJDEIexZEPPZLlc0zZQEaUm
+       oPgooQMHEB6HHlwPb1uYC2auj3hV0lV9flsfJ4iL1WGEOqV7s2Qfed5yr2RUf
+       q6sZkDjPa5J1C6zkgN1jewL3-3icMBQ9MLfUEqkKMyHpPtNkNjU4Zl2W9zU-M
+       BkjpUS4-Mfj3W8kYkyzjyvbvfoSOLqAjUt_LEHoEbkpWjX0qLHfEMDEHrKRRD
+       mXP8Tjg6GmKu35OfL-AwBv4JQTLPIWxHjIngYwC1XwNundeelJrlPrqW7w_-d
+       9GESLfkYknEFWIZZ-ZBN7z_p0hh627w6FqHIe8OTlrLLASMbxM12OR04Lt1QD
+       A6KrHMbgBJWcir7lAIXISMdJJIOLFBL4e7nemJ94TF2UecwpgO_FHpwrCa5WN
+       mtgGtIOuCkU9aqoGuEGiQWgKrLS3kJe6gmE0kEesI9hVqDf0FuRiBsUFWhrMq
+       0D8NKvc18xbCHb2yU4hM4UOnMbWGGK8_u5_PZsIeC7lSGvMC7SmPKP9rVDGCT
+       qx0sM2OqfT2RRwbCkyPyu1P0yPWmmaT6JQsjTyty7q6tt1lcBUkyE8OQCPkB0
+       02frsrt16yojNXYvzxdUlVjY2N2_mOOVSwwGZNe1KcNW07er7X2BPmUKHiy_w
+       3Eme8u6clk_s_2m3OMrfAH4k9RGj8KFim9-yTI6Y_txm4XEGwTMT3-yM0JTRF
+       e9LadXkGyP_9AEpbaVbB5ImbBNW4GbVzV4Ud7u5XA71ZfthQlaKHlFxG24Ku8
+       vl0Qgwb3eC2qloq7stdyrUi2Tzb0rapRH1Uakpsri3jl6deRQEbrNPv5vDB7Z
+       LEHt-8FrA11tGyAJDTdAN6Q2MX5qmr8uRrmJWCia1ULRtP9ZA4URaLB0gW1c7
+       _1SvnNtz4-dhCo5KsxXvnaUtyRocDNBer1WilFMkwvNKfeELXAJXbi2boyJHj
+       WXTYmlZsuucLNiRiWYpKYVftcDUulhDQ6D8bOp4l1HgNIZS4XaZki8pMkvmxV
+       vtKFyfPInn8KcsB3LoRZdlBj54H0ga47b7lpKJI8mMWUyqQ8hE97sjPhQQe8z
+       CRbygj7t1TyDtRQpcZUxzR7rcghIho5DpB1GXlrqj9kDK9XPIqEdxe4KDLLsu
+       E_17h1zv3t1w67tKTJhqSqND9EinPovnvFgZZCVgNmNhAEPdtYLfPfUgOJkQZ
+       hUOWM-v4fIqsvVAbU4LUDIkpq4s2zhC3eVoLQGTEzTV2oCBlfok2B0zdrAzTE
+       xOBn_6F-C1F0riAm8AJ8oPf9VX9j5mxROTj9NaICB9BAZHtFq2wAKBnDSA543
+       xzMyBQXiAfiUbr8nNt88m0b3wCTMB3_gtsrA1l4SOVTPYIWOZB4-qXbvGhZG6
+       DpcvrGETXQ-mQ89xpxD-DfLEFCIjTvpK2GDnX-y_JiBzDlwT-rtvw7IXqt_jy
+       hloysWF17A9uFbQrR3eTInCUxcGYXi6ugHvL8Xmbd61RlMWFS2WYTXXiO6CKP
+       yPN66TSpqMEO8vyEX3Ff_FE4UJ5A-I0kfSlnoNDJVUIE6TAgx7nfziECU21cz
+       9HuBiqYintRXC8QqNwRzK0aPtjxYpUySRAb1PbpAErn--KkWOcd1cWSHUEkqt
+       UtoTIeST1gu1KulTtUdYA7rQKg04S9eotFQHpnTsmyVfXWuf57zrJAmviL0tY
+       -YAMZxRdmGb8upntVBcI30cR9uXdoJuYogJmlAXU_6RdCvxdBBKUUPne-xsa_
+       HPN-nzUROATwmYsAWbY8J_Qqruj1y0UC4KXX2O1PSSvyvohDdtdqlBSLe6EzH
+       -u_dxAJL3rfvxKAYMWOk_wEJY-Azc_JEIO5Mkl4L31hdknNVHFtku54OE2QoI
+       JgQtv-GirThlTxL0aK44i6nTIR9L6a92JQvJ_K3rqaUNiSs3Q5OLvaPehy-y-
+       spDQYa_t35D_v9JwL2qhpAwOHxmjxnsA6ko_-dzYLNLBUL6Nf07TS7Rhfeuhi
+       HsveSKhrQlaKyOvp9nGyyBbvZIGSRYJo466GpE3lJakLwevJyg0FAJBy11nit
+       SyUJuoliWegBT4y4UDcgMvfqLc02JyCGOUCgSZTqx98gw2peyNsiPlnzidsBa
+       tTi5C1BQXb5_yq3NUdp9jXF4sLIMGuKKTaCLqc7HuJe8X3qgRhs-BtWW80YAa
+       lEwDCrYyfbgaTih9txAEdp5OKU58fBC6yYc5PCtUMwqQCX2bqS_9ZtExd1YDd
+       7UQhlkeR--psNJJqdnjovBkfsxjY3fFVmxuSu3i_y0ZaSiMRiJ_UAPRDWfTUt
+       P8o2EB5JH8kVoMpTXi3g_JrX-eYOY0mDG2Vyl1h3Ioji58QLJmAkypEDUnVwn
+       SNqo0C3Pof2WiC846Ta0sFjwLB_Ov-YwAtwdHwBA426NMjc_H55NxgB1APruP
+       4ytPR2jln7WXYWt67WaWGVrbx4m45bPUIlAdB3YsmiPHnzFlAQL71TUzMNehw
+       iShKRWXVqpR-y0FOPaQC1Ra7tW28ChMG4q6iWlmtV2gfw-C1tF5N9_Nd5sP6f
+       eqLi6bc4K9OxOAYeoSwm6n9d-hAnm3DhCS3WcaV6OH4YrWhp98JaRVqNM7YSE
+       HJX1E1i6Fj6gJqs5RO1fXwKKLTRaZDUmEPJTWLwHwQ3OSEubusPUxEJgqaZNb
+       cc3SuBiyonRg51CYdfgpUFRhmsFJQOlhxyzCzrkmYGdns9MTXhE8CouBnOVby
+       xr7sQjXe7jATe9bQ0AqMnzI1KWeC99Izwg9g-hP3FGJcVlwYhb_UTUKPJZvuz
+       FovrrKTfUuWEse-NbA3O98KppVMrsGWXLfPrHGU6zdJ6TiECTaZPSkzLeh2H_
+       16trcP9ZwKObVYKfuHO-3yc_7TFu1SQF8wk9GMS-Far_liqADL7cbMxDY66XF
+       -HhXYoHx79k5Zi9NHz2gtv0G91yaSuQZv5yEudYvR8KuJ9GJn9JUOZ1batZTT
+       IGrvi0a42k42FagcLKn89xz8By_Ymo8XVr3he9WUez1KqpXTRQ2_tEC4mXi7Q
+       d1uiqqpjc9BNAtHOnb8AbxDIeXlt-M0e6CKo0diOjwnAZld1gIqXnoj7Lw3Eb
+       lGrUDYc8_4_30bE10fddmfpDZm8dc4-GKDxf-fRHJEA8LDWk_Zvj-NjnDjHzD
+       XecpiK12OK6q1LeLbi051TGnyqZaF2lETaaAEXt3B9XqTygia5OeFrBULJzRb
+       UPbta2vdWwqxglxVOwhU0WC7SWxTNcz-p19RbSACnvECJTGw9iZTHe-1NBIj3
+       Lqj5vztpy_X1pRZo21bxP44dNjPMygr0IFkwUrEXGG",
+     "tag": "Jsm3_BQc3rC7EJL5DRsduMW4_dBWA2sJk-VuVb88jOk",
+     "recipients": [
+       {
+         "header": {
+           "enc": "A256CBC-HS512"
+         },
+         "encrypted_key": "eopMBMh2kIAcSzQ8L_zInyqfOit8xeET_218f1yIb
+           lBWXfWyL9pHh8k-0TQ6AkM_RbXIAKGiitB1HDS2c3mh63UBs0O5CH1VBY
+           Qx5MlFUw17DbXBmSQc-SBy1J-pKA2AnVpfJg7FWmBJOPWg0pwIrlDGlV2
+           j0Lg3ubl5vn4VG4PYJyFqrocriA1JiXL1z5FKew2GY9KiRRyblV2Aewgn
+           WexvDc9FpxkDsDX-JvxTq0Cbv5roYkOCsI5QGuKvae-Qi3koct4iWAZpc
+           XqvKtSVJEEEd5xbGqcfETOMDZ7XAcqP8mzlzzuyS6SvVHLKCH04vYbPg5
+           OZNuauKtiJJUX_vw"
+       }
+     ],
+     "unprotected": {
+       "uuid": "01928d46-fd43-8c6b-b9a2-279e0d16bc46",
+       "cty": "application/vcon+json",
+       "enc": "A256CBC-HS512"
+     }
+   }
+
+B.9.  Redacted vCon
+
+   This is an example redaction of the vCon in the example Two Party
+   Call vCon With Externally Referenced Recording (Appendix B.5).  Most
+   notable is the Redacted object (Section 4.1.6) which references the
+   lesser redacted version of this vCon.  In addition the *url*
+   parameter has been redacted from the Dialog Object (Section 4.3), but
+   the rest of the Dialog Object (Section 4.3) was left in the
+   redaction.
+
+   {
+     "vcon": "0.0.1",
+     "parties": [
+       {
+         "name": "Alice"
+       },
+       {
+         "name": "Bob"
+       }
+     ],
+     "dialog": [
+       {
+         "type": "recording",
+         "start": "2022-06-21T17:53:26.000+00:00",
+         "duration": 33.12,
+         "parties": [
+           0,
+           1
+         ],
+         "mimetype": "audio/x-mp3",
+         "filename": "ab_call.mp3",
+         "signature": "GLy6IPaIUM1GqzZqfIPZlWjaDsNgNvZM0iCONNThnH0a7
+           5fhUM6cYzLZ5GynSURREvZwmOh54-2lRRieyj82UQ",
+         "alg": "SHA-512"
+       }
+     ],
+     "analysis": [
+       {
+         "type": "transcript",
+         "dialog": 0,
+         "body": [
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:27.200000+00:00",
+             "duration": 4.9800001,
+             "text": "Hello.  This is {{URL}}.  My name is Bob.  How
+                can I help you?  Hi."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:32.240000+00:00",
+             "duration": 15.194999999999999,
+             "text": "I'd like to add Fu to my service.  Okay.  Can
+               you give me your name and phone number so I can look
+               up your account?  My name is Alice, and my number is
+               {{PHONE_NUMBER}}.  Thank you."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:49.015000+00:00",
+             "duration": 6.239874999999998,
+             "text": "Okay.  I've added 2 to your service.  Is there
+                anything else I can help you with?  No.  Thank you."
+           },
+           {
+             "parties": 0,
+             "start": "2022-06-21T17:53:55.254875+00:00",
+             "duration": 2.9000020000000006,
+             "text": "Goodbye.  Goodbye.  Have a nice day."
+           }
+         ],
+         "encoding": "json",
+         "vendor": "CapitalOne",
+         "schema": "data_labeler_schema",
+         "product": "dataprofiler"
+       }
+     ],
+     "attachments": [],
+     "uuid": "01928e10-193e-8231-b9a2-279e0d16bc46",
+     "redacted": {
+       "uuid": "01928d46-fd43-8c6b-b9a2-279e0d16bc46",
+       "type": "PII Redaction"
+     }
+   }
+
+B.10.  Appended Signed vCon
+
+   TODO: appended vCon example
+
+B.11.  vCon Group
+
+   TODO: group vCon example
+
+Acknowledgments
+
+   *  Thank you to Jonathan Rosenberg and Andrew Siciliano for their
+      input to the vCon container requirements in the form of I-D:
+      draft-rosenberg-vcon-cc-usecases.
+
+   *  Thank you to Rohan Mahy for his help in exploring the CDDL schema
+      and CBOR format for vCon.
+
+Authors' Addresses
+
+   Daniel G Petrie
+   SIPez LLC
+   Email: dan.ietf@sipez.com
+
+
+   Thomas McCarthy-Howe
+   Strolid
+   Email: thomas.howe@strolid.com
