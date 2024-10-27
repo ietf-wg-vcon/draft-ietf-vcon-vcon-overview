@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-24T00:42:10.646042+00:00",
+  "timestamp": "2024-10-27T00:46:31.093916+00:00",
   "repo": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
   "labels": [
     {
@@ -143,6 +143,38 @@
       "body": "https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-container/draft-ietf-vcon-vcon-container.html#section-4.1.1 specifies:\r\n\r\n> For syntax defined in this document, the string MUST have the value: \"0.0.1\"\r\n\r\nWhen using the vcon, I was surprised to see the vcon property to be a version, rather than the vcon object.\r\n\r\nI do appreciate we need a version to deliniate changes over the life of the draft and life post draft.\r\n\r\nRather than use the root object to represent a version, can a new `version` property be added?\r\n\r\nOr, if that becomes confusing for the version of the vcon content, as opposed to the schema version, perhaps `schema-version`, or `spec-version`\r\n",
       "createdAt": "2024-10-11T21:56:00Z",
       "updatedAt": "2024-10-11T21:56:00Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 9,
+      "id": "I_kwDOMNntIs6bup4A",
+      "title": "Add example with attachment",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/9",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-24T22:53:28Z",
+      "updatedAt": "2024-10-24T22:53:28Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOMNntIs6buqZH",
+      "title": "Attachment Object should reference dialog index",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/10",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Need a dialog property in Attachment Object to refer to the dialog in which it was presented/issues",
+      "createdAt": "2024-10-24T22:55:24Z",
+      "updatedAt": "2024-10-24T22:55:25Z",
       "closedAt": null,
       "comments": []
     }
