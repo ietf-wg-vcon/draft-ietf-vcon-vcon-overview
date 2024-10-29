@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-27T00:46:31.093916+00:00",
+  "timestamp": "2024-10-29T00:43:40.737569+00:00",
   "repo": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
   "labels": [
     {
@@ -175,6 +175,22 @@
       "body": "Need a dialog property in Attachment Object to refer to the dialog in which it was presented/issues",
       "createdAt": "2024-10-24T22:55:24Z",
       "updatedAt": "2024-10-24T22:55:25Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOMNntIs6cFI2t",
+      "title": "Register vcon:// uri",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/11",
+      "state": "OPEN",
+      "author": "SteveLasker",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "As we start deploying production vCon solutions with vCons and SCITT, we're using the vCon UUID as the correlation identifier.\r\nIn SCITT, weve started setting the `subject` to `vcon://` + `vcon-uuid` creating a unique identifier, scoped to vCons.\r\n\r\nProposing the registration of `vcon://` in the [iana URI registry](https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml) as provisional",
+      "createdAt": "2024-10-28T14:28:01Z",
+      "updatedAt": "2024-10-28T14:28:01Z",
       "closedAt": null,
       "comments": []
     }
