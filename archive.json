@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-17T00:46:50.211992+00:00",
+  "timestamp": "2024-12-19T00:45:05.666758+00:00",
   "repo": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
   "labels": [
     {
@@ -191,6 +191,38 @@
       "body": "As we start deploying production vCon solutions with vCons and SCITT, we're using the vCon UUID as the correlation identifier.\r\nIn SCITT, weve started setting the `subject` to `vcon://` + `vcon-uuid` creating a unique identifier, scoped to vCons.\r\n\r\nProposing the registration of `vcon://` in the [iana URI registry](https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml) as provisional",
       "createdAt": "2024-10-28T14:28:01Z",
       "updatedAt": "2024-10-28T14:28:01Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOMNntIs6jqJcM",
+      "title": "Add end-to-end session ID to dialog",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/12",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "RFC 7989",
+      "createdAt": "2024-12-17T18:39:03Z",
+      "updatedAt": "2024-12-17T18:39:03Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOMNntIs6jsCh-",
+      "title": "add message_id to dialog",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/13",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "For SMTP message header message-id",
+      "createdAt": "2024-12-17T22:26:53Z",
+      "updatedAt": "2024-12-17T22:26:53Z",
       "closedAt": null,
       "comments": []
     }
