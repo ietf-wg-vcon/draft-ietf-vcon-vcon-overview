@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-19T00:45:05.666758+00:00",
+  "timestamp": "2024-12-22T00:46:47.610890+00:00",
   "repo": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
   "labels": [
     {
@@ -222,9 +222,17 @@
       "labels": [],
       "body": "For SMTP message header message-id",
       "createdAt": "2024-12-17T22:26:53Z",
-      "updatedAt": "2024-12-17T22:26:53Z",
+      "updatedAt": "2024-12-19T23:54:34Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "dgpetrie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The point of this is to make it easier for constructing vCons for email threads.  Having the message_id makes it easier to check if the message is already contained in the vCon and avoid duplicates or complex comparison.",
+          "createdAt": "2024-12-19T23:54:33Z",
+          "updatedAt": "2024-12-19T23:54:33Z"
+        }
+      ]
     }
   ],
   "pulls": [
