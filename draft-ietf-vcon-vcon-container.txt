@@ -5,8 +5,8 @@
 Virtualized Conversations                                   D. G. Petrie
 Internet-Draft                                                 SIPez LLC
 Intended status: Standards Track                        T. McCarthy-Howe
-Expires: 22 April 2025                                           Strolid
-                                                         19 October 2024
+Expires: 24 August 2025                                          Strolid
+                                                        20 February 2025
 
 
          The JSON format for vCon - Conversation Data Container
@@ -61,11 +61,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 April 2025.
+   This Internet-Draft will expire on 24 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -126,7 +126,7 @@ Table of Contents
        4.3.3.  duration
        4.3.4.  parties
        4.3.5.  originator
-       4.3.6.  mimetype
+       4.3.6.  mediatype
        4.3.7.  filename
        4.3.8.  Dialog Content
        4.3.9.  disposition
@@ -140,7 +140,7 @@ Table of Contents
      4.4.  Analysis Object
        4.4.1.  type
        4.4.2.  dialog
-       4.4.3.  mimetype
+       4.4.3.  mediatype
        4.4.4.  filename
        4.4.5.  vendor
        4.4.6.  product
@@ -150,7 +150,7 @@ Table of Contents
        4.5.1.  type or purpose
        4.5.2.  start
        4.5.3.  party
-       4.5.4.  mimetype
+       4.5.4.  mediatype
        4.5.5.  filename
        4.5.6.  Attachment Content
      4.6.  Group Object
@@ -164,9 +164,12 @@ Table of Contents
        5.3.2.  Recipient Object
        5.3.3.  Header Object
    6.  IANA Considerations
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+     6.1.  JSON Format vCon Mediatype
+   7.  Non-Upward Compatible Changes to the vCon Container
+     7.1.  Version 0.0.1 to 0.0.2
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Appendix A.  Contact Center Use Cases
    Appendix B.  Example vCons
      B.1.  Two Party Call vCon With Inline Recording
@@ -214,7 +217,7 @@ Table of Contents
    expanded set of data from a typical call detail record ([CDR]), with
    identifications of the participants or parties to the conversation,
    references to related or earlier versions of the vCon.  The dialog
-   portion contains a set of multimedia and mime elements, each
+   portion contains a set of multimedia and media type elements, each
    representing the actual, physical conversation in it's original media
    form: text, audio or video.  The analysis portion contains data
    derived from the metadata and dialog portions, intended to carry
@@ -269,8 +272,8 @@ Table of Contents
    services which will be used with vCons, such as transcription,
    already use JSON based interfaces.  For this reason, JSON has been
    chosen for the initial format binding of vCons and the scope of this
-   document.  Other bindings (e.g.  [CBOR] or [CDDL]) may be consider
-   for vCon in the future in other documents.
+   document.  Other bindings (e.g. [CBOR] or [CDDL]) may be consider for
+   vCon in the future in other documents.
 
    An outline of the vCon requirements derived from the explored use
    case follows:
@@ -411,7 +414,7 @@ Table of Contents
    "UnsignedFloat" - a positive JSON floating point number containing a
    decimal point as defined in section 6 of [JSON].
 
-   "Mime" - A "String" value that MUST be of the following form as
+   "Mediatype" - A "String" value that MUST be of the following form as
    defined in section 5.1 of [MIME]: type "/" subtype
 
    "A[]" and array of values of type A.
@@ -554,7 +557,7 @@ Table of Contents
    *  vcon: "String"
 
       For syntax defined in this document, the string MUST have the
-      value: "0.0.1"
+      value: "0.0.2"
 
 4.1.2.  uuid
 
@@ -949,7 +952,7 @@ Table of Contents
    validation used to identify the person at the other end of the
    communication channel.  For confidentially reasons, it SHOULD NOT
    contain the data used to validate the name.  However it MAY name the
-   data used to validate the name (e.g.  "SSN", "DOB", "user ID and
+   data used to validate the name (e.g. "SSN", "DOB", "user ID and
    password").  It is up to the domain creating the vCon to define the
    set of tokens or values to be used for the validation parameter.
 
@@ -1190,15 +1193,15 @@ Table of Contents
       The originator value is the index into the parties Objects Array,
       to the party that originated the dialog.
 
-4.3.6.  mimetype
+4.3.6.  mediatype
 
    The media type for the piece of dialog included or referenced is
-   provided in the mimetype parameter.  The mimetype parameter MUST be
+   provided in the mediatype parameter.  The mediatype parameter MUST be
    provided for inline dialog files and MUST be provided if the Content-
    Type header in the [HTTPS] response for the externally referenced URL
    is not provided.
 
-   *  mimetype: "Mime" (optional for externally referenced files)
+   *  mediatype: "Mediatype" (optional for externally referenced files)
 
       The media types SHOULD be one of the following strings:
 
@@ -1369,7 +1372,7 @@ The value of the consultation parameter is the index into the dialogs Object arr
 
 The value of the target-dialog parameter is the index into the dialogs Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.
 
-A "transfer" type dialog MUST NOT contain the parties, originator, mimetype, filename or Dialog Content parameters.
+A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, filename or Dialog Content parameters.
 
    The "transfer" type dialog only captures the roles, operations and
    events of the parties and the dialog setup.  It does not capture the
@@ -1425,8 +1428,8 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mimetype, fil
    held.  The conversation mode can be identified by looking at the
    dialog type.  However that does not different between different
    communication platform service providers or hosting service.  For
-   example, the applicaiton parameter can be used to identify the web
-   conference hosting serivce.
+   example, the application parameter can be used to identify the web
+   conference hosting service.
 
    *  application "String" (optional)
 
@@ -1437,10 +1440,10 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mimetype, fil
    Nor are formats for analysis data defined in this document.  That is
    for research and specification outside the scope of this document.
    For this reason the Analysis Object provides multiple ways to define
-   the media type of the analysis file.  If a well known media or mime
-   type is defined, it SHOULD be used.  For analysis data or files types
-   for which a media type is not defined, the vendor and schema
-   parameters SHOULD be used.
+   the media type of the analysis file.  If a well known media type is
+   defined, it SHOULD be used.  For analysis data or files types for
+   which a media type is not defined, the vendor and schema parameters
+   SHOULD be used.
 
 4.4.1.  type
 
@@ -1474,15 +1477,15 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mimetype, fil
       array of indices to dialogs in the dialog array to which this
       analysis object corresponds.
 
-4.4.3.  mimetype
+4.4.3.  mediatype
 
    The media type for the included or referenced analysis file is
-   provided in the mimetype parameter.
+   provided in the mediatype parameter.
 
-   *  mimetype: "Mime" (optional for externally referenced files, if it
-      this is provided in the [HTTPS] Content-Type header)
+   *  mediatype: "Mediatype" (optional for externally referenced files,
+      if it this is provided in the [HTTPS] Content-Type header)
 
-      The mimetype string contains the media type or [MIME] type of the
+      The mediatype string contains the media type or [MIME] type of the
       analysis file.
 
 4.4.4.  filename
@@ -1586,15 +1589,15 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mimetype, fil
       The value of the party parameter is the index into the Parties
       Object array to the party that contributed the attachment.
 
-4.5.4.  mimetype
+4.5.4.  mediatype
 
    The media type for the included or referenced attachment file is
-   provided in the mimetype parameter.
+   provided in the mediatype parameter.
 
-   *  mimetype: "Mime" (optional for externally referenced files, if it
-      this is provided in the [HTTPS] Content-Type header)
+   *  mediatype: "Mediatype" (optional for externally referenced files,
+      if it this is provided in the [HTTPS] Content-Type header)
 
-      The mimetype string contains the media type or [MIME] type of the
+      The mediatype string contains the media type or [MIME] type of the
       attached file.
 
 4.5.5.  filename
@@ -1930,14 +1933,19 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mimetype, fil
 
       The string value of alg SHOULD be "RSA-OAEP".
 
+   TODO: describe how to differentiate unsigned, JWS and JWE forms of
+   vCon
+
 6.  IANA Considerations
 
    This section includes the information required for IANA to register
    the application/vcon media type per [MEDIATYPE].
 
+6.1.  JSON Format vCon Mediatype
+
    Type name: application
 
-   Subtype name: vcon+json
+   Subtype name: vcon+json Subtype name: vcon+gzip
 
    Required parameters: N/A
 
@@ -1974,12 +1982,15 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mimetype, fil
 
    Change controller: IETF
 
-   TODO: what is needed for gzip compression?? TODO: do we need
-   mediatypes for JWS and JWE forms of vCon??
+7.  Non-Upward Compatible Changes to the vCon Container
 
-7.  References
+7.1.  Version 0.0.1 to 0.0.2
 
-7.1.  Normative References
+   "mimetype" parameters were renamed to "mediatype"
+
+8.  References
+
+8.1.  Normative References
 
    [GEOPRIV]  Peterson, J., "A Presence-based GEOPRIV Location Object
               Format", RFC 4119, DOI 10.17487/RFC4119, December 2005,
@@ -2055,7 +2066,7 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mimetype, fil
               <https://datatracker.ietf.org/doc/html/draft-peabody-
               dispatch-new-uuid-format-04>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [CBOR]     Bormann, C. and P. Hoffman, "Concise Binary Object
               Representation (CBOR)", STD 94, RFC 8949,

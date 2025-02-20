@@ -14,7 +14,7 @@ The data contained in a vCon may be derived from any multimedia session, traditi
 The data in the container relating to the conversation may include Call Detail Records (CDR), call meta data, participant identity information (e.g. STIR PASSporT), the actual conversational data exchanged (e.g. audio, video, text), realtime or post conversational analysis and attachments of files exchanged during the conversation.
 A standardized conversation container enables many applications, establishes a common method of storage and interchange, and supports identity, privacy and security efforts (see  ) 
     " name="description">
-<meta content="xml2rfc 3.23.2" name="generator">
+<meta content="xml2rfc 3.27.0" name="generator">
 <meta content="conversation" name="keyword">
 <meta content="vcon" name="keyword">
 <meta content="CDR" name="keyword">
@@ -28,16 +28,16 @@ A standardized conversation container enables many applications, establishes a c
 <meta content="conference recording" name="keyword">
 <meta content="draft-ietf-vcon-vcon-container-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.23.2
-    Python 3.12.7
+  xml2rfc 3.27.0
+    Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.4
-    lxml 4.9.4
+    Jinja2 3.1.5
+    lxml 5.3.0
     platformdirs 4.3.6
-    pycountry 22.3.5
-    PyYAML 6.0.1
+    pycountry 24.6.1
+    PyYAML 6.0.2
     requests 2.32.3
     setuptools 70.3.0
     wcwidth 0.2.13
@@ -176,31 +176,6 @@ A standardized conversation container enables many applications, establishes a c
 }
 
 @font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: 'Oxygen Mono';
   font-style: normal;
   font-weight: 400;
@@ -217,6 +192,77 @@ A standardized conversation container enables many applications, establishes a c
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: light dark;
   --background-color: #fff;
@@ -229,6 +275,7 @@ A standardized conversation container enables many applications, establishes a c
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
   --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
   scrollbar-color: #bbb #eee;
 }
 body {
@@ -246,9 +293,15 @@ body {
 }
 
 /* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Cabin Condensed", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 680;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
@@ -277,6 +330,7 @@ h4, h5, h6 {
 /* general structure */
 .author {
   padding-bottom: 0.3em;
+  vertical-align: top;
 }
 #abstract+p {
   font-size: 18px;
@@ -354,25 +408,26 @@ svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
 ol, ul {
   padding: 0;
   margin: 0 0 0.5em 2em;
-}
-:is(ol, ul) :is(ol, ul) {
-  margin-left: 1em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
 }
 li {
   margin: 0 0 0.25em 0;
 }
-.ulCompact li {
-  margin: 0;
-}
 ul.empty, .ulEmpty {
   list-style-type: none;
-}
-ul.empty li, .ulEmpty li {
-  margin-top: 0.5em;
+  & li {
+    margin-top: 0.5em;
+  }
 }
 :is(ul, ol).compact, .ulCompact, .olCompact {
-  line-height: 1;
   margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
 }
 
 /* definition lists */
@@ -380,38 +435,39 @@ dl {
   clear: left;
   --indent: 3ch;
   /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
 }
-dl.olPercent {
-  --indent: 5ch;
-}
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
-}
-dl.dlNewline > dt {
-  float: none;
 }
 dl > dd {
   margin-bottom: .8em;
   margin-left: var(--indent) !important; /* stupid element overrides */
   min-height: 2ex;
 }
-dl.olPercent > dt {
-  min-width: calc(var(--indent) - 2ch);
-}
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
-  margin-top: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
-  margin-bottom: 0;
-}
-dl > dd > dl {
-  margin-top: 0.5em;
-  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
 }
 :is(dd, span).break {
   display: none;
@@ -475,6 +531,7 @@ figcaption, caption {
   font-style: italic;
   margin: 0.5em 1.5em;
   text-align: left;
+  caption-side: bottom;
 }
 @media screen {
   /* Auto-collapse boilerplate. */
@@ -492,7 +549,11 @@ figcaption, caption {
   }
   pre, svg {
     display: inline-block;
-    overflow-x: auto;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
   }
   pre {
     max-width: 100%;
@@ -529,6 +590,7 @@ cite {
 
 /* tables */
 table {
+  width: auto;
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
@@ -543,6 +605,16 @@ table.center {
 table.left {
   margin-right: auto;
 }
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
 thead, tbody {
   border: 1px solid var(--line-color);
 }
@@ -573,9 +645,11 @@ a.pilcrow {
   margin-left: 3px;
   opacity: 0.2;
   user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
 }
-a.pilcrow[href] { color: var(--pilcrow-weak); }
-a.pilcrow[href]:hover { text-decoration: none; }
 @media not print {
   :hover > a.pilcrow {
     opacity: 1;
@@ -615,26 +689,28 @@ sub, sup {
   font-size: var(--small-font-size);
   line-height: 18px;
   --identifier-width: 15ch;
-}
-#identifiers dt {
-  width: var(--identifier-width);
-  min-width: var(--identifier-width);
-  clear: left;
-  float: left;
-  text-align: right;
-  margin-right: 1ch;
-}
-#identifiers dd {
-  margin: 0;
-  margin-left: calc(1em + var(--identifier-width)) !important;
-  min-width: 5em;
-}
-#identifiers .authors .author {
-  display: inline-block;
-  margin-right: 1.5em;
-}
-#identifiers .authors .org {
-  font-style: italic;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
 }
 
 /* The prepared/rendered info at the very bottom of the page */
@@ -645,9 +721,6 @@ sub, sup {
   margin-top: 2em;
 }
 .docInfo .prepared {
-  float: left;
-}
-.docInfo .prepared {
   float: right;
 }
 
@@ -655,47 +728,48 @@ sub, sup {
 #toc {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
-}
-#toc nav ul {
-  margin: 0 0.5em 0 0;
-  padding: 0;
-  list-style: none;
-}
-#toc nav li {
-  line-height: 1.3em;
-  margin: 2px 0;
-  padding-left: 1.2em;
-  text-indent: -1.2em;
-}
-#toc a.xref {
-  white-space: normal;
-}
-/* references */
-.references dt {
-  text-align: right;
-  font-weight: bold;
-  min-width: 10ch;
-  margin-right: 1.5ch;
-}
-.references dt:target::before {
-  content: "⇒";
-  width: 15px;
-  margin: 0 10px 0 -25px;
-}
-.references dd {
-  margin-left: 12ch !important;
-  overflow: auto;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
 }
 
-.refInstance {
-  margin-bottom: 1.25em;
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
 }
 
-.references .ascii {
-  margin-bottom: 0.25em;
-}
-
-/* index */
 #rfc\.index\.index + ul {
   margin-left: 0;
 }
@@ -703,21 +777,33 @@ sub, sup {
 /* authors */
 address.vcard {
   font-style: normal;
-  margin: 1em 0;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
 }
-address.vcard .nameRole {
-  font-weight: 700;
-  margin-left: 0;
-}
-address.vcard .label {
-  margin: 0.5em 0;
-}
-address.vcard .type {
-  display: none;
-}
-.alternative-contact {
-  margin: 1.5em 0 1em;
-}
+
 hr.addr {
   border-top: 1px dashed;
   margin: 0;
@@ -739,6 +825,7 @@ hr.addr {
   }
 }
 
+/* Comments */
 .rfcEditorRemove p:first-of-type {
   font-style: italic;
 }
@@ -749,7 +836,31 @@ hr.addr {
 .crefSource {
   font-style: italic;
 }
-/* alternative layout for smaller screens */
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
 @media screen and (max-width: 929px) {
   #toc {
     position: fixed;
@@ -760,9 +871,6 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc.active {
-      opacity: 1;
   }
   #toc h2 {
     margin: 0;
@@ -775,17 +883,17 @@ hr.addr {
     background-color: #444;
     color: white;
     cursor: pointer;
-  }
-  #toc h2::before { /* css hamburger */
-    float: right;
-    position: relative;
-    width: 1em;
-    height: 1px;
-    left: -164px;
-    margin: 8px 0 0 0;
-    background: white none repeat scroll 0 0;
-    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-    content: "";
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
   }
   #toc nav {
     display: none;
@@ -796,14 +904,13 @@ hr.addr {
     height: calc(100vh - 48px);
     border-left: 1px solid #ddd;
   }
-  #toc.active nav {
-    display: block;
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
   }
   /* Make the collapsed ToC header render white on gray also when it's a link */
   #toc h2 a,
-  #toc h2 a:link,
-  #toc h2 a:focus,
-  #toc h2 a:hover,
+  #toc h2 a:is(:link, :focus, :hover),
   #toc a.toplink,
   #toc a.toplink:hover {
     color: white;
@@ -811,11 +918,11 @@ hr.addr {
     text-decoration: none;
   }
   #toc a.toplink {
-    margin-top: 2px;
+    margin: 2px 0.5em 0;
   }
 }
 
-/* alternative layout for wide screens */
+/* TOC layout for wide screens */
 @media screen and (min-width: 930px) {
   body {
     padding-right: 360px;
@@ -844,20 +951,12 @@ hr.addr {
     overscroll-behavior: contain;
     scrollbar-width: thin;
   }
-  #toc nav > ul  {
-    margin-bottom: 2em;
-  }
-  #toc ul {
-    margin: 0 0 0 4px;
-    font-size: var(--small-font-size);
-  }
-  #toc ul :is(p, li) {
-    margin: 2px 0;
-    line-height: 22px;
-  }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
   }
 }
 
@@ -900,9 +999,6 @@ hr.addr {
   td {
     border-top: 1px solid #ddd;
   }
-  .toplink {
-    display: none;
-  }
 }
 
 @page :first {
@@ -925,82 +1021,6 @@ hr.addr {
   size: A4;
   margin-bottom: 45mm;
   padding-top: 20px;
-}
-
-/* Changes introduced to fix issues found during implementation */
-
-/* Separate body from document info even without intervening H1 */
-section {
-  clear: both;
-}
-
-/* Top align author divs, to avoid names without organization dropping level with org names */
-.author {
-  vertical-align: top;
-}
-
-/* Style section numbers with more space between number and title */
-.section-number {
-  padding-right: 0.5em;
-}
-
-/* Add styling for a link in the ToC that points to the top of the document */
-a.toplink {
-  float: right;
-  margin: 8px 0.5em 0;
-}
-
-/* Provide styling for table cell text alignment */
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
-}
-
-/* Make the alternative author contact information look less like just another
-   author, and group it closer with the primary author contact information */
-.alternative-contact {
-  margin: 0.5em 0 0.25em 0;
-}
-address .non-ascii {
-  margin: 0 0 0 2em;
-}
-
-/* With it being possible to set tables with alignment
-  left, center, and right, { width: 100%; } does not make sense */
-table {
-  width: auto;
-}
-
-/* Avoid reference text that sits in a block with very wide left margin,
-   because of a long floating dt label.*/
-.references dd {
-  overflow: visible;
-}
-
-/* Control caption placement */
-caption {
-  caption-side: bottom;
-}
-
-/* Limit the width of the author address vcard, so names in right-to-left
-   script don't end up on the other side of the page. */
-
-address.vcard {
-  max-width: 20em;
-  margin-right: auto;
-}
-
-/* For address alignment dependent on LTR or RTL scripts */
-address div.left {
-  text-align: left;
-}
-address div.right {
-  text-align: right;
 }
 
 /* Dark mode. */
@@ -1039,11 +1059,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">JSON vCon</td>
-<td class="right">October 2024</td>
+<td class="right">February 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Petrie &amp; McCarthy-Howe</td>
-<td class="center">Expires 22 April 2025</td>
+<td class="center">Expires 24 August 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1056,12 +1076,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-vcon-vcon-container-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-10-19" class="published">19 October 2024</time>
+<time datetime="2025-02-20" class="published">20 February 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-04-22">22 April 2025</time></dd>
+<dd class="expires"><time datetime="2025-08-24">24 August 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1119,7 +1139,7 @@ A standardized conversation container enables many applications, establishes a c
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1128,7 +1148,7 @@ A standardized conversation container enables many applications, establishes a c
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2024 IETF Trust and the persons identified as the
+            Copyright (c) 2025 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1302,7 +1322,7 @@ A standardized conversation container enables many applications, establishes a c
                     <p id="section-toc.1-1.4.2.3.2.5.1"><a href="#section-4.3.5" class="auto internal xref">4.3.5</a>.  <a href="#name-originator" class="internal xref">originator</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.6">
-                    <p id="section-toc.1-1.4.2.3.2.6.1"><a href="#section-4.3.6" class="auto internal xref">4.3.6</a>.  <a href="#name-mimetype" class="internal xref">mimetype</a></p>
+                    <p id="section-toc.1-1.4.2.3.2.6.1"><a href="#section-4.3.6" class="auto internal xref">4.3.6</a>.  <a href="#name-mediatype" class="internal xref">mediatype</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.7">
                     <p id="section-toc.1-1.4.2.3.2.7.1"><a href="#section-4.3.7" class="auto internal xref">4.3.7</a>.  <a href="#name-filename" class="internal xref">filename</a></p>
@@ -1346,7 +1366,7 @@ A standardized conversation container enables many applications, establishes a c
                     <p id="section-toc.1-1.4.2.4.2.2.1"><a href="#section-4.4.2" class="auto internal xref">4.4.2</a>.  <a href="#name-dialog" class="internal xref">dialog</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4.2.3">
-                    <p id="section-toc.1-1.4.2.4.2.3.1"><a href="#section-4.4.3" class="auto internal xref">4.4.3</a>.  <a href="#name-mimetype-2" class="internal xref">mimetype</a></p>
+                    <p id="section-toc.1-1.4.2.4.2.3.1"><a href="#section-4.4.3" class="auto internal xref">4.4.3</a>.  <a href="#name-mediatype-2" class="internal xref">mediatype</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4.2.4">
                     <p id="section-toc.1-1.4.2.4.2.4.1"><a href="#section-4.4.4" class="auto internal xref">4.4.4</a>.  <a href="#name-filename-2" class="internal xref">filename</a></p>
@@ -1378,7 +1398,7 @@ A standardized conversation container enables many applications, establishes a c
                     <p id="section-toc.1-1.4.2.5.2.3.1"><a href="#section-4.5.3" class="auto internal xref">4.5.3</a>.  <a href="#name-party" class="internal xref">party</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5.2.4">
-                    <p id="section-toc.1-1.4.2.5.2.4.1"><a href="#section-4.5.4" class="auto internal xref">4.5.4</a>.  <a href="#name-mimetype-3" class="internal xref">mimetype</a></p>
+                    <p id="section-toc.1-1.4.2.5.2.4.1"><a href="#section-4.5.4" class="auto internal xref">4.5.4</a>.  <a href="#name-mediatype-3" class="internal xref">mediatype</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5.2.5">
                     <p id="section-toc.1-1.4.2.5.2.5.1"><a href="#section-4.5.5" class="auto internal xref">4.5.5</a>.  <a href="#name-filename-3" class="internal xref">filename</a></p>
@@ -1428,64 +1448,77 @@ A standardized conversation container enables many applications, establishes a c
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-json-format-vcon-mediatype" class="internal xref">JSON Format vCon Mediatype</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-references" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-non-upward-compatible-chang" class="internal xref">Non-Upward Compatible Changes to the vCon Container</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
-                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
-                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-version-001-to-002" class="internal xref">Version 0.0.1 to 0.0.2</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-contact-center-use-cases" class="internal xref">Contact Center Use Cases</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-example-vcons" class="internal xref">Example vCons</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-references" class="internal xref">References</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-two-party-call-vcon-with-in" class="internal xref">Two Party Call vCon With Inline Recording</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-text-chat-vcon" class="internal xref">Text Chat vCon</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
-                <p id="section-toc.1-1.9.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-email-thread-multipart-vcon" class="internal xref">Email Thread Multipart vCon</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.4">
-                <p id="section-toc.1-1.9.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-email-thread-text-vcon" class="internal xref">Email Thread Text vCon</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.5">
-                <p id="section-toc.1-1.9.2.5.1"><a href="#appendix-B.5" class="auto internal xref">B.5</a>.  <a href="#name-two-party-call-vcon-with-ex" class="internal xref">Two Party Call vCon With Externally Referenced Recording</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.6">
-                <p id="section-toc.1-1.9.2.6.1"><a href="#appendix-B.6" class="auto internal xref">B.6</a>.  <a href="#name-two-party-call-vcon-with-an" class="internal xref">Two Party Call vCon with Analysis</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.7">
-                <p id="section-toc.1-1.9.2.7.1"><a href="#appendix-B.7" class="auto internal xref">B.7</a>.  <a href="#name-signed-vcon" class="internal xref">Signed vCon</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.8">
-                <p id="section-toc.1-1.9.2.8.1"><a href="#appendix-B.8" class="auto internal xref">B.8</a>.  <a href="#name-encrypted-vcon" class="internal xref">Encrypted vCon</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.9">
-                <p id="section-toc.1-1.9.2.9.1"><a href="#appendix-B.9" class="auto internal xref">B.9</a>.  <a href="#name-redacted-vcon" class="internal xref">Redacted vCon</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.10">
-                <p id="section-toc.1-1.9.2.10.1"><a href="#appendix-B.10" class="auto internal xref">B.10</a>. <a href="#name-appended-signed-vcon" class="internal xref">Appended Signed vCon</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.11">
-                <p id="section-toc.1-1.9.2.11.1"><a href="#appendix-B.11" class="auto internal xref">B.11</a>. <a href="#name-vcon-group" class="internal xref">vCon Group</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-contact-center-use-cases" class="internal xref">Contact Center Use Cases</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-example-vcons" class="internal xref">Example vCons</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-two-party-call-vcon-with-in" class="internal xref">Two Party Call vCon With Inline Recording</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-text-chat-vcon" class="internal xref">Text Chat vCon</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
+                <p id="section-toc.1-1.10.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-email-thread-multipart-vcon" class="internal xref">Email Thread Multipart vCon</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.4">
+                <p id="section-toc.1-1.10.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-email-thread-text-vcon" class="internal xref">Email Thread Text vCon</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.5">
+                <p id="section-toc.1-1.10.2.5.1"><a href="#appendix-B.5" class="auto internal xref">B.5</a>.  <a href="#name-two-party-call-vcon-with-ex" class="internal xref">Two Party Call vCon With Externally Referenced Recording</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.6">
+                <p id="section-toc.1-1.10.2.6.1"><a href="#appendix-B.6" class="auto internal xref">B.6</a>.  <a href="#name-two-party-call-vcon-with-an" class="internal xref">Two Party Call vCon with Analysis</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.7">
+                <p id="section-toc.1-1.10.2.7.1"><a href="#appendix-B.7" class="auto internal xref">B.7</a>.  <a href="#name-signed-vcon" class="internal xref">Signed vCon</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.8">
+                <p id="section-toc.1-1.10.2.8.1"><a href="#appendix-B.8" class="auto internal xref">B.8</a>.  <a href="#name-encrypted-vcon" class="internal xref">Encrypted vCon</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.9">
+                <p id="section-toc.1-1.10.2.9.1"><a href="#appendix-B.9" class="auto internal xref">B.9</a>.  <a href="#name-redacted-vcon" class="internal xref">Redacted vCon</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.10">
+                <p id="section-toc.1-1.10.2.10.1"><a href="#appendix-B.10" class="auto internal xref">B.10</a>. <a href="#name-appended-signed-vcon" class="internal xref">Appended Signed vCon</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.11">
+                <p id="section-toc.1-1.10.2.11.1"><a href="#appendix-B.11" class="auto internal xref">B.11</a>. <a href="#name-vcon-group" class="internal xref">vCon Group</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1513,7 +1546,7 @@ For machine learning efforts, vCons can track what information was used in the t
         </h3>
 <p id="section-1.1-1">A vCon contains four major categories of data: metadata , dialog , analysis and attachments.
 The metadata portion allows for an expanded set of data from a typical call detail record (<span>[<a href="#CDR" class="cite xref">CDR</a>]</span>), with identifications of the participants or parties to the conversation, references to related or earlier versions of the vCon.
-The dialog portion contains a set of multimedia and mime elements, each representing the actual, physical conversation in it's original media form: text, audio or video.
+The dialog portion contains a set of multimedia and media type elements, each representing the actual, physical conversation in it's original media form: text, audio or video.
 The analysis portion contains data derived from the metadata and dialog portions, intended to carry items like transcripts, translations, summaries, text to speech, sentiment analysis and other semantic tagging.
 Finally, the attachment portion contains any other documents, such as slide deck or sales lead information, which provides context and support for the conversation itself.
 The vCon may also container integrity checking information such as the issuer of the vCon and tamperproof features such as signatures.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
@@ -1710,7 +1743,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-2.2-3">"String" - a JSON string type<a href="#section-2.2-3" class="pilcrow">¶</a></p>
 <p id="section-2.2-4">"UnsignedInt" - a positive JSON integer as defined in section 1.3 of <span>[<a href="#JMAP" class="cite xref">JMAP</a>]</span>.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
 <p id="section-2.2-5">"UnsignedFloat" - a positive JSON floating point number containing a decimal point as defined in section 6 of <span>[<a href="#JSON" class="cite xref">JSON</a>]</span>.<a href="#section-2.2-5" class="pilcrow">¶</a></p>
-<p id="section-2.2-6">"Mime" - A "String" value that <span class="bcp14">MUST</span> be of the following form as defined in section 5.1 of <span>[<a href="#MIME" class="cite xref">MIME</a>]</span>:
+<p id="section-2.2-6">"Mediatype" - A "String" value that <span class="bcp14">MUST</span> be of the following form as defined in section 5.1 of <span>[<a href="#MIME" class="cite xref">MIME</a>]</span>:
     type "/" subtype<a href="#section-2.2-6" class="pilcrow">¶</a></p>
 <p id="section-2.2-7">"A[]" and array of values of type A.<a href="#section-2.2-7" class="pilcrow">¶</a></p>
 <p id="section-2.2-8">All parameters are assumed to be mandatory unless other wise noted.<a href="#section-2.2-8" class="pilcrow">¶</a></p>
@@ -1884,7 +1917,7 @@ The new vCon instance version <span class="bcp14">SHOULD</span> refer to the pri
 <li class="normal" id="section-4.1.1-2.1">
               <p id="section-4.1.1-2.1.1">vcon: "String"<a href="#section-4.1.1-2.1.1" class="pilcrow">¶</a></p>
 <p id="section-4.1.1-2.1.2">
-For syntax defined in this document, the string <span class="bcp14">MUST</span> have the value: "0.0.1"<a href="#section-4.1.1-2.1.2" class="pilcrow">¶</a></p>
+For syntax defined in this document, the string <span class="bcp14">MUST</span> have the value: "0.0.2"<a href="#section-4.1.1-2.1.2" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2636,16 +2669,16 @@ The originator value is the index into the parties Objects Array, to the party t
           </ul>
 </section>
 </div>
-<div id="mimetype">
+<div id="mediatype">
 <section id="section-4.3.6">
-          <h4 id="name-mimetype">
-<a href="#section-4.3.6" class="section-number selfRef">4.3.6. </a><a href="#name-mimetype" class="section-name selfRef">mimetype</a>
+          <h4 id="name-mediatype">
+<a href="#section-4.3.6" class="section-number selfRef">4.3.6. </a><a href="#name-mediatype" class="section-name selfRef">mediatype</a>
           </h4>
-<p id="section-4.3.6-1">The media type for the piece of dialog included or referenced is provided in the mimetype parameter.
-The mimetype parameter <span class="bcp14">MUST</span> be provided for inline dialog files and <span class="bcp14">MUST</span> be provided if the Content-Type header in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> response for the externally referenced URL is not provided.<a href="#section-4.3.6-1" class="pilcrow">¶</a></p>
+<p id="section-4.3.6-1">The media type for the piece of dialog included or referenced is provided in the mediatype parameter.
+The mediatype parameter <span class="bcp14">MUST</span> be provided for inline dialog files and <span class="bcp14">MUST</span> be provided if the Content-Type header in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> response for the externally referenced URL is not provided.<a href="#section-4.3.6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.6-2.1">
-              <p id="section-4.3.6-2.1.1">mimetype: "Mime" (optional for externally referenced files)<a href="#section-4.3.6-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.3.6-2.1.1">mediatype: "Mediatype" (optional for externally referenced files)<a href="#section-4.3.6-2.1.1" class="pilcrow">¶</a></p>
 <p id="section-4.3.6-2.1.2">
 The media types <span class="bcp14">SHOULD</span> be one of the following strings:<a href="#section-4.3.6-2.1.2" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -2869,7 +2902,7 @@ The value of the consultation parameter is the index into the dialogs Object arr
 
 The value of the target-dialog parameter is the index into the dialogs Object array to the "recording", "text" or "incomplete" type dialog for the target dialog between the Transferee and the Transfer Target.
 
-A "transfer" type dialog MUST NOT contain the parties, originator, mimetype, filename or Dialog Content parameters.
+A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, filename or Dialog Content parameters.
 </pre><a href="#section-4.3.11-6" class="pilcrow">¶</a>
 </div>
 <p id="section-4.3.11-7">The "transfer" type dialog only captures the roles, operations and events of the parties and the dialog setup.
@@ -2946,7 +2979,7 @@ The string values of the skill parameter are contact center specific.<a href="#s
 <p id="section-4.3.16-1">The application parameter is used to capture the application, communication channel or context over which the conversation was held.
 The conversation mode can be identified by looking at the dialog type.
 However that does not different between different communication platform service providers or hosting service.
-For example, the applicaiton parameter can be used to identify the web conference hosting serivce.<a href="#section-4.3.16-1" class="pilcrow">¶</a></p>
+For example, the application parameter can be used to identify the web conference hosting service.<a href="#section-4.3.16-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.16-2.1">
               <p id="section-4.3.16-2.1.1">application "String" (optional)<a href="#section-4.3.16-2.1.1" class="pilcrow">¶</a></p>
@@ -2966,7 +2999,7 @@ This document does not attempt to suggest a <span class="bcp14">SHOULD</span> su
 Nor are formats for analysis data defined in this document.
 That is for research and specification outside the scope of this document.
 For this reason the Analysis Object provides multiple ways to define the media type of the analysis file.
-If a well known media or mime type is defined, it <span class="bcp14">SHOULD</span> be used.
+If a well known media type is defined, it <span class="bcp14">SHOULD</span> be used.
 For analysis data or files types for which a media type is not defined, the vendor and schema parameters <span class="bcp14">SHOULD</span> be used.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
 <div id="type-1">
 <section id="section-4.4.1">
@@ -3016,17 +3049,17 @@ The value of the dialog parameter is the index to the dialog or array of indices
           </ul>
 </section>
 </div>
-<div id="mimetype-1">
+<div id="mediatype-1">
 <section id="section-4.4.3">
-          <h4 id="name-mimetype-2">
-<a href="#section-4.4.3" class="section-number selfRef">4.4.3. </a><a href="#name-mimetype-2" class="section-name selfRef">mimetype</a>
+          <h4 id="name-mediatype-2">
+<a href="#section-4.4.3" class="section-number selfRef">4.4.3. </a><a href="#name-mediatype-2" class="section-name selfRef">mediatype</a>
           </h4>
-<p id="section-4.4.3-1">The media type for the included or referenced analysis file is provided in the mimetype parameter.<a href="#section-4.4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.4.3-1">The media type for the included or referenced analysis file is provided in the mediatype parameter.<a href="#section-4.4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.4.3-2.1">
-              <p id="section-4.4.3-2.1.1">mimetype: "Mime" (optional for externally referenced files, if it this is provided in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> Content-Type header)<a href="#section-4.4.3-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.4.3-2.1.1">mediatype: "Mediatype" (optional for externally referenced files, if it this is provided in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> Content-Type header)<a href="#section-4.4.3-2.1.1" class="pilcrow">¶</a></p>
 <p id="section-4.4.3-2.1.2">
-The mimetype string contains the media type or <span>[<a href="#MIME" class="cite xref">MIME</a>]</span> type of the analysis file.<a href="#section-4.4.3-2.1.2" class="pilcrow">¶</a></p>
+The mediatype string contains the media type or <span>[<a href="#MIME" class="cite xref">MIME</a>]</span> type of the analysis file.<a href="#section-4.4.3-2.1.2" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -3172,17 +3205,17 @@ The value of the party parameter is the index into the Parties Object array to t
           </ul>
 </section>
 </div>
-<div id="mimetype-2">
+<div id="mediatype-2">
 <section id="section-4.5.4">
-          <h4 id="name-mimetype-3">
-<a href="#section-4.5.4" class="section-number selfRef">4.5.4. </a><a href="#name-mimetype-3" class="section-name selfRef">mimetype</a>
+          <h4 id="name-mediatype-3">
+<a href="#section-4.5.4" class="section-number selfRef">4.5.4. </a><a href="#name-mediatype-3" class="section-name selfRef">mediatype</a>
           </h4>
-<p id="section-4.5.4-1">The media type for the included or referenced attachment file is provided in the mimetype parameter.<a href="#section-4.5.4-1" class="pilcrow">¶</a></p>
+<p id="section-4.5.4-1">The media type for the included or referenced attachment file is provided in the mediatype parameter.<a href="#section-4.5.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.5.4-2.1">
-              <p id="section-4.5.4-2.1.1">mimetype: "Mime" (optional for externally referenced files, if it this is provided in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> Content-Type header)<a href="#section-4.5.4-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.5.4-2.1.1">mediatype: "Mediatype" (optional for externally referenced files, if it this is provided in the <span>[<a href="#HTTPS" class="cite xref">HTTPS</a>]</span> Content-Type header)<a href="#section-4.5.4-2.1.1" class="pilcrow">¶</a></p>
 <p id="section-4.5.4-2.1.2">
-The mimetype string contains the media type or <span>[<a href="#MIME" class="cite xref">MIME</a>]</span> type of the attached file.<a href="#section-4.5.4-2.1.2" class="pilcrow">¶</a></p>
+The mediatype string contains the media type or <span>[<a href="#MIME" class="cite xref">MIME</a>]</span> type of the attached file.<a href="#section-4.5.4-2.1.2" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -3524,6 +3557,7 @@ The string value of encrypted_key is defined in section 7.2.1 of <span>[<a href=
 The string value of alg <span class="bcp14">SHOULD</span> be "RSA-OAEP".<a href="#section-5.3.3-1.1.2" class="pilcrow">¶</a></p>
 </li>
           </ul>
+<p id="section-5.3.3-2">TODO: describe how to differentiate unsigned, JWS and JWE forms of vCon<a href="#section-5.3.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3536,38 +3570,59 @@ The string value of alg <span class="bcp14">SHOULD</span> be "RSA-OAEP".<a href=
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
 <p id="section-6-1">This section includes the information required for IANA to register the application/vcon media type per <span>[<a href="#MEDIATYPE" class="cite xref">MEDIATYPE</a>]</span>.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">Type name: application<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">Subtype name: vcon+json<a href="#section-6-3" class="pilcrow">¶</a></p>
-<p id="section-6-4">Required parameters: N/A<a href="#section-6-4" class="pilcrow">¶</a></p>
-<p id="section-6-5">Optional parameters: N/A; unrecognized parameters should be ignored.<a href="#section-6-5" class="pilcrow">¶</a></p>
-<p id="section-6-6">Encoding considerations: <span>[<a href="#JSON" class="cite xref">JSON</a>]</span><a href="#section-6-6" class="pilcrow">¶</a></p>
-<p id="section-6-7">Additional information:<a href="#section-6-7" class="pilcrow">¶</a></p>
-<p id="section-6-8">Security considerations: See Security Considerations section of this document.<a href="#section-6-8" class="pilcrow">¶</a></p>
-<p id="section-6-9">Interoperability considerations:<a href="#section-6-9" class="pilcrow">¶</a></p>
-<p id="section-6-10">Published specification: [VCON], this document<a href="#section-6-10" class="pilcrow">¶</a></p>
-<p id="section-6-11">Applications that use this media type:<a href="#section-6-11" class="pilcrow">¶</a></p>
-<p id="section-6-12">Fragment identifier considerations:<a href="#section-6-12" class="pilcrow">¶</a></p>
-<p id="section-6-13">Additional Information:<a href="#section-6-13" class="pilcrow">¶</a></p>
-<p id="section-6-14">Deprecated alias names for this type: N/A<a href="#section-6-14" class="pilcrow">¶</a></p>
-<p id="section-6-15">Magic number(s): N/A<a href="#section-6-15" class="pilcrow">¶</a></p>
-<p id="section-6-16">File extension(s): "vcon"<a href="#section-6-16" class="pilcrow">¶</a></p>
-<p id="section-6-17">Macintosh file type code(s): N/A<a href="#section-6-17" class="pilcrow">¶</a></p>
-<p id="section-6-18">Windows Clipboard Name: VCON<a href="#section-6-18" class="pilcrow">¶</a></p>
-<p id="section-6-19">Author: See the Author's Addresses section of this document.<a href="#section-6-19" class="pilcrow">¶</a></p>
-<p id="section-6-20">Change controller: IETF<a href="#section-6-20" class="pilcrow">¶</a></p>
-<p id="section-6-21">TODO: what is needed for gzip compression??
-TODO: do we need mediatypes for JWS and JWE forms of vCon??<a href="#section-6-21" class="pilcrow">¶</a></p>
+<div id="json-format-vcon-mediatype">
+<section id="section-6.1">
+        <h3 id="name-json-format-vcon-mediatype">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-json-format-vcon-mediatype" class="section-name selfRef">JSON Format vCon Mediatype</a>
+        </h3>
+<p id="section-6.1-1">Type name: application<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">Subtype name: vcon+json
+Subtype name: vcon+gzip<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">Required parameters: N/A<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">Optional parameters: N/A; unrecognized parameters should be ignored.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.1-5">Encoding considerations: <span>[<a href="#JSON" class="cite xref">JSON</a>]</span><a href="#section-6.1-5" class="pilcrow">¶</a></p>
+<p id="section-6.1-6">Additional information:<a href="#section-6.1-6" class="pilcrow">¶</a></p>
+<p id="section-6.1-7">Security considerations: See Security Considerations section of this document.<a href="#section-6.1-7" class="pilcrow">¶</a></p>
+<p id="section-6.1-8">Interoperability considerations:<a href="#section-6.1-8" class="pilcrow">¶</a></p>
+<p id="section-6.1-9">Published specification: [VCON], this document<a href="#section-6.1-9" class="pilcrow">¶</a></p>
+<p id="section-6.1-10">Applications that use this media type:<a href="#section-6.1-10" class="pilcrow">¶</a></p>
+<p id="section-6.1-11">Fragment identifier considerations:<a href="#section-6.1-11" class="pilcrow">¶</a></p>
+<p id="section-6.1-12">Additional Information:<a href="#section-6.1-12" class="pilcrow">¶</a></p>
+<p id="section-6.1-13">Deprecated alias names for this type: N/A<a href="#section-6.1-13" class="pilcrow">¶</a></p>
+<p id="section-6.1-14">Magic number(s): N/A<a href="#section-6.1-14" class="pilcrow">¶</a></p>
+<p id="section-6.1-15">File extension(s): "vcon"<a href="#section-6.1-15" class="pilcrow">¶</a></p>
+<p id="section-6.1-16">Macintosh file type code(s): N/A<a href="#section-6.1-16" class="pilcrow">¶</a></p>
+<p id="section-6.1-17">Windows Clipboard Name: VCON<a href="#section-6.1-17" class="pilcrow">¶</a></p>
+<p id="section-6.1-18">Author: See the Author's Addresses section of this document.<a href="#section-6.1-18" class="pilcrow">¶</a></p>
+<p id="section-6.1-19">Change controller: IETF<a href="#section-6.1-19" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="non-upward-compatible-changes-to-the-vcon-container">
+<section id="section-7">
+      <h2 id="name-non-upward-compatible-chang">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-non-upward-compatible-chang" class="section-name selfRef">Non-Upward Compatible Changes to the vCon Container</a>
+      </h2>
+<div id="version-001-to-002">
+<section id="section-7.1">
+        <h3 id="name-version-001-to-002">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-version-001-to-002" class="section-name selfRef">Version 0.0.1 to 0.0.2</a>
+        </h3>
+<p id="section-7.1-1">"mimetype" parameters were renamed to "mediatype"<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="sec-combined-references">
-<section id="section-7">
+<section id="section-8">
       <h2 id="name-references">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-7.1">
+<section id="section-8.1">
         <h3 id="name-normative-references">
-<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="GEOPRIV">[GEOPRIV]</dt>
@@ -3638,9 +3693,9 @@ TODO: do we need mediatypes for JWS and JWE forms of vCon??<a href="#section-6-2
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-7.2">
+<section id="section-8.2">
         <h3 id="name-informative-references">
-<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="CBOR">[CBOR]</dt>
