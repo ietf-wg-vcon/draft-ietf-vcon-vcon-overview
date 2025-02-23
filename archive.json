@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-20T00:43:21.352580+00:00",
+  "timestamp": "2025-02-23T00:46:52.770145+00:00",
   "repo": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
   "labels": [
     {
@@ -233,6 +233,22 @@
           "updatedAt": "2024-12-19T23:54:33Z"
         }
       ]
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOMNntIs6q5pSs",
+      "title": "replace \"mimetype\" with \"mediatype\"",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/14",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-02-20T20:49:40Z",
+      "updatedAt": "2025-02-20T20:49:40Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -283,6 +299,32 @@
       "headRepository": "SteveLasker/draft-ietf-vcon-vcon-container",
       "headRefName": "markdown-fixes",
       "headRefOid": "f297875c354e6aa14d20fad25131029a324bbbb3",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 15,
+      "id": "PR_kwDOMNntIs6L9WJZ",
+      "title": "Replace all occurrences of mimetype with mediatype",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/pull/15",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses #14 ",
+      "createdAt": "2025-02-20T21:15:16Z",
+      "updatedAt": "2025-02-20T21:15:52Z",
+      "baseRepository": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
+      "baseRefName": "main",
+      "baseRefOid": "e4a63da5c90e553434644aba45e1f0bb3a937e16",
+      "headRepository": "rohanmahy/vcon-container",
+      "headRefName": "mediatype",
+      "headRefOid": "b48671904a4ad470d277a42c2b9bc2b043285bf2",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
