@@ -153,6 +153,7 @@ Table of Contents
        4.5.4.  mediatype
        4.5.5.  filename
        4.5.6.  Attachment Content
+       4.5.7.  dialog
      4.6.  Group Object
    5.  Security Considerations
      5.1.  Signing Externally Referenced Files
@@ -165,6 +166,7 @@ Table of Contents
        5.3.3.  Header Object
    6.  IANA Considerations
      6.1.  JSON Format vCon Mediatype
+     6.2.  gzip Format vCon Mediatype
    7.  Non-Upward Compatible Changes to the vCon Container
      7.1.  Version 0.0.1 to 0.0.2
    8.  References
@@ -1653,6 +1655,15 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, fi
 
    *  content_hash: "String" | "String[]"
 
+4.5.7.  dialog
+
+   Attachements are added as data related to the dialog.  The dialog
+   parameter is used to identify the dialog that the attachment is part
+   of.  The dialog is identified by the index to the dialog Object in
+   the dialog objects array.
+
+   *  dialog: "UnsignedInt"
+
 4.6.  Group Object
 
    A conversation may have take place using different modes (e.g. web
@@ -1963,6 +1974,8 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, fi
 
 6.1.  JSON Format vCon Mediatype
 
+   The JSON format for vCon is manditory to implement.
+
    Type name: application
 
    Subtype name: vcon+json Subtype name: vcon+gzip
@@ -1972,6 +1985,54 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, fi
    Optional parameters: N/A; unrecognized parameters should be ignored.
 
    Encoding considerations: [JSON]
+
+   Additional information:
+
+   Security considerations: See Security Considerations section of this
+   document.
+
+   Interoperability considerations:
+
+   Published specification: VCON, this document
+
+   Applications that use this media type:
+
+   Fragment identifier considerations:
+
+   Additional Information:
+
+   Deprecated alias names for this type: N/A
+
+   Magic number(s): N/A
+
+   File extension(s): "vcon"
+
+   Macintosh file type code(s): N/A
+
+   Windows Clipboard Name: VCON
+
+   Author: See the Author's Addresses section of this document.
+
+   Change controller: IETF
+
+6.2.  gzip Format vCon Mediatype
+
+   A gzip format vCon is a JSON format vCon that has been compressed
+   using the gzip [GZIP] compression algorythm.  The gzip format is used
+   to reduce the size of potentially very large vCons containing audio
+   or video media in dialog objects.  Applications SHOULD support the
+   receiving of gzip format vCons, but do not need to use the gzip
+   format when sending.
+
+   Type name: application
+
+   Subtype name: vcon+gzip
+
+   Required parameters: N/A
+
+   Optional parameters: N/A; unrecognized parameters should be ignored.
+
+   Encoding considerations: [GZIP]
 
    Additional information:
 
@@ -2017,6 +2078,10 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, fi
    [GEOPRIV]  Peterson, J., "A Presence-based GEOPRIV Location Object
               Format", RFC 4119, DOI 10.17487/RFC4119, December 2005,
               <https://www.rfc-editor.org/rfc/rfc4119>.
+
+   [GZIP]     Deutsch, P., "GZIP file format specification version 4.3",
+              RFC 1952, DOI 10.17487/RFC1952, May 1996,
+              <https://www.rfc-editor.org/rfc/rfc1952>.
 
    [HTTPS]    Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
               Ed., "HTTP Semantics", STD 97, RFC 9110,
@@ -2081,6 +2146,10 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, fi
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [SMTP]     Klensin, J., "Simple Mail Transfer Protocol", RFC 5321,
+              DOI 10.17487/RFC5321, October 2008,
+              <https://www.rfc-editor.org/rfc/rfc5321>.
 
    [TEL]      Schulzrinne, H., "The tel URI for Telephone Numbers",
               RFC 3966, DOI 10.17487/RFC3966, December 2004,

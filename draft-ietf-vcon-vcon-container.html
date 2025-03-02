@@ -1406,6 +1406,9 @@ A standardized conversation container enables many applications, establishes a c
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5.2.6">
                     <p id="section-toc.1-1.4.2.5.2.6.1"><a href="#section-4.5.6" class="auto internal xref">4.5.6</a>.  <a href="#name-attachment-content" class="internal xref">Attachment Content</a></p>
 </li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5.2.7">
+                    <p id="section-toc.1-1.4.2.5.2.7.1"><a href="#section-4.5.7" class="auto internal xref">4.5.7</a>.  <a href="#name-dialog-2" class="internal xref">dialog</a></p>
+</li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.6">
@@ -1451,6 +1454,9 @@ A standardized conversation container enables many applications, establishes a c
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-json-format-vcon-mediatype" class="internal xref">JSON Format vCon Mediatype</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-gzip-format-vcon-mediatype" class="internal xref">gzip Format vCon Mediatype</a></p>
 </li>
             </ul>
 </li>
@@ -2988,7 +2994,7 @@ For example, the application parameter can be used to identify the web conferenc
 <p id="section-4.3.17-1">Some messaging systems assign a unique message identifier to each message.
 The message_id parameter may be used to label the message for either cross referencing back to the messaging
 system or to prevent the addition of duplicate messages to the vCon.
-For example SMTP [SMTP] messages have a message-id in the SMTP header.
+For example SMTP <span>[<a href="#SMTP" class="cite xref">SMTP</a>]</span> messages have a message-id in the SMTP header.
 In the SMTP case a message may exist in multiple mailboxes or tags.
 When exporting these SMTP messages, the message_id parameter may be used to avoid adding the same message,
 to the vCon containing the email thread, more than once.<a href="#section-4.3.17-1" class="pilcrow">¶</a></p>
@@ -3271,6 +3277,21 @@ The exception to this is that the body or url <span class="bcp14">MAY</span> be 
 </li>
             <li class="normal" id="section-4.5.6-5.2">
               <p id="section-4.5.6-5.2.1">content_hash: "String" | "String[]"<a href="#section-4.5.6-5.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="dialog-1">
+<section id="section-4.5.7">
+          <h4 id="name-dialog-2">
+<a href="#section-4.5.7" class="section-number selfRef">4.5.7. </a><a href="#name-dialog-2" class="section-name selfRef">dialog</a>
+          </h4>
+<p id="section-4.5.7-1">Attachements are added as data related to the dialog.
+The dialog parameter is used to identify the dialog that the attachment is part of.
+The dialog is identified by the index to the dialog Object in the dialog objects array.<a href="#section-4.5.7-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.5.7-2.1">
+              <p id="section-4.5.7-2.1.1">dialog: "UnsignedInt"<a href="#section-4.5.7-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -3579,32 +3600,65 @@ The string value of alg <span class="bcp14">SHOULD</span> be "RSA-OAEP".<a href=
       <h2 id="name-iana-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-6-1">This section includes the information required for IANA to register the application/vcon media type per <span>[<a href="#MEDIATYPE" class="cite xref">MEDIATYPE</a>]</span>.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1">This section includes the information required for IANA to register the application/vcon media type per
+<span>[<a href="#MEDIATYPE" class="cite xref">MEDIATYPE</a>]</span>.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <div id="json-format-vcon-mediatype">
 <section id="section-6.1">
         <h3 id="name-json-format-vcon-mediatype">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-json-format-vcon-mediatype" class="section-name selfRef">JSON Format vCon Mediatype</a>
         </h3>
-<p id="section-6.1-1">Type name: application<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.1-2">Subtype name: vcon+json
-Subtype name: vcon+gzip<a href="#section-6.1-2" class="pilcrow">¶</a></p>
-<p id="section-6.1-3">Required parameters: N/A<a href="#section-6.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.1-4">Optional parameters: N/A; unrecognized parameters should be ignored.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
-<p id="section-6.1-5">Encoding considerations: <span>[<a href="#JSON" class="cite xref">JSON</a>]</span><a href="#section-6.1-5" class="pilcrow">¶</a></p>
-<p id="section-6.1-6">Additional information:<a href="#section-6.1-6" class="pilcrow">¶</a></p>
-<p id="section-6.1-7">Security considerations: See Security Considerations section of this document.<a href="#section-6.1-7" class="pilcrow">¶</a></p>
-<p id="section-6.1-8">Interoperability considerations:<a href="#section-6.1-8" class="pilcrow">¶</a></p>
-<p id="section-6.1-9">Published specification: [VCON], this document<a href="#section-6.1-9" class="pilcrow">¶</a></p>
-<p id="section-6.1-10">Applications that use this media type:<a href="#section-6.1-10" class="pilcrow">¶</a></p>
-<p id="section-6.1-11">Fragment identifier considerations:<a href="#section-6.1-11" class="pilcrow">¶</a></p>
-<p id="section-6.1-12">Additional Information:<a href="#section-6.1-12" class="pilcrow">¶</a></p>
-<p id="section-6.1-13">Deprecated alias names for this type: N/A<a href="#section-6.1-13" class="pilcrow">¶</a></p>
-<p id="section-6.1-14">Magic number(s): N/A<a href="#section-6.1-14" class="pilcrow">¶</a></p>
-<p id="section-6.1-15">File extension(s): "vcon"<a href="#section-6.1-15" class="pilcrow">¶</a></p>
-<p id="section-6.1-16">Macintosh file type code(s): N/A<a href="#section-6.1-16" class="pilcrow">¶</a></p>
-<p id="section-6.1-17">Windows Clipboard Name: VCON<a href="#section-6.1-17" class="pilcrow">¶</a></p>
-<p id="section-6.1-18">Author: See the Author's Addresses section of this document.<a href="#section-6.1-18" class="pilcrow">¶</a></p>
-<p id="section-6.1-19">Change controller: IETF<a href="#section-6.1-19" class="pilcrow">¶</a></p>
+<p id="section-6.1-1">The JSON format for vCon is manditory to implement.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">Type name: application<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">Subtype name: vcon+json
+Subtype name: vcon+gzip<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">Required parameters: N/A<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.1-5">Optional parameters: N/A; unrecognized parameters should be ignored.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
+<p id="section-6.1-6">Encoding considerations: <span>[<a href="#JSON" class="cite xref">JSON</a>]</span><a href="#section-6.1-6" class="pilcrow">¶</a></p>
+<p id="section-6.1-7">Additional information:<a href="#section-6.1-7" class="pilcrow">¶</a></p>
+<p id="section-6.1-8">Security considerations: See Security Considerations section of this document.<a href="#section-6.1-8" class="pilcrow">¶</a></p>
+<p id="section-6.1-9">Interoperability considerations:<a href="#section-6.1-9" class="pilcrow">¶</a></p>
+<p id="section-6.1-10">Published specification: VCON, this document<a href="#section-6.1-10" class="pilcrow">¶</a></p>
+<p id="section-6.1-11">Applications that use this media type:<a href="#section-6.1-11" class="pilcrow">¶</a></p>
+<p id="section-6.1-12">Fragment identifier considerations:<a href="#section-6.1-12" class="pilcrow">¶</a></p>
+<p id="section-6.1-13">Additional Information:<a href="#section-6.1-13" class="pilcrow">¶</a></p>
+<p id="section-6.1-14">Deprecated alias names for this type: N/A<a href="#section-6.1-14" class="pilcrow">¶</a></p>
+<p id="section-6.1-15">Magic number(s): N/A<a href="#section-6.1-15" class="pilcrow">¶</a></p>
+<p id="section-6.1-16">File extension(s): "vcon"<a href="#section-6.1-16" class="pilcrow">¶</a></p>
+<p id="section-6.1-17">Macintosh file type code(s): N/A<a href="#section-6.1-17" class="pilcrow">¶</a></p>
+<p id="section-6.1-18">Windows Clipboard Name: VCON<a href="#section-6.1-18" class="pilcrow">¶</a></p>
+<p id="section-6.1-19">Author: See the Author's Addresses section of this document.<a href="#section-6.1-19" class="pilcrow">¶</a></p>
+<p id="section-6.1-20">Change controller: IETF<a href="#section-6.1-20" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="gzip-format-vcon-mediatype">
+<section id="section-6.2">
+        <h3 id="name-gzip-format-vcon-mediatype">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-gzip-format-vcon-mediatype" class="section-name selfRef">gzip Format vCon Mediatype</a>
+        </h3>
+<p id="section-6.2-1">A gzip format vCon is a JSON format vCon that has been compressed using the gzip <span>[<a href="#GZIP" class="cite xref">GZIP</a>]</span> compression algorythm.
+The gzip format is used to reduce the size of potentially very large vCons containing audio or video media in
+dialog objects.
+Applications <span class="bcp14">SHOULD</span> support the receiving of gzip format vCons, but do not need to use the gzip format
+when sending.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">Type name: application<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.2-3">Subtype name: vcon+gzip<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.2-4">Required parameters: N/A<a href="#section-6.2-4" class="pilcrow">¶</a></p>
+<p id="section-6.2-5">Optional parameters: N/A; unrecognized parameters should be ignored.<a href="#section-6.2-5" class="pilcrow">¶</a></p>
+<p id="section-6.2-6">Encoding considerations: <span>[<a href="#GZIP" class="cite xref">GZIP</a>]</span><a href="#section-6.2-6" class="pilcrow">¶</a></p>
+<p id="section-6.2-7">Additional information:<a href="#section-6.2-7" class="pilcrow">¶</a></p>
+<p id="section-6.2-8">Security considerations: See Security Considerations section of this document.<a href="#section-6.2-8" class="pilcrow">¶</a></p>
+<p id="section-6.2-9">Interoperability considerations:<a href="#section-6.2-9" class="pilcrow">¶</a></p>
+<p id="section-6.2-10">Published specification: [VCON], this document<a href="#section-6.2-10" class="pilcrow">¶</a></p>
+<p id="section-6.2-11">Applications that use this media type:<a href="#section-6.2-11" class="pilcrow">¶</a></p>
+<p id="section-6.2-12">Fragment identifier considerations:<a href="#section-6.2-12" class="pilcrow">¶</a></p>
+<p id="section-6.2-13">Additional Information:<a href="#section-6.2-13" class="pilcrow">¶</a></p>
+<p id="section-6.2-14">Deprecated alias names for this type: N/A<a href="#section-6.2-14" class="pilcrow">¶</a></p>
+<p id="section-6.2-15">Magic number(s): N/A<a href="#section-6.2-15" class="pilcrow">¶</a></p>
+<p id="section-6.2-16">File extension(s): "vcon"<a href="#section-6.2-16" class="pilcrow">¶</a></p>
+<p id="section-6.2-17">Macintosh file type code(s): N/A<a href="#section-6.2-17" class="pilcrow">¶</a></p>
+<p id="section-6.2-18">Windows Clipboard Name: VCON<a href="#section-6.2-18" class="pilcrow">¶</a></p>
+<p id="section-6.2-19">Author: See the Author's Addresses section of this document.<a href="#section-6.2-19" class="pilcrow">¶</a></p>
+<p id="section-6.2-20">Change controller: IETF<a href="#section-6.2-20" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3645,6 +3699,10 @@ Subtype name: vcon+gzip<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <dt id="GEOPRIV">[GEOPRIV]</dt>
         <dd>
 <span class="refAuthor">Peterson, J.</span>, <span class="refTitle">"A Presence-based GEOPRIV Location Object Format"</span>, <span class="seriesInfo">RFC 4119</span>, <span class="seriesInfo">DOI 10.17487/RFC4119</span>, <time datetime="2005-12" class="refDate">December 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4119">https://www.rfc-editor.org/rfc/rfc4119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="GZIP">[GZIP]</dt>
+        <dd>
+<span class="refAuthor">Deutsch, P.</span>, <span class="refTitle">"GZIP file format specification version 4.3"</span>, <span class="seriesInfo">RFC 1952</span>, <span class="seriesInfo">DOI 10.17487/RFC1952</span>, <time datetime="1996-05" class="refDate">May 1996</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc1952">https://www.rfc-editor.org/rfc/rfc1952</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="HTTPS">[HTTPS]</dt>
         <dd>
@@ -3701,6 +3759,10 @@ Subtype name: vcon+gzip<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SMTP">[SMTP]</dt>
+        <dd>
+<span class="refAuthor">Klensin, J.</span>, <span class="refTitle">"Simple Mail Transfer Protocol"</span>, <span class="seriesInfo">RFC 5321</span>, <span class="seriesInfo">DOI 10.17487/RFC5321</span>, <time datetime="2008-10" class="refDate">October 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5321">https://www.rfc-editor.org/rfc/rfc5321</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="TEL">[TEL]</dt>
         <dd>
