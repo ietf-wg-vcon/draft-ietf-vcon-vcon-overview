@@ -136,6 +136,7 @@ Table of Contents
        4.3.14. interaction_id
        4.3.15. skill
        4.3.16. application
+       4.3.17. message_id
      4.4.  Analysis Object
        4.4.1.  type
        4.4.2.  dialog
@@ -1244,7 +1245,9 @@ Table of Contents
    the url and content_hash parameters for all dialog types other than
    "incomplete" and "transfer", these parameters MUST NOT be present for
    "incomplete" or "transfer" dialog types (see Inline Files
-   (Section 2.3) and Externally Referenced Files (Section 2.4)).
+   (Section 2.3) and Externally Referenced Files (Section 2.4)).  The
+   exception to this is that the body or url MAY be absent if it is
+   redacted.
 
    For inline included dialog:
 
@@ -1438,6 +1441,20 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, fi
 
    *  application "String" (optional)
 
+4.3.17.  message_id
+
+   Some messaging systems assign a unique message identifier to each
+   message.  The message_id parameter may be used to label the message
+   for either cross referencing back to the messaging system or to
+   prevent the addition of duplicate messages to the vCon.  For example
+   SMTP [SMTP] messages have a message-id in the SMTP header.  In the
+   SMTP case a message may exist in multiple mailboxes or tags.  When
+   exporting these SMTP messages, the message_id parameter may be used
+   to avoid adding the same message, to the vCon containing the email
+   thread, more than once.
+
+   *  message_id: "string" (optional)
+
 4.4.  Analysis Object
 
    Analysis is a broad and in some cases developing field.  This
@@ -1546,7 +1563,9 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, fi
 
    The Analysis Object SHOULD contain the body and encoding parameters
    or the url and content_hash parameters (see Inline Files
-   (Section 2.3) and Externally Referenced Files (Section 2.4)).
+   (Section 2.3) and Externally Referenced Files (Section 2.4)).  The
+   exception to this is that the body or url MAY be absent if it is
+   redacted.
 
    For inline included analysis:
 
@@ -1618,7 +1637,9 @@ A "transfer" type dialog MUST NOT contain the parties, originator, mediatype, fi
 
    The Attachment Object SHOULD contain the body and encoding parameters
    or the url and content_hash parameters (see Inline Files
-   (Section 2.3) and Externally Referenced Files (Section 2.4)).
+   (Section 2.3) and Externally Referenced Files (Section 2.4)).  The
+   exception to this is that the body or url MAY be absent if it is
+   redacted.
 
    For inline included attachments:
 

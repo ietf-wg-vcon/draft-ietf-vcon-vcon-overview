@@ -1351,6 +1351,9 @@ A standardized conversation container enables many applications, establishes a c
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.16">
                     <p id="section-toc.1-1.4.2.3.2.16.1"><a href="#section-4.3.16" class="auto internal xref">4.3.16</a>. <a href="#name-application" class="internal xref">application</a></p>
 </li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.17">
+                    <p id="section-toc.1-1.4.2.3.2.17.1"><a href="#section-4.3.17" class="auto internal xref">4.3.17</a>. <a href="#name-message_id" class="internal xref">message_id</a></p>
+</li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
@@ -2724,7 +2727,8 @@ This can be done in the filename parameter.<a href="#section-4.3.7-1" class="pil
 <p id="section-4.3.8-1">The Dialog Object <span class="bcp14">SHOULD</span> contain the body and encoding parameters or the url and content_hash parameters for
 all dialog types other than "incomplete" and "transfer", these parameters <span class="bcp14">MUST NOT</span> be present for
 "incomplete" or "transfer" dialog types (see <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> and
-<span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).<a href="#section-4.3.8-1" class="pilcrow">¶</a></p>
+<span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).
+The exception to this is that the body or url <span class="bcp14">MAY</span> be absent if it is redacted.<a href="#section-4.3.8-1" class="pilcrow">¶</a></p>
 <p id="section-4.3.8-2">For inline included dialog:<a href="#section-4.3.8-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3.8-3.1">
@@ -2976,6 +2980,25 @@ For example, the application parameter can be used to identify the web conferenc
           </ul>
 </section>
 </div>
+<div id="messageid">
+<section id="section-4.3.17">
+          <h4 id="name-message_id">
+<a href="#section-4.3.17" class="section-number selfRef">4.3.17. </a><a href="#name-message_id" class="section-name selfRef">message_id</a>
+          </h4>
+<p id="section-4.3.17-1">Some messaging systems assign a unique message identifier to each message.
+The message_id parameter may be used to label the message for either cross referencing back to the messaging
+system or to prevent the addition of duplicate messages to the vCon.
+For example SMTP [SMTP] messages have a message-id in the SMTP header.
+In the SMTP case a message may exist in multiple mailboxes or tags.
+When exporting these SMTP messages, the message_id parameter may be used to avoid adding the same message,
+to the vCon containing the email thread, more than once.<a href="#section-4.3.17-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.3.17-2.1">
+              <p id="section-4.3.17-2.1.1">message_id: "string" (optional)<a href="#section-4.3.17-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="analysis-object">
@@ -3123,7 +3146,8 @@ The schema string contains a token or label for the data format or schema for th
 <a href="#section-4.4.8" class="section-number selfRef">4.4.8. </a><a href="#name-analysis-content" class="section-name selfRef">Analysis Content</a>
           </h4>
 <p id="section-4.4.8-1">The Analysis Object <span class="bcp14">SHOULD</span> contain the body and encoding parameters or the url and content_hash parameters
-(see <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> and <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).<a href="#section-4.4.8-1" class="pilcrow">¶</a></p>
+(see <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> and <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).
+The exception to this is that the body or url <span class="bcp14">MAY</span> be absent if it is redacted.<a href="#section-4.4.8-1" class="pilcrow">¶</a></p>
 <p id="section-4.4.8-2">For inline included analysis:<a href="#section-4.4.8-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.4.8-3.1">
@@ -3229,7 +3253,8 @@ The file name string contains an optional name for the attachment file reference
 <a href="#section-4.5.6" class="section-number selfRef">4.5.6. </a><a href="#name-attachment-content" class="section-name selfRef">Attachment Content</a>
           </h4>
 <p id="section-4.5.6-1">The Attachment Object <span class="bcp14">SHOULD</span> contain the body and encoding parameters or the url and content_hash parameters
-(see <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> and <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).<a href="#section-4.5.6-1" class="pilcrow">¶</a></p>
+(see <span><a href="#inline-files" class="internal xref">Inline Files</a> (<a href="#inline-files" class="auto internal xref">Section 2.3</a>)</span> and <span><a href="#externally-referenced-files" class="internal xref">Externally Referenced Files</a> (<a href="#externally-referenced-files" class="auto internal xref">Section 2.4</a>)</span>).
+The exception to this is that the body or url <span class="bcp14">MAY</span> be absent if it is redacted.<a href="#section-4.5.6-1" class="pilcrow">¶</a></p>
 <p id="section-4.5.6-2">For inline included attachments:<a href="#section-4.5.6-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.5.6-3.1">
