@@ -2255,6 +2255,10 @@ B.1.  Two Party Call vCon With Inline Recording
    Dialog Object which contains a single channel wav format recording
    with the two parties audio mixed into the single channel.
 
+   The unformatted version of the following example can be downloaded
+   from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
+   vcon-container/refs/heads/main/examples/ab_call_int_rec.vcon
+
    {
      "vcon": "0.0.2",
      "parties": [
@@ -2476,6 +2480,11 @@ B.3.  Email Thread Multipart vCon
    The following is an unsigned form of an vCon for a 2 message email
    thread between 2 parties.  The email messages are multipart MIME
    message bodies.
+
+   The unformatted version of the following example can be downloaded
+   from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
+   vcon-container/refs/heads/main/examples/
+   ab_email_acct_prob_thread.vcon
 
    {
      "vcon": "0.0.2",
