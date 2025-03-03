@@ -6,7 +6,6 @@
 <meta content="initial-scale=1.0" name="viewport">
 <title>The JSON format for vCon - Conversation Data Container</title>
 <meta content="Daniel G Petrie" name="author">
-<meta content="Thomas McCarthy-Howe" name="author">
 <meta content="
        A vCon is the container for data and information relating to a real-time, human conversation.
 It is analogous to a   which enables the definition, interchange and storage of an individual's various points of contact.
@@ -14,7 +13,7 @@ The data contained in a vCon may be derived from any multimedia session, traditi
 The data in the container relating to the conversation may include Call Detail Records (CDR), call meta data, participant identity information (e.g. STIR PASSporT), the actual conversational data exchanged (e.g. audio, video, text), realtime or post conversational analysis and attachments of files exchanged during the conversation.
 A standardized conversation container enables many applications, establishes a common method of storage and interchange, and supports identity, privacy and security efforts (see  ) 
     " name="description">
-<meta content="xml2rfc 3.27.0" name="generator">
+<meta content="xml2rfc 3.28.0" name="generator">
 <meta content="conversation" name="keyword">
 <meta content="vcon" name="keyword">
 <meta content="CDR" name="keyword">
@@ -28,7 +27,7 @@ A standardized conversation container enables many applications, establishes a c
 <meta content="conference recording" name="keyword">
 <meta content="draft-ietf-vcon-vcon-container-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.27.0
+  xml2rfc 3.28.0
     Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
@@ -1062,7 +1061,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <td class="right">March 2025</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Petrie &amp; McCarthy-Howe</td>
+<td class="left">Petrie</td>
 <td class="center">Expires 4 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
@@ -1082,15 +1081,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
 <dd class="expires"><time datetime="2025-09-04">4 September 2025</time></dd>
-<dt class="label-authors">Authors:</dt>
+<dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">D. G. Petrie</div>
 <div class="org">SIPez LLC</div>
-</div>
-<div class="author">
-      <div class="author-name">T. McCarthy-Howe</div>
-<div class="org">Strolid</div>
 </div>
 </dd>
 </dl>
@@ -1524,7 +1519,7 @@ A standardized conversation container enables many applications, establishes a c
             <p id="section-toc.1-1.11.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
 </li>
         </ul>
 </nav>
@@ -3912,7 +3907,7 @@ when sending.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <dd class="break"></dd>
 <dt id="PY-VCON">[PY-VCON]</dt>
         <dd>
-<span class="refTitle">"Python open source CLI, library and workflow server"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/py-vcon">https://github.com/py-vcon</a>&gt;</span>. </dd>
+<span class="refTitle">"Python open source vCon command line interface, library and workflow server"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/py-vcon/py-vcon">https://github.com/py-vcon/py-vcon</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SHA-512">[SHA-512]</dt>
         <dd>
@@ -3954,7 +3949,8 @@ when sending.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
       </h2>
 <p id="appendix-B-1">This appendix contains example vCons in the unsigned, signed and encrypted form.
 The JSON has been indented for readability.
-Long text lines have been wrapped with a left hand white space indent for readability purposes.
+The vCons have been formatted such that long text lines have been wrapped with a left hand white space indent for readability purposes.
+Links for unformatted versions of the vCons are provided for each of the examples.
 The example vcons in this document were generated using the <span>[<a href="#PY-VCON" class="cite xref">PY-VCON</a>]</span> command line interface.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <div id="two-party-call-vcon-with-inline-recording">
 <section id="appendix-B.1">
@@ -4340,7 +4336,9 @@ https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/re
         </h3>
 <p id="appendix-B.4-1">The following is an unsigned form of an vCon for a 3 message email thread between 2 parties.
 The email messages are plain text message bodies.<a href="#appendix-B.4-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-B.4-2">
+<p id="appendix-B.4-2">The unformatted version of the following example can be downloaded from:
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_email_prob_followup_text_thread.vcon<a href="#appendix-B.4-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.4-3">
 <pre>
 {
   "vcon": "0.0.2",
@@ -4417,7 +4415,7 @@ The email messages are plain text message bodies.<a href="#appendix-B.4-1" class
   "subject": "Account issue followup",
   "uuid": "0195544a-d292-8cda-b9a2-279e0d16bc46"
 }
-</pre><a href="#appendix-B.4-2" class="pilcrow">¶</a>
+</pre><a href="#appendix-B.4-3" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -4428,7 +4426,9 @@ The email messages are plain text message bodies.<a href="#appendix-B.4-1" class
         </h3>
 <p id="appendix-B.5-1">This example vCon is for a simple 2 party PSTN call.
 It has a single Dialog Object which reference a single channel wav format recording with the two parties audio mixed into the single channel.<a href="#appendix-B.5-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-B.5-2">
+<p id="appendix-B.5-2">The unformatted version of the following example can be downloaded from:
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_ext_rec.vcon<a href="#appendix-B.5-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.5-3">
 <pre>
 {
   "vcon": "0.0.2",
@@ -4463,7 +4463,7 @@ It has a single Dialog Object which reference a single channel wav format record
   "attachments": [],
   "uuid": "0195544a-b9b1-8ee4-b9a2-279e0d16bc46"
 }
-</pre><a href="#appendix-B.5-2" class="pilcrow">¶</a>
+</pre><a href="#appendix-B.5-3" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -4473,7 +4473,9 @@ It has a single Dialog Object which reference a single channel wav format record
 <a href="#appendix-B.6" class="section-number selfRef">B.6. </a><a href="#name-two-party-call-vcon-with-an" class="section-name selfRef">Two Party Call vCon with Analysis</a>
         </h3>
 <p id="appendix-B.6-1">TODO: fix diarization in transcript<a href="#appendix-B.6-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-B.6-2">
+<p id="appendix-B.6-2">The unformatted version of the following example can be downloaded from:
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_ext_rec_analysis.vcon<a href="#appendix-B.6-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.6-3">
 <pre>
 {
   "vcon": "0.0.2",
@@ -5386,7 +5388,7 @@ It has a single Dialog Object which reference a single channel wav format record
   "attachments": [],
   "uuid": "0195544a-b9b1-8ee4-b9a2-279e0d16bc46"
 }
-</pre><a href="#appendix-B.6-2" class="pilcrow">¶</a>
+</pre><a href="#appendix-B.6-3" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -5403,7 +5405,9 @@ https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
 </pre><a href="#appendix-B.7-2" class="pilcrow">¶</a>
 </div>
 <p id="appendix-B.7-3">The certificate chain is included in the x5c parameter of the header Object.<a href="#appendix-B.7-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-B.7-4">
+<p id="appendix-B.7-4">The unformatted version of the following example can be downloaded from:
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_ext_rec_signed.vcon<a href="#appendix-B.7-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.7-5">
 <pre>
 {
   "payload": "eyJ2Y29uIjoiMC4wLjIiLCJwYXJ0aWVzIjpbeyJ0ZWwiOiIrMTI
@@ -5654,7 +5658,7 @@ https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
     }
   ]
 }
-</pre><a href="#appendix-B.7-4" class="pilcrow">¶</a>
+</pre><a href="#appendix-B.7-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -5670,7 +5674,9 @@ The private key to decrypt it can be found at:<a href="#appendix-B.8-1" class="p
 https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
 </pre><a href="#appendix-B.8-2" class="pilcrow">¶</a>
 </div>
-<div class="alignLeft art-text artwork" id="appendix-B.8-3">
+<p id="appendix-B.8-3">The unformatted version of the following example can be downloaded from:
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_ext_rec_encrypted.vcon<a href="#appendix-B.8-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.8-4">
 <pre>
 {
   "protected": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1M
@@ -5985,7 +5991,7 @@ https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
     "enc": "A256CBC-HS512"
   }
 }
-</pre><a href="#appendix-B.8-3" class="pilcrow">¶</a>
+</pre><a href="#appendix-B.8-4" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -5997,7 +6003,9 @@ https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
 <p id="appendix-B.9-1">This is an example redaction of the vCon in the example <span><a href="#two-party-call-vcon-with-externally-referenced-recording" class="internal xref">Two Party Call vCon With Externally Referenced Recording</a> (<a href="#two-party-call-vcon-with-externally-referenced-recording" class="auto internal xref">Appendix B.5</a>)</span>.
 Most notable is the <span><a href="#redacted" class="internal xref">Redacted object</a> (<a href="#redacted" class="auto internal xref">Section 4.1.6</a>)</span> which references the lesser redacted version of this vCon.
 In addition the <strong>url</strong> parameter has been redacted from the <span><a href="#dialog-object" class="internal xref">Dialog Object</a> (<a href="#dialog-object" class="auto internal xref">Section 4.3</a>)</span>, but the rest of the <span><a href="#dialog-object" class="internal xref">Dialog Object</a> (<a href="#dialog-object" class="auto internal xref">Section 4.3</a>)</span> was left in the redaction.<a href="#appendix-B.9-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-B.9-2">
+<p id="appendix-B.9-2">The unformatted version of the following example can be downloaded from:
+https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/refs/heads/main/examples/ab_call_ext_rec_redacted.vcon<a href="#appendix-B.9-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="appendix-B.9-3">
 <pre>
 {
   "vcon": "0.0.2",
@@ -6073,7 +6081,7 @@ In addition the <strong>url</strong> parameter has been redacted from the <span>
     "type": "PII Redaction"
   }
 }
-</pre><a href="#appendix-B.9-2" class="pilcrow">¶</a>
+</pre><a href="#appendix-B.9-3" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -6102,24 +6110,27 @@ In addition the <strong>url</strong> parameter has been redacted from the <span>
       </h2>
 <ul class="normal">
 <li class="normal" id="appendix-C-1.1">
-          <p id="appendix-C-1.1.1">Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases.<a href="#appendix-C-1.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-1.1.1">Thank you to Thomas McCarthy-Howe for inventing the concept of a vCon and the many discussions that we had while this concept was developed into reality.<a href="#appendix-C-1.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-1.2">
-          <p id="appendix-C-1.2.1">Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon.<a href="#appendix-C-1.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-1.2.1">Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases.<a href="#appendix-C-1.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-1.3">
-          <p id="appendix-C-1.3.1">The examples in this document were generated using the command line interface (CLI) from the py-vcon <span>[<a href="#PY-VCON" class="cite xref">PY-VCON</a>]</span> python open source project.<a href="#appendix-C-1.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-1.3.1">Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon.<a href="#appendix-C-1.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-1.4">
-          <p id="appendix-C-1.4.1">Thank you to Steve Lasker for formatting and spelling edits.<a href="#appendix-C-1.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-1.4.1">The examples in this document were generated using the command line interface (CLI) from the py-vcon <span>[<a href="#PY-VCON" class="cite xref">PY-VCON</a>]</span> python open source project.<a href="#appendix-C-1.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-1.5">
+          <p id="appendix-C-1.5.1">Thank you to Steve Lasker for formatting and spelling edits.<a href="#appendix-C-1.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
 </div>
 <div id="authors-addresses">
 <section id="appendix-D">
-      <h2 id="name-authors-addresses">
-<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      <h2 id="name-authors-address">
+<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Daniel G Petrie</span></div>
@@ -6127,14 +6138,6 @@ In addition the <strong>url</strong> parameter has been redacted from the <span>
 <div class="email">
 <span>Email:</span>
 <a href="mailto:dan.ietf@sipez.com" class="email">dan.ietf@sipez.com</a>
-</div>
-</address>
-<address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Thomas McCarthy-Howe</span></div>
-<div dir="auto" class="left"><span class="org">Strolid</span></div>
-<div class="email">
-<span>Email:</span>
-<a href="mailto:thomas.howe@strolid.com" class="email">thomas.howe@strolid.com</a>
 </div>
 </address>
 </section>

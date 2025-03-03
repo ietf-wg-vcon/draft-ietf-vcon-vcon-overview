@@ -4,9 +4,8 @@
 
 Virtualized Conversations                                   D. G. Petrie
 Internet-Draft                                                 SIPez LLC
-Intended status: Standards Track                        T. McCarthy-Howe
-Expires: 4 September 2025                                        Strolid
-                                                            3 March 2025
+Intended status: Standards Track                            3 March 2025
+Expires: 4 September 2025
 
 
          The JSON format for vCon - Conversation Data Container
@@ -186,7 +185,7 @@ Table of Contents
      B.10. Appended Signed vCon
      B.11. vCon Group
    Acknowledgments
-   Authors' Addresses
+   Author's Address
 
 1.  Introduction
 
@@ -2207,8 +2206,9 @@ Table of Contents
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
               <https://www.rfc-editor.org/rfc/rfc7519>.
 
-   [PY-VCON]  "Python open source CLI, library and workflow server",
-              n.d., <https://github.com/py-vcon>.
+   [PY-VCON]  "Python open source vCon command line interface, library
+              and workflow server", n.d.,
+              <https://github.com/py-vcon/py-vcon>.
 
    [SHA-512]  Eastlake 3rd, D. and T. Hansen, "US Secure Hash Algorithms
               (SHA and SHA-based HMAC and HKDF)", RFC 6234,
@@ -2244,10 +2244,12 @@ Appendix A.  Contact Center Use Cases
 Appendix B.  Example vCons
 
    This appendix contains example vCons in the unsigned, signed and
-   encrypted form.  The JSON has been indented for readability.  Long
-   text lines have been wrapped with a left hand white space indent for
-   readability purposes.  The example vcons in this document were
-   generated using the [PY-VCON] command line interface.
+   encrypted form.  The JSON has been indented for readability.  The
+   vCons have been formatted such that long text lines have been wrapped
+   with a left hand white space indent for readability purposes.  Links
+   for unformatted versions of the vCons are provided for each of the
+   examples.  The example vcons in this document were generated using
+   the [PY-VCON] command line interface.
 
 B.1.  Two Party Call vCon With Inline Recording
 
@@ -2621,6 +2623,11 @@ B.4.  Email Thread Text vCon
    thread between 2 parties.  The email messages are plain text message
    bodies.
 
+   The unformatted version of the following example can be downloaded
+   from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
+   vcon-container/refs/heads/main/examples/
+   ab_email_prob_followup_text_thread.vcon
+
    {
      "vcon": "0.0.2",
      "group": [],
@@ -2703,6 +2710,10 @@ B.5.  Two Party Call vCon With Externally Referenced Recording
    Dialog Object which reference a single channel wav format recording
    with the two parties audio mixed into the single channel.
 
+   The unformatted version of the following example can be downloaded
+   from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
+   vcon-container/refs/heads/main/examples/ab_call_ext_rec.vcon
+
    {
      "vcon": "0.0.2",
      "parties": [
@@ -2740,6 +2751,10 @@ B.5.  Two Party Call vCon With Externally Referenced Recording
 B.6.  Two Party Call vCon with Analysis
 
    TODO: fix diarization in transcript
+
+   The unformatted version of the following example can be downloaded
+   from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
+   vcon-container/refs/heads/main/examples/ab_call_ext_rec_analysis.vcon
 
    {
      "vcon": "0.0.2",
@@ -3664,6 +3679,10 @@ B.7.  Signed vCon
    The certificate chain is included in the x5c parameter of the header
    Object.
 
+   The unformatted version of the following example can be downloaded
+   from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
+   vcon-container/refs/heads/main/examples/ab_call_ext_rec_signed.vcon
+
    {
      "payload": "eyJ2Y29uIjoiMC4wLjIiLCJwYXJ0aWVzIjpbeyJ0ZWwiOiIrMTI
        zNDU2Nzg5MDEiLCJuYW1lIjoiQWxpY2UifSx7InRlbCI6IisxOTg3NjU0MzIx
@@ -3921,6 +3940,11 @@ B.8.  Encrypted vCon
    at:
 
  https://raw.githubusercontent.com/vcon-dev/vcon/main/certs/fake_grp.key
+
+   The unformatted version of the following example can be downloaded
+   from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
+   vcon-container/refs/heads/main/examples/
+   ab_call_ext_rec_encrypted.vcon
 
    {
      "protected": "eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZDQkMtSFM1M
@@ -4246,6 +4270,10 @@ B.9.  Redacted vCon
    the rest of the Dialog Object (Section 4.3) was left in the
    redaction.
 
+   The unformatted version of the following example can be downloaded
+   from: https://raw.githubusercontent.com/ietf-wg-vcon/draft-ietf-vcon-
+   vcon-container/refs/heads/main/examples/ab_call_ext_rec_redacted.vcon
+
    {
      "vcon": "0.0.2",
      "parties": [
@@ -4331,6 +4359,10 @@ B.11.  vCon Group
 
 Acknowledgments
 
+   *  Thank you to Thomas McCarthy-Howe for inventing the concept of a
+      vCon and the many discussions that we had while this concept was
+      developed into reality.
+
    *  Thank you to Jonathan Rosenberg and Andrew Siciliano for their
       input to the vCon container requirements in the form of I-D:
       draft-rosenberg-vcon-cc-usecases.
@@ -4344,13 +4376,8 @@ Acknowledgments
 
    *  Thank you to Steve Lasker for formatting and spelling edits.
 
-Authors' Addresses
+Author's Address
 
    Daniel G Petrie
    SIPez LLC
    Email: dan.ietf@sipez.com
-
-
-   Thomas McCarthy-Howe
-   Strolid
-   Email: thomas.howe@strolid.com
