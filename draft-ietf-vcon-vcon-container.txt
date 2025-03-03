@@ -163,6 +163,8 @@ Table of Contents
        5.3.1.  Unprotected Object
        5.3.2.  Recipient Object
        5.3.3.  Header Object
+     5.4.  Differentiation of unsigned, signed and encrypted forms of
+           vCon
    6.  IANA Considerations
      6.1.  JSON Format vCon Mediatype
      6.2.  gzip Format vCon Mediatype
@@ -1977,8 +1979,44 @@ Table of Contents
 
    The string value of alg SHOULD be "RSA-OAEP".
 
-   TODO: describe how to differentiate unsigned, JWS and JWE forms of
-   vCon
+5.4.  Differentiation of unsigned, signed and encrypted forms of vCon
+
+   vCons in the unsigned, signed and encrypted form are all valid JSON.
+   It is necessary to distinguish which form a vCOn is in order to
+   properly handle it.  For example a signed vCon needs to be verified.
+   The following is the recommended approaches to idenfying which form a
+   particular vCon is in:
+
+   *  unsigned
+
+      The presence of one or more of the following parameters indicates
+      that the vCOn is in the unsigned form:
+
+      -  parties
+
+      -  dialog
+
+      -  analysis
+
+      -  attachments
+
+   *  signed (JWS)
+
+      The presence of both of the following parameters indicates that
+      the vCon is in the signed (JWS) form:
+
+      -  payload
+
+      -  signatures
+
+   *  encrypted (JWE)
+
+      The presence of both of the following parameters indicates that
+      the vCon is in the encrypted (JWE) form:
+
+      -  ciphertext
+
+      -  recipients
 
 6.  IANA Considerations
 
