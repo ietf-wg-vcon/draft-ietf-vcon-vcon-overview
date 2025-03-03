@@ -5,8 +5,8 @@
 Virtualized Conversations                                   D. G. Petrie
 Internet-Draft                                                 SIPez LLC
 Intended status: Standards Track                        T. McCarthy-Howe
-Expires: 3 September 2025                                        Strolid
-                                                            2 March 2025
+Expires: 4 September 2025                                        Strolid
+                                                            3 March 2025
 
 
          The JSON format for vCon - Conversation Data Container
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2025.
+   This Internet-Draft will expire on 4 September 2025.
 
 Copyright Notice
 
@@ -451,11 +451,14 @@ Table of Contents
 
    This MUST be one of the following strings:
 
-* "base64url": The payload of the file has been Base64Url encoded and provided as the string value of the body parameter.
+   *  "base64url": The payload of the file has been Base64Url encoded
+      and provided as the string value of the body parameter.
 
-* "json": The value of the body string is a JSON object.
+   *  "json": The value of the body string is a JSON object.
 
-* "none": The payload of the file is a valid JSON string and can be included without modification as the string value to the body parameter.
+   *  "none": The payload of the file is a valid JSON string and can be
+      included without modification as the string value to the body
+      parameter.
 
 2.4.  Externally Referenced Files
 
@@ -581,9 +584,11 @@ Table of Contents
    defined in [UUID] which is generated identically to a version 7 UUID
    with the exception that:
 
-* rand_b/custom_c is generated from the high 62 bits of the SHA-1 hash of the FQHN string
+   *  rand_b/custom_c is generated from the high 62 bits of the SHA-1
+      hash of the FQHN string
 
-* the variant and version fields are set as described for version 8 UUID
+   *  the variant and version fields are set as described for version 8
+      UUID
 
    The DNS name string used in generating the uuid value SHOULD be the
    same FQHN, or a subdomain to allow for more distributed generation of
@@ -1204,20 +1209,28 @@ Table of Contents
    Type header in the [HTTPS] response for the externally referenced URL
    is not provided.
 
-   *  mediatype: "Mediatype" (optional for externally referenced files)
+   *  mediatype: "Mediatype" (optional for externally referenced files,
+      if absent, this is provided in the [HTTPS] Content-Type header)
 
    The media types SHOULD be one of the following strings:
 
-   * "text/plain"
-   * "audio/x-wav"
-   * "audio/x-mp3"
-   * "audio/x-mp4"
-   * "audio/ogg"
-   * "video/x-mp4"
-   * "video/ogg"
-   * "multipart/mixed"
+   *  "text/plain"
 
-   Note: multi-part will also likely include the boundary parameter
+   *  "audio/x-wav"
+
+   *  "audio/x-mp3"
+
+   *  "audio/x-mp4"
+
+   *  "audio/ogg"
+
+   *  "video/x-mp4"
+
+   *  "video/ogg"
+
+   *  "multipart/mixed"
+
+      Note: multi-part will also likely include the boundary parameter
 
 4.3.7.  filename
 
@@ -1267,14 +1280,26 @@ Table of Contents
    The value of the disposition parameter MUST be one of the following
    string:
 
-* "no-answer" - a call or connection was attempted, but no one answered or accepted the connection
-* "congestion" - a call or connection was attempted, but was unable to be completed due to system load
-* "failed" - a call or connection was attempted, but failed
-* "busy" - a call or connection was attempted, but the party was busy with another conversation
-* "hung-up" - a call or connection was made, but the party hung-up before any conversation occurred
-* "voicemail-no-message" - a call or connection was made, the voicemail system answered, but no message was left
+   *  "no-answer" - a call or connection was attempted, but no one
+      answered or accepted the connection
 
-Note: if a message was left with the voicemail system this is no longer an "incomplete" type dialog, it is a "recording" type and the conversation SHOULD be included in the Dialog Content.
+   *  "congestion" - a call or connection was attempted, but was unable
+      to be completed due to system load
+
+   *  "failed" - a call or connection was attempted, but failed
+
+   *  "busy" - a call or connection was attempted, but the party was
+      busy with another conversation
+
+   *  "hung-up" - a call or connection was made, but the party hung-up
+      before any conversation occurred
+
+   *  "voicemail-no-message" - a call or connection was made, the
+      voicemail system answered, but no message was left
+
+      Note: if a message was left with the voicemail system this is no
+      longer an "incomplete" type dialog, it is a "recording" type and
+      the conversation SHOULD be included in the Dialog Content.
 
 4.3.10.  party_history Objects Array
 
@@ -1297,17 +1322,17 @@ Note: if a message was left with the voicemail system this is no longer an "inco
 
    The string token for the event which MUST be one of the following:
 
-   * "join" - when the party joins the dialog
+   *  "join" - when the party joins the dialog
 
-   * "drop" - when the party drops out of the dialog
+   *  "drop" - when the party drops out of the dialog
 
-   * "hold" - when the party is put on hold
+   *  "hold" - when the party is put on hold
 
-   * "unhold" - when the part is taken off hold
+   *  "unhold" - when the part is taken off hold
 
-   * "mute" - when the party is muted
+   *  "mute" - when the party is muted
 
-   * "unmute" - when the part is taken off mute
+   *  "unmute" - when the part is taken off mute
 
    *  time: "Date"
 
@@ -1467,17 +1492,17 @@ Note: if a message was left with the voicemail system this is no longer an "inco
 
    *  type: "String"
 
-      The string value SHOULD be one of the following:
+   The string value SHOULD be one of the following:
 
-      -  "summary"
+   *  "summary"
 
-      -  "transcript"
+   *  "transcript"
 
-      -  "translation"
+   *  "translation"
 
-      -  "sentiment"
+   *  "sentiment"
 
-      -  "tts"
+   *  "tts"
 
 4.4.2.  dialog
 
@@ -1498,7 +1523,7 @@ Note: if a message was left with the voicemail system this is no longer an "inco
    provided in the mediatype parameter.
 
    *  mediatype: "Mediatype" (optional for externally referenced files,
-      if it this is provided in the [HTTPS] Content-Type header)
+      if absent, this is provided in the [HTTPS] Content-Type header)
 
    The mediatype string contains the media type or [MIME] type of the
    analysis file.
@@ -1610,7 +1635,7 @@ Note: if a message was left with the voicemail system this is no longer an "inco
    provided in the mediatype parameter.
 
    *  mediatype: "Mediatype" (optional for externally referenced files,
-      if it this is provided in the [HTTPS] Content-Type header)
+      if absent, this is provided in the [HTTPS] Content-Type header)
 
    The mediatype string contains the media type or [MIME] type of the
    attached file.
