@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-20T00:44:33.518850+00:00",
+  "timestamp": "2025-03-23T00:50:33.524432+00:00",
   "repo": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
   "labels": [
     {
@@ -303,6 +303,54 @@
           "updatedAt": "2025-03-02T03:52:13Z"
         }
       ]
+    },
+    {
+      "number": 16,
+      "id": "I_kwDOMNntIs6u4WGP",
+      "title": "Remove inline vCons",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/16",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Per discussion at vCon WG meetings at IETF 120 and 121, remove the parameters for inline vCon in the group, appended and redacted Objects.  vCon will be reference only (uri and/or uuid) in these Objects.",
+      "createdAt": "2025-03-20T04:28:07Z",
+      "updatedAt": "2025-03-20T04:28:07Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 19,
+      "id": "I_kwDOMNntIs6vF0-B",
+      "title": "add vCon parameter style description",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/19",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "part of vCon core or extension framework should describe parameter naming style (lower case with underscores)",
+      "createdAt": "2025-03-21T07:21:46Z",
+      "updatedAt": "2025-03-21T07:21:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 20,
+      "id": "I_kwDOMNntIs6vGQbV",
+      "title": "Add text talking about compressing before encrypting VCONs",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/20",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Most uses of VCONs will benefit from compression. When a VCON is encrypted, it should be compressed before it is JWE Encrypted. ",
+      "createdAt": "2025-03-21T08:18:37Z",
+      "updatedAt": "2025-03-21T08:18:37Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -400,6 +448,79 @@
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 17,
+      "id": "PR_kwDOMNntIs6Pj3qF",
+      "title": "Add support for Decentralized Identifiers (DIDs) in Party Object",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/pull/17",
+      "state": "OPEN",
+      "author": "howethomas",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "\r\n### did\r\n\r\nIf a Decentralized Identifier (DID) is known for the party, it can be included in the did parameter.\r\n\r\n* did: \"String\" (optional)\r\n\r\nThe value of the did parameter MUST be a valid DID URI that enables verifiable, decentralized digital identity for the party. DIDs are designed to be decoupled from centralized registries and identity providers, allowing the controller of the DID to prove control without requiring permission from other parties. The DID can refer to any subject (person, organization, thing, etc.) as determined by the controller of the DID.\r\n\r\n### Attaching DID Documents\r\n\r\nAn alternative approach to including DIDs in the Party Object is to add Attachment Objects containing the complete DID documents for each party. This approach provides more comprehensive identity information including cryptographic material, verification methods, and services that enable a DID controller to prove control. When using this approach:\r\n\r\n1. Create an Attachment Object for each party's DID document\r\n2. Set the mediatype to \"application/did+json\" (or appropriate mediatype)\r\n3. Include a reference to the party in the attachment's party parameter\r\n4. Consider adding a custom type/purpose indicator that this is a DID document\r\n\r\nThe DID document approach provides richer identity information that can be used for verification beyond simple identification.\r\n",
+      "createdAt": "2025-03-21T04:57:17Z",
+      "updatedAt": "2025-03-21T04:57:17Z",
+      "baseRepository": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
+      "baseRefName": "main",
+      "baseRefOid": "9791b2740a0079e7ecf9523ffe5e439097139031",
+      "headRepository": "howethomas/draft-ietf-vcon-vcon-container",
+      "headRefName": "did",
+      "headRefOid": "a55f46df2e7e6963917dcde91bb925114338bb90",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 18,
+      "id": "PR_kwDOMNntIs6Pj6cX",
+      "title": "Clarify vcon versioning approach",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/pull/18",
+      "state": "OPEN",
+      "author": "howethomas",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Adds to top level meta-data\r\n\r\nvcon\r\nThe value of vcon parameter contains the syntactic version of the JSON format used in the vCon, following semantic versioning principles.\r\n\r\nvcon: \"String\"\r\n\r\nFor syntax defined in this document, the string MUST have the value: \"0.2.0\"\r\nThe version follows the format \"MAJOR.MINOR.PATCH\" where:\r\n\r\nMAJOR version increments represent incompatible changes that break backward compatibility\r\nMINOR version increments represent added functionality in a backward-compatible manner\r\nPATCH version increments represent backward-compatible bug fixes\r\n\r\nImplementations SHOULD reject processing a vCon with a MAJOR version higher than they support. Implementations SHOULD accept processing a vCon with the same MAJOR version but a higher MINOR or PATCH version than they were designed for, as these changes maintain backward compatibility.",
+      "createdAt": "2025-03-21T05:07:46Z",
+      "updatedAt": "2025-03-21T07:02:39Z",
+      "baseRepository": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
+      "baseRefName": "main",
+      "baseRefOid": "9791b2740a0079e7ecf9523ffe5e439097139031",
+      "headRepository": "howethomas/draft-ietf-vcon-vcon-container",
+      "headRefName": "semantic-version",
+      "headRefOid": "8422f62e190352a4413ab5d13f65e87007e95782",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMNntIs6hOf5e",
+          "commit": {
+            "abbreviatedOid": "8422f62"
+          },
+          "author": "kesara",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-21T07:02:39Z",
+          "updatedAt": "2025-03-21T07:02:39Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "Typo here. Deletion of `]` in `[appended]`.",
+              "createdAt": "2025-03-21T07:02:39Z",
+              "updatedAt": "2025-03-21T07:02:40Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
