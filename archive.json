@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-25T00:46:30.077539+00:00",
+  "timestamp": "2025-03-27T00:45:44.687596+00:00",
   "repo": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
   "labels": [
     {
@@ -349,6 +349,22 @@
       "body": "Most uses of VCONs will benefit from compression. When a VCON is encrypted, it should be compressed before it is JWE Encrypted. ",
       "createdAt": "2025-03-21T08:18:37Z",
       "updatedAt": "2025-03-21T08:18:37Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 21,
+      "id": "I_kwDOMNntIs6vjjIU",
+      "title": "Dialog Object may not be in chonological order",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/21",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Dialogs are in the order they were added to the vCon.  This may not be in chronological order.  Need to add text to this effect.",
+      "createdAt": "2025-03-25T05:35:48Z",
+      "updatedAt": "2025-03-25T05:35:48Z",
       "closedAt": null,
       "comments": []
     }
