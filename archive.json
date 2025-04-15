@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-01T00:53:48.863051+00:00",
+  "timestamp": "2025-04-15T00:48:44.354199+00:00",
   "repo": "ietf-wg-vcon/draft-ietf-vcon-vcon-container",
   "labels": [
     {
@@ -365,6 +365,22 @@
       "body": "Dialogs are in the order they were added to the vCon.  This may not be in chronological order.  Need to add text to this effect.",
       "createdAt": "2025-03-25T05:35:48Z",
       "updatedAt": "2025-03-25T05:35:48Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 22,
+      "id": "I_kwDOMNntIs6yewn_",
+      "title": "JWE ciphertext vCon MAY be gzipped",
+      "url": "https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-container/issues/22",
+      "state": "OPEN",
+      "author": "dgpetrie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The cty parameter in the vCon JWE Unprotected Object can be application/vcon OR **application/vcon+gzip**",
+      "createdAt": "2025-04-14T22:27:21Z",
+      "updatedAt": "2025-04-14T22:27:21Z",
       "closedAt": null,
       "comments": []
     }
