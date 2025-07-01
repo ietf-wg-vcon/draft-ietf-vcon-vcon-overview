@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>The vCon - Conversation Data Container - Overview</title>
+<meta content="Daniel G Petrie" name="author">
+<meta content="Thomas McCarthy-Howe" name="author">
+<meta content="
+       A vCon is the container for data and information relating to a real-time, human conversation.
+It is analogous to a   which enables the definition, interchange and storage of an individual's various points of contact.
+The data contained in a vCon may be derived from any multimedia session, traditional phone call, video conference, SMS or MMS message exchange, webchat or email thread.
+The data in the container relating to the conversation may include Call Detail Records (CDR), call meta data, participant identity information (e.g. STIR PASSporT), the actual conversational data exchanged (e.g. audio, video, text), realtime or post conversational analysis and attachments of files exchanged during the conversation.
+A standardized conversation container enables many applications, establishes a common method of storage and interchange, and supports identity, privacy and security efforts (see  ) 
+    " name="description">
+<meta content="xml2rfc 3.29.0" name="generator">
+<meta content="conversation" name="keyword">
+<meta content="vcon" name="keyword">
+<meta content="CDR" name="keyword">
+<meta content="call detail record" name="keyword">
+<meta content="call meta data" name="keyword">
+<meta content="call recording" name="keyword">
+<meta content="email thread" name="keyword">
+<meta content="text conversation" name="keyword">
+<meta content="video recording" name="keyword">
+<meta content="video conference" name="keyword">
+<meta content="conference recording" name="keyword">
+<meta content="draft-ietf-vcon-vcon-overview-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.29.0
+    Python 3.12.11
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
+    intervaltree 3.1.0
+    Jinja2 3.1.6
+    lxml 5.3.1
+    platformdirs 4.3.8
+    pycountry 24.6.1
+    PyYAML 6.0.2
+    requests 2.32.4
+    setuptools 80.9.0
+    wcwidth 0.2.13
+-->
+<link href="draft-ietf-vcon-vcon-overview.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+}
+dl:not(.dlNewline) > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+}
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+/* Comments */
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:is(:link, :focus, :hover),
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin: 2px 0.5em 0;
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">vCon Overveiw</td>
+<td class="right">July 2025</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Petrie &amp; McCarthy-Howe</td>
+<td class="center">Expires 2 January 2026</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Virtualized Conversations</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-vcon-vcon-overview-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2025-07-01" class="published">1 July 2025</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2026-01-02">2 January 2026</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">D. G Petrie</div>
+<div class="org">SIPez LLC</div>
+</div>
+<div class="author">
+      <div class="author-name">T. McCarthy-Howe</div>
+<div class="org">Strolid</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">The vCon - Conversation Data Container - Overview</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">A vCon is the container for data and information relating to a real-time, human conversation.
+It is analogous to a <span>[<a href="#vCard" class="cite xref">vCard</a>]</span> which enables the definition, interchange and storage of an individual's various points of contact.
+The data contained in a vCon may be derived from any multimedia session, traditional phone call, video conference, SMS or MMS message exchange, webchat or email thread.
+The data in the container relating to the conversation may include Call Detail Records (CDR), call meta data, participant identity information (e.g. STIR PASSporT), the actual conversational data exchanged (e.g. audio, video, text), realtime or post conversational analysis and attachments of files exchanged during the conversation.
+A standardized conversation container enables many applications, establishes a common method of storage and interchange, and supports identity, privacy and security efforts (see <span>[<a href="#vCon-white-paper" class="cite xref">vCon-white-paper</a>]</span>)<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-overview/draft-ietf-vcon-vcon-overview.html">https://ietf-wg-vcon.github.io/draft-ietf-vcon-vcon-overview/draft-ietf-vcon-vcon-overview.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-vcon-vcon-overview/">https://datatracker.ietf.org/doc/draft-ietf-vcon-vcon-overview/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">
+        Discussion of this document takes place on the
+        Virtualized Conversations  mailing list (<span><a href="mailto:vcon@ietf.org">mailto:vcon@ietf.org</a></span>),
+        which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/vcon/">https://mailarchive.ietf.org/arch/browse/vcon/</a></span>.
+        Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/vcon/">https://www.ietf.org/mailman/listinfo/vcon/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-overview">https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-overview</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 2 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2025 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-whats-in-a-vcon" class="internal xref">What's in a vCon?</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-use-cases-and-requirements" class="internal xref">Use Cases and Requirements</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2.2.1">
+                    <p id="section-toc.1-1.1.2.2.2.1.1" class="keepWithNext"><a href="#section-1.2.1" class="auto internal xref">1.2.1</a>.  <a href="#name-contact-center-use-case" class="internal xref">Contact Center Use Case</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2.2.2">
+                    <p id="section-toc.1-1.1.2.2.2.2.1" class="keepWithNext"><a href="#section-1.2.2" class="auto internal xref">1.2.2</a>.  <a href="#name-messaging-use-case" class="internal xref">Messaging Use Case</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2.2.3">
+                    <p id="section-toc.1-1.1.2.2.2.3.1"><a href="#section-1.2.3" class="auto internal xref">1.2.3</a>.  <a href="#name-ecrit-use-case" class="internal xref">ECRIT Use Case</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-inline-files" class="internal xref">Inline Files</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-externally-referenced-files" class="internal xref">Externally Referenced Files</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-vcon-json-object" class="internal xref">vCon JSON Object</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-uuid" class="internal xref">uuid</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
+                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-parties" class="internal xref">parties</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.2">
+                    <p id="section-toc.1-1.3.2.1.2.2.1"><a href="#section-3.1.2" class="auto internal xref">3.1.2</a>.  <a href="#name-dialog" class="internal xref">dialog</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.3">
+                    <p id="section-toc.1-1.3.2.1.2.3.1"><a href="#section-3.1.3" class="auto internal xref">3.1.3</a>.  <a href="#name-attachments" class="internal xref">attachments</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.4">
+                    <p id="section-toc.1-1.3.2.1.2.4.1"><a href="#section-3.1.4" class="auto internal xref">3.1.4</a>.  <a href="#name-analysis" class="internal xref">analysis</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.5">
+                    <p id="section-toc.1-1.3.2.1.2.5.1"><a href="#section-3.1.5" class="auto internal xref">3.1.5</a>.  <a href="#name-redacted" class="internal xref">redacted</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.6">
+                    <p id="section-toc.1-1.3.2.1.2.6.1"><a href="#section-3.1.6" class="auto internal xref">3.1.6</a>.  <a href="#name-appended" class="internal xref">appended</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.7">
+                    <p id="section-toc.1-1.3.2.1.2.7.1"><a href="#section-3.1.7" class="auto internal xref">3.1.7</a>.  <a href="#name-vcon-groups" class="internal xref">vCon groups</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-signing-externally-referenc" class="internal xref">Signing Externally Referenced Files</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-signed-form-of-vcon-object" class="internal xref">Signed Form of vCon Object</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-encrypted-form-of-vcon-obje" class="internal xref">Encrypted Form of vCon Object</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-non-upward-compatible-chang" class="internal xref">Non-Upward Compatible Changes to the vCon Container</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">The generation of conversational data, contained in transcripts and multi-media files, is common in business, especially in customer facing organizations.
+However, the storage, analysis and sharing of the data they contain is not currently a standard.
+Standardizing a container for conversation data (vCon) has numerous advantages, and enables the management of the conversation's content.
+Very often the system providing the communications service, the consumer and/or owner of the communications data and the communications analysis services are distinct systems and in many case separate business entities.
+The point of a vCon is to provide a standard means of exchanging communications data between these systems and services.
+The use of vCons can ease service integration by using a common container and format for enterprise communications.
+A vCon becomes the standardized input to communication analysis tools and machine learning and categorization.
+For a sales lead organization, a vCon can be the container of assets sold to sales teams.
+For conversations of record, the vCon can be a legal instrument.
+For machine learning efforts, vCons can track what information was used in the training of models, so that as the result of a customer requested deletion of their data, the affected models can be identified.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<div id="whats-in-a-vcon">
+<section id="section-1.1">
+        <h3 id="name-whats-in-a-vcon">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-whats-in-a-vcon" class="section-name selfRef">What's in a vCon?</a>
+        </h3>
+<p id="section-1.1-1">A vCon contains four major categories of data: metadata , dialog , analysis and attachments.
+The metadata portion allows for an expanded set of data from a typical call detail record (<span>[<a href="#CDR" class="cite xref">CDR</a>]</span>), with identifications of the participants or parties to the conversation, references to related or earlier versions of the vCon.
+The dialog portion contains a set of multimedia and media type elements, each representing the actual, physical conversation in it's original media form: text, audio or video.
+The analysis portion contains data derived from the metadata and dialog portions, intended to carry items like transcripts, translations, summaries, text to speech, sentiment analysis and other semantic tagging.
+Finally, the attachment portion contains any other documents, such as slide deck or sales lead information, which provides context and support for the conversation itself.
+The vCon may also container integrity checking information such as the issuer of the vCon and tamper-proof features such as signatures.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">A vCon acts as the definition of the conversation, and are created by systems during and after the conversation itself.
+Some communication modes, like SMS texting, lack natural session boundaries and require explicit definition.
+vCons may have two or more parties involved, but at least one should be a human.
+For instance, an interaction between a bot and a human is an appropriate scope for vCons, but a conversation between two bots would not.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+<p id="section-1.1-3">Due to the size and complexity of some portions of a vCon, both inline and externally referenced dialog, analysis, attachments and other vCon reference assets are supported.
+For instance, vCons may reference a video conference media recording as an external URL with an accompanying content hash of the contents to detect tampering.
+Alternatively, vCons may directly contain the media of the entire dialog internally, keeping the conversation in one place, and optionally encrypted.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
+<p id="section-1.1-4">vCons are designed to be a digital asset, versioned and signed.
+For instance, different versions of vCon may arise due to redaction (e.g. for PII or other reasons), added analysis or the addition of other content.
+In the metadata, vCons contain the unique ID of the parent vCon, such that they may be traversed while maintaining their data integrity and provenance.<a href="#section-1.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="use-cases-and-requirements">
+<section id="section-1.2">
+        <h3 id="name-use-cases-and-requirements">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-use-cases-and-requirements" class="section-name selfRef">Use Cases and Requirements</a>
+        </h3>
+<div id="contact-center-use-case">
+<section id="section-1.2.1">
+          <h4 id="name-contact-center-use-case">
+<a href="#section-1.2.1" class="section-number selfRef">1.2.1. </a><a href="#name-contact-center-use-case" class="section-name selfRef">Contact Center Use Case</a>
+        </h4>
+</section>
+</div>
+<div id="messaging-use-case">
+<section id="section-1.2.2">
+          <h4 id="name-messaging-use-case">
+<a href="#section-1.2.2" class="section-number selfRef">1.2.2. </a><a href="#name-messaging-use-case" class="section-name selfRef">Messaging Use Case</a>
+        </h4>
+</section>
+</div>
+<div id="ecrit-use-case">
+<section id="section-1.2.3">
+          <h4 id="name-ecrit-use-case">
+<a href="#section-1.2.3" class="section-number selfRef">1.2.3. </a><a href="#name-ecrit-use-case" class="section-name selfRef">ECRIT Use Case</a>
+          </h4>
+<p id="section-1.2.3-1">May of the initial set of use cases for vCons are expected to be in the interchange between front end and back end application and lower layers of the network stack, critical for enablement of analysis of conversations.
+It is expected that JavaScript handling of vCons in the front end and RESTful interfaces and back end platforms will be used for operations and manipulation of vCons.
+Many media analysis services which will be used with vCons, such as transcription, already use JSON based interfaces.
+For this reason, JSON has been chosen for the initial format binding of vCons and the scope of this document.
+Other bindings (e.g. <span>[<a href="#CBOR" class="cite xref">CBOR</a>]</span> or <span>[<a href="#CDDL" class="cite xref">CDDL</a>]</span>) may be consider for vCon in the future in other documents.<a href="#section-1.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-1.2.3-2">An outline of the vCon requirements derived from the explored use case follows:<a href="#section-1.2.3-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.2.3-3.1">
+              <p id="section-1.2.3-3.1.1">Standardize container for conversational data exchange<a href="#section-1.2.3-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-3.2">
+              <p id="section-1.2.3-3.2.1">Consolidation of data and information for a conversation<a href="#section-1.2.3-3.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-3.3">
+              <p id="section-1.2.3-3.3.1">Multiple modes of communication, changing over time<a href="#section-1.2.3-3.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-3.4">
+              <p id="section-1.2.3-3.4.1">Snapshots of conversation during or once completed along with analysis<a href="#section-1.2.3-3.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-3.5">
+              <p id="section-1.2.3-3.5.1">Ease of integration of services and analysis<a href="#section-1.2.3-3.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-3.6">
+              <p id="section-1.2.3-3.6.1">Better organize conversational data so that it can be handled in a consistent, privacy safer means<a href="#section-1.2.3-3.6.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-3.7">
+              <p id="section-1.2.3-3.7.1">Immutable<a href="#section-1.2.3-3.7.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-3.8">
+              <p id="section-1.2.3-3.8.1">Hiding of PII or entire conversation<a href="#section-1.2.3-3.8.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-3.9">
+              <p id="section-1.2.3-3.9.1">Amendable with additional information and data elements<a href="#section-1.2.3-3.9.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-1.2.3-4">Define a standard for exchange of conversational data in a sea of modes, platforms and service offerings for conversations.<a href="#section-1.2.3-4" class="pilcrow">¶</a></p>
+<p id="section-1.2.3-5">Example conversational modes and protocols:<a href="#section-1.2.3-5" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.2.3-6.1">
+              <p id="section-1.2.3-6.1.1">SMS<a href="#section-1.2.3-6.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-6.2">
+              <p id="section-1.2.3-6.2.1">MMS<a href="#section-1.2.3-6.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-6.3">
+              <p id="section-1.2.3-6.3.1">JABBER<a href="#section-1.2.3-6.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-6.4">
+              <p id="section-1.2.3-6.4.1">SIMPLE<a href="#section-1.2.3-6.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-6.5">
+              <p id="section-1.2.3-6.5.1">Proprietary web chat<a href="#section-1.2.3-6.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-6.6">
+              <p id="section-1.2.3-6.6.1">SMTP<a href="#section-1.2.3-6.6.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-6.7">
+              <p id="section-1.2.3-6.7.1">PSTN<a href="#section-1.2.3-6.7.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-6.8">
+              <p id="section-1.2.3-6.8.1">SIP<a href="#section-1.2.3-6.8.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-6.9">
+              <p id="section-1.2.3-6.9.1">WEBRTC<a href="#section-1.2.3-6.9.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-6.10">
+              <p id="section-1.2.3-6.10.1">Proprietary video conferencing<a href="#section-1.2.3-6.10.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-1.2.3-7">The following  are considered not in scope or non-requirements:<a href="#section-1.2.3-7" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.2.3-8.1">
+              <p id="section-1.2.3-8.1.1">Real-time streaming or updating of conversational data<a href="#section-1.2.3-8.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-8.2">
+              <p id="section-1.2.3-8.2.1">Transport mechanisms<a href="#section-1.2.3-8.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-8.3">
+              <p id="section-1.2.3-8.3.1">Storage or databases specifications<a href="#section-1.2.3-8.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-8.4">
+              <p id="section-1.2.3-8.4.1">Methods of redaction of text, audio or video media<a href="#section-1.2.3-8.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-8.5">
+              <p id="section-1.2.3-8.5.1">Validation of redactions or appended data beyond the signature of the domain making the changes to the conversational data (e.g. Merkle tree like redactions)<a href="#section-1.2.3-8.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-1.2.3-8.6">
+              <p id="section-1.2.3-8.6.1">Standardization of analysis data formats or file media types<a href="#section-1.2.3-8.6.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="conventions-and-definitions">
+<section id="section-2">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<div id="terminology">
+<section id="section-2.1">
+        <h3 id="name-terminology">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="section-2.1-1.1">
+            <p id="section-2.1-1.1.1">analysis - analysis, transformations, summary, sentiment, or translation typically of the dialog data<a href="#section-2.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.2">
+            <p id="section-2.1-1.2.1">conversation - an exchange of communication using text, audio or video medium between at least one human and one or more bots or humans<a href="#section-2.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.3">
+            <p id="section-2.1-1.3.1">de-identification - removal of all information that could identify a party in a conversation.  This includes PII as well as audio and video recordings.  Voice recordings might be re-vocalized with a different speaker.<a href="#section-2.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.4">
+            <p id="section-2.1-1.4.1">dialog - the captured conversation in its original form (e.g. text, audio or video)<a href="#section-2.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.5">
+            <p id="section-2.1-1.5.1">encrypted form - encrypted JWE document with the JWS signed vCon form contained in the ciphertext<a href="#section-2.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.6">
+            <p id="section-2.1-1.6.1">file - a data block either included or referenced in a vCon<a href="#section-2.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.7">
+            <p id="section-2.1-1.7.1">object - JSON object containing key and value pairs<a href="#section-2.1-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.8">
+            <p id="section-2.1-1.8.1">parameter - JSON key and value pair<a href="#section-2.1-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.9">
+            <p id="section-2.1-1.9.1">party - an observer or participant to the conversation, either passive or active<a href="#section-2.1-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.10">
+            <p id="section-2.1-1.10.1">payload - the contents or bytes that make up a file<a href="#section-2.1-1.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.11">
+            <p id="section-2.1-1.11.1">PII - Personal Identifiable Information<a href="#section-2.1-1.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.12">
+            <p id="section-2.1-1.12.1">PII masked - may include voice recordings, but PII is removed from transcripts and recordings (audio and video).<a href="#section-2.1-1.12.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.13">
+            <p id="section-2.1-1.13.1">vCon - container for conversational information<a href="#section-2.1-1.13.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.14">
+            <p id="section-2.1-1.14.1">vCon instance - a vCon populated with data for a specific conversation<a href="#section-2.1-1.14.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.15">
+            <p id="section-2.1-1.15.1">vCon instance version - a single version of an instance of a conversation, which may be modified to redact or append additional information  forming a subsequent vCon instance version<a href="#section-2.1-1.15.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.16">
+            <p id="section-2.1-1.16.1">vCon syntax version - the version for the data syntax used for form a vCon<a href="#section-2.1-1.16.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-1.17">
+            <p id="section-2.1-1.17.1">signed form - JWS signed document with the unsigned vCon form contained in the payload<a href="#section-2.1-1.17.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="inline-files">
+<section id="section-2.2">
+        <h3 id="name-inline-files">
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-inline-files" class="section-name selfRef">Inline Files</a>
+      </h3>
+</section>
+</div>
+<div id="externally-referenced-files">
+<section id="section-2.3">
+        <h3 id="name-externally-referenced-files">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-externally-referenced-files" class="section-name selfRef">Externally Referenced Files</a>
+      </h3>
+</section>
+</div>
+</section>
+</div>
+<div id="vcon-json-object">
+<section id="section-3">
+      <h2 id="name-vcon-json-object">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-vcon-json-object" class="section-name selfRef">vCon JSON Object</a>
+      </h2>
+<p id="section-3-1">The JSON form of a vCon is contained in a JSON object in one of three forms:<a href="#section-3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-2.1">
+          <p id="section-3-2.1.1">unsigned<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-3-2.2">
+          <p id="section-3-2.2.1">signed<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-3-2.3">
+          <p id="section-3-2.3.1">encrypted<a href="#section-3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<div id="uuid">
+<section id="section-3.1">
+        <h3 id="name-uuid">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-uuid" class="section-name selfRef">uuid</a>
+        </h3>
+<div id="parties">
+<section id="section-3.1.1">
+          <h4 id="name-parties">
+<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-parties" class="section-name selfRef">parties</a>
+        </h4>
+</section>
+</div>
+<div id="dialog">
+<section id="section-3.1.2">
+          <h4 id="name-dialog">
+<a href="#section-3.1.2" class="section-number selfRef">3.1.2. </a><a href="#name-dialog" class="section-name selfRef">dialog</a>
+        </h4>
+</section>
+</div>
+<div id="attachments">
+<section id="section-3.1.3">
+          <h4 id="name-attachments">
+<a href="#section-3.1.3" class="section-number selfRef">3.1.3. </a><a href="#name-attachments" class="section-name selfRef">attachments</a>
+        </h4>
+</section>
+</div>
+<div id="analysis">
+<section id="section-3.1.4">
+          <h4 id="name-analysis">
+<a href="#section-3.1.4" class="section-number selfRef">3.1.4. </a><a href="#name-analysis" class="section-name selfRef">analysis</a>
+        </h4>
+</section>
+</div>
+<div id="redacted">
+<section id="section-3.1.5">
+          <h4 id="name-redacted">
+<a href="#section-3.1.5" class="section-number selfRef">3.1.5. </a><a href="#name-redacted" class="section-name selfRef">redacted</a>
+          </h4>
+<span id="name-redacted-vcon-object-tree"></span><div id="diagram1">
+<figure id="figure-1">
+            <div class="alignLeft art-text artwork" id="section-3.1.5-1.1">
+<pre>
+                --------------
+Signed          | JWS        |
+redacted vCon:  |            | payload parameter
+                |    payload-|-- contains unsigned
+                -------------- / redacted vCon
+                              /
+            -------------    /
+vCon which  |vCon       |&lt;---
+has been    |           | redacted parameter contains
+redacted:   |  redacted-|-- or refers to JWE
+            ------------- / encrypted unredacted vCon
+                         /
+                        /
+                       /
+                      /
+                     /
+                    / ---------------
+                    -&gt;| JWE         | cyphertext
+Encrypted signed      |             | parameter
+unredacted vCon:      |  cyphertext-|--- contains
+                      ---------------  / JWS signed
+                                      / unredacted
+                  -------------      / vCon
+Signed            |JWS        |&lt;-----
+unredacted vcon:  |           | payload contains
+                  |   payload-|-- unsigned
+                  -------------  \ unredacted vCon
+                                  \   ----------
+                                   --&gt;| vCon   |
+Unsigned unredacted vCon:             |        |
+                                      ----------
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-redacted-vcon-object-tree" class="selfRef">redacted vCon object tree</a>
+            </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="appended">
+<section id="section-3.1.6">
+          <h4 id="name-appended">
+<a href="#section-3.1.6" class="section-number selfRef">3.1.6. </a><a href="#name-appended" class="section-name selfRef">appended</a>
+        </h4>
+</section>
+</div>
+<div id="vcon-groups">
+<section id="section-3.1.7">
+          <h4 id="name-vcon-groups">
+<a href="#section-3.1.7" class="section-number selfRef">3.1.7. </a><a href="#name-vcon-groups" class="section-name selfRef">vCon groups</a>
+        </h4>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-4">
+      <h2 id="name-security-considerations">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<div id="signing-externally-referenced-files">
+<section id="section-4.1">
+        <h3 id="name-signing-externally-referenc">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-signing-externally-referenc" class="section-name selfRef">Signing Externally Referenced Files</a>
+      </h3>
+</section>
+</div>
+<div id="signed-form-of-vcon-object">
+<section id="section-4.2">
+        <h3 id="name-signed-form-of-vcon-object">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-signed-form-of-vcon-object" class="section-name selfRef">Signed Form of vCon Object</a>
+      </h3>
+</section>
+</div>
+<div id="encrypted-form-of-vcon-object">
+<section id="section-4.3">
+        <h3 id="name-encrypted-form-of-vcon-obje">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-encrypted-form-of-vcon-obje" class="section-name selfRef">Encrypted Form of vCon Object</a>
+      </h3>
+</section>
+</div>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-5">
+      <h2 id="name-iana-considerations">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+    </h2>
+</section>
+</div>
+<div id="non-upward-compatible-changes-to-the-vcon-container">
+<section id="section-6">
+      <h2 id="name-non-upward-compatible-chang">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-non-upward-compatible-chang" class="section-name selfRef">Non-Upward Compatible Changes to the vCon Container</a>
+    </h2>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-7">
+      <h2 id="name-references">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-7.1">
+        <h3 id="name-normative-references">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3339">[RFC3339]</dt>
+        <dd>
+<span class="refAuthor">Klyne, G.</span> and <span class="refAuthor">C. Newman</span>, <span class="refTitle">"Date and Time on the Internet: Timestamps"</span>, <span class="seriesInfo">RFC 3339</span>, <span class="seriesInfo">DOI 10.17487/RFC3339</span>, <time datetime="2002-07" class="refDate">July 2002</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3339">https://www.rfc-editor.org/rfc/rfc3339</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+      <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-7.2">
+        <h3 id="name-informative-references">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="CBOR">[CBOR]</dt>
+        <dd>
+<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Concise Binary Object Representation (CBOR)"</span>, <span class="seriesInfo">STD 94</span>, <span class="seriesInfo">RFC 8949</span>, <span class="seriesInfo">DOI 10.17487/RFC8949</span>, <time datetime="2020-12" class="refDate">December 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8949">https://www.rfc-editor.org/rfc/rfc8949</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CDDL">[CDDL]</dt>
+        <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Vigano, C.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures"</span>, <span class="seriesInfo">RFC 8610</span>, <span class="seriesInfo">DOI 10.17487/RFC8610</span>, <time datetime="2019-06" class="refDate">June 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8610">https://www.rfc-editor.org/rfc/rfc8610</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="CDR">[CDR]</dt>
+        <dd>
+<span class="refAuthor">ITU</span>, <span class="refTitle">"Recommendation Q.825: Specification of TMN applications at the Q3 interface: Call detail recording"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.itu.int/rec/T-REC-Q.825">https://www.itu.int/rec/T-REC-Q.825</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="GEOPRIV">[GEOPRIV]</dt>
+        <dd>
+<span class="refAuthor">Peterson, J.</span>, <span class="refTitle">"A Presence-based GEOPRIV Location Object Format"</span>, <span class="seriesInfo">RFC 4119</span>, <span class="seriesInfo">DOI 10.17487/RFC4119</span>, <time datetime="2005-12" class="refDate">December 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4119">https://www.rfc-editor.org/rfc/rfc4119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="GZIP">[GZIP]</dt>
+        <dd>
+<span class="refAuthor">Deutsch, P.</span>, <span class="refTitle">"GZIP file format specification version 4.3"</span>, <span class="seriesInfo">RFC 1952</span>, <span class="seriesInfo">DOI 10.17487/RFC1952</span>, <time datetime="1996-05" class="refDate">May 1996</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc1952">https://www.rfc-editor.org/rfc/rfc1952</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HTTPS">[HTTPS]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IANA-COSE-ALG">[IANA-COSE-ALG]</dt>
+        <dd>
+<span class="refTitle">"COSE Algorithms"</span>, <span>n.d.</span>, <span>&lt;<a href="&lt;https://www.iana.org/assignments/cose/cose.xhtml&gt;">&lt;https://www.iana.org/assignments/cose/cose.xhtml&gt;</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="ISOBMFF">[ISOBMFF]</dt>
+        <dd>
+<span class="refTitle">"Information technology -- Coding of audio-visual objects -- Part 12: ISO base media file format"</span>, <span class="refContent">ISO/IEC 14496-12:2022</span>, <time datetime="2022-01" class="refDate">January 2022</time>, <span>&lt;<a href="https://www.iso.org/standard/83102.html">https://www.iso.org/standard/83102.html</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="JMAP">[JMAP]</dt>
+        <dd>
+<span class="refAuthor">Jenkins, N.</span> and <span class="refAuthor">C. Newman</span>, <span class="refTitle">"The JSON Meta Application Protocol (JMAP)"</span>, <span class="seriesInfo">RFC 8620</span>, <span class="seriesInfo">DOI 10.17487/RFC8620</span>, <time datetime="2019-07" class="refDate">July 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8620">https://www.rfc-editor.org/rfc/rfc8620</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="JSON">[JSON]</dt>
+        <dd>
+<span class="refAuthor">Bray, T., Ed.</span>, <span class="refTitle">"The JavaScript Object Notation (JSON) Data Interchange Format"</span>, <span class="seriesInfo">STD 90</span>, <span class="seriesInfo">RFC 8259</span>, <span class="seriesInfo">DOI 10.17487/RFC8259</span>, <time datetime="2017-12" class="refDate">December 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8259">https://www.rfc-editor.org/rfc/rfc8259</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="JWE">[JWE]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span> and <span class="refAuthor">J. Hildebrand</span>, <span class="refTitle">"JSON Web Encryption (JWE)"</span>, <span class="seriesInfo">RFC 7516</span>, <span class="seriesInfo">DOI 10.17487/RFC7516</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7516">https://www.rfc-editor.org/rfc/rfc7516</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="JWK">[JWK]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refTitle">"JSON Web Key (JWK)"</span>, <span class="seriesInfo">RFC 7517</span>, <span class="seriesInfo">DOI 10.17487/RFC7517</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7517">https://www.rfc-editor.org/rfc/rfc7517</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="JWS">[JWS]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">N. Sakimura</span>, <span class="refTitle">"JSON Web Signature (JWS)"</span>, <span class="seriesInfo">RFC 7515</span>, <span class="seriesInfo">DOI 10.17487/RFC7515</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7515">https://www.rfc-editor.org/rfc/rfc7515</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="JWT">[JWT]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">N. Sakimura</span>, <span class="refTitle">"JSON Web Token (JWT)"</span>, <span class="seriesInfo">RFC 7519</span>, <span class="seriesInfo">DOI 10.17487/RFC7519</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7519">https://www.rfc-editor.org/rfc/rfc7519</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="MAILTO">[MAILTO]</dt>
+        <dd>
+<span class="refAuthor">Duerst, M.</span>, <span class="refAuthor">Masinter, L.</span>, and <span class="refAuthor">J. Zawinski</span>, <span class="refTitle">"The 'mailto' URI Scheme"</span>, <span class="seriesInfo">RFC 6068</span>, <span class="seriesInfo">DOI 10.17487/RFC6068</span>, <time datetime="2010-10" class="refDate">October 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6068">https://www.rfc-editor.org/rfc/rfc6068</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="MEDIATYPE">[MEDIATYPE]</dt>
+        <dd>
+<span class="refAuthor">Freed, N.</span>, <span class="refAuthor">Klensin, J.</span>, and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"Media Type Specifications and Registration Procedures"</span>, <span class="seriesInfo">BCP 13</span>, <span class="seriesInfo">RFC 6838</span>, <span class="seriesInfo">DOI 10.17487/RFC6838</span>, <time datetime="2013-01" class="refDate">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6838">https://www.rfc-editor.org/rfc/rfc6838</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="MIME">[MIME]</dt>
+        <dd>
+<span class="refAuthor">Freed, N.</span> and <span class="refAuthor">N. Borenstein</span>, <span class="refTitle">"Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies"</span>, <span class="seriesInfo">RFC 2045</span>, <span class="seriesInfo">DOI 10.17487/RFC2045</span>, <time datetime="1996-11" class="refDate">November 1996</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2045">https://www.rfc-editor.org/rfc/rfc2045</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PASSporT">[PASSporT]</dt>
+        <dd>
+<span class="refAuthor">Wendt, C.</span> and <span class="refAuthor">J. Peterson</span>, <span class="refTitle">"PASSporT: Personal Assertion Token"</span>, <span class="seriesInfo">RFC 8225</span>, <span class="seriesInfo">DOI 10.17487/RFC8225</span>, <time datetime="2018-02" class="refDate">February 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8225">https://www.rfc-editor.org/rfc/rfc8225</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PIDF-LO">[PIDF-LO]</dt>
+        <dd>
+<span class="refAuthor">Winterbottom, J.</span>, <span class="refAuthor">Thomson, M.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"GEOPRIV Presence Information Data Format Location Object (PIDF-LO) Usage Clarification, Considerations, and Recommendations"</span>, <span class="seriesInfo">RFC 5491</span>, <span class="seriesInfo">DOI 10.17487/RFC5491</span>, <time datetime="2009-03" class="refDate">March 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5491">https://www.rfc-editor.org/rfc/rfc5491</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PY-VCON">[PY-VCON]</dt>
+        <dd>
+<span class="refTitle">"Python open source vCon command line interface, library and workflow server"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/py-vcon/py-vcon">https://github.com/py-vcon/py-vcon</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SHA-512">[SHA-512]</dt>
+        <dd>
+<span class="refAuthor">Eastlake 3rd, D.</span> and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"US Secure Hash Algorithms (SHA and SHA-based HMAC and HKDF)"</span>, <span class="seriesInfo">RFC 6234</span>, <span class="seriesInfo">DOI 10.17487/RFC6234</span>, <time datetime="2011-05" class="refDate">May 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6234">https://www.rfc-editor.org/rfc/rfc6234</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SIP-XFER">[SIP-XFER]</dt>
+        <dd>
+<span class="refAuthor">Sparks, R.</span>, <span class="refAuthor">Johnston, A., Ed.</span>, and <span class="refAuthor">D. Petrie</span>, <span class="refTitle">"Session Initiation Protocol (SIP) Call Control - Transfer"</span>, <span class="seriesInfo">BCP 149</span>, <span class="seriesInfo">RFC 5589</span>, <span class="seriesInfo">DOI 10.17487/RFC5589</span>, <time datetime="2009-06" class="refDate">June 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5589">https://www.rfc-editor.org/rfc/rfc5589</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SMTP">[SMTP]</dt>
+        <dd>
+<span class="refAuthor">Klensin, J.</span>, <span class="refTitle">"Simple Mail Transfer Protocol"</span>, <span class="seriesInfo">RFC 5321</span>, <span class="seriesInfo">DOI 10.17487/RFC5321</span>, <time datetime="2008-10" class="refDate">October 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5321">https://www.rfc-editor.org/rfc/rfc5321</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="STIR-PASS">[STIR-PASS]</dt>
+        <dd>
+<span class="refAuthor">Wendt, C.</span> and <span class="refAuthor">J. Peterson</span>, <span class="refTitle">"PASSporT Extension for Rich Call Data"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-stir-passport-rcd-26</span>, <time datetime="2023-06-05" class="refDate">5 June 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-stir-passport-rcd-26">https://datatracker.ietf.org/doc/html/draft-ietf-stir-passport-rcd-26</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="TEL">[TEL]</dt>
+        <dd>
+<span class="refAuthor">Schulzrinne, H.</span>, <span class="refTitle">"The tel URI for Telephone Numbers"</span>, <span class="seriesInfo">RFC 3966</span>, <span class="seriesInfo">DOI 10.17487/RFC3966</span>, <time datetime="2004-12" class="refDate">December 2004</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3966">https://www.rfc-editor.org/rfc/rfc3966</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="UUID">[UUID]</dt>
+        <dd>
+<span class="refAuthor">Peabody, B.</span> and <span class="refAuthor">K. R. Davis</span>, <span class="refTitle">"New UUID Formats"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-peabody-dispatch-new-uuid-format-04</span>, <time datetime="2022-06-23" class="refDate">23 June 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04">https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="vCard">[vCard]</dt>
+        <dd>
+<span class="refAuthor">Kewisch, P.</span>, <span class="refTitle">"jCard: The JSON Format for vCard"</span>, <span class="seriesInfo">RFC 7095</span>, <span class="seriesInfo">DOI 10.17487/RFC7095</span>, <time datetime="2014-01" class="refDate">January 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7095">https://www.rfc-editor.org/rfc/rfc7095</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="vCon-white-paper">[vCon-white-paper]</dt>
+      <dd>
+<span class="refAuthor">Howe, T.</span>, <span class="refAuthor">Petrie, D.</span>, <span class="refAuthor">Lieberman, M.</span>, and <span class="refAuthor">A. Quayle</span>, <span class="refTitle">"vCon: an Open Standard for Conversation Data"</span>, <span>n.d.</span>, <span>&lt;<a href="https://github.com/vcon-dev/vcon/blob/main/docs/vCons_%20an%20Open%20Standard%20for%20Conversation%20Data.pdf">https://github.com/vcon-dev/vcon/blob/main/docs/vCons_%20an%20Open%20Standard%20for%20Conversation%20Data.pdf</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-A">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<ul class="normal">
+<li class="normal" id="appendix-A-1.1">
+          <p id="appendix-A-1.1.1">Thank you to Thomas McCarthy-Howe for inventing the concept of a vCon and the many discussions that we had while this concept was developed into reality.<a href="#appendix-A-1.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-1.2">
+          <p id="appendix-A-1.2.1">Thank you to Jonathan Rosenberg and Andrew Siciliano for their input to the vCon container requirements in the form of I-D: draft-rosenberg-vcon-cc-usecases.<a href="#appendix-A-1.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-1.3">
+          <p id="appendix-A-1.3.1">Thank you to Rohan Mahy for his help in exploring the CDDL schema and CBOR format for vCon.<a href="#appendix-A-1.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-1.4">
+          <p id="appendix-A-1.4.1">Thank you to Steve Lasker for formatting and spelling edits.<a href="#appendix-A-1.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Daniel G Petrie</span></div>
+<div dir="auto" class="left"><span class="org">SIPez LLC</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:dan.ietf@sipez.com" class="email">dan.ietf@sipez.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Thomas McCarthy-Howe</span></div>
+<div dir="auto" class="left"><span class="org">Strolid</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:thomas.howe@strolid.com" class="email">thomas.howe@strolid.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
