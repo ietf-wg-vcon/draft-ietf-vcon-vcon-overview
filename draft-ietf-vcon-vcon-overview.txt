@@ -5,8 +5,8 @@
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
 Intended status: Informational                          T. McCarthy-Howe
-Expires: 2 January 2026                                          Strolid
-                                                             1 July 2025
+Expires: 6 January 2026                                          Strolid
+                                                             5 July 2025
 
 
            The vCon - Conversation Data Container - Overview
@@ -39,9 +39,9 @@ About This Document
    https://datatracker.ietf.org/doc/draft-ietf-vcon-vcon-overview/.
 
    Discussion of this document takes place on the Virtualized
-   Conversations mailing list (mailto:vcon@ietf.org), which is archived
-   at https://mailarchive.ietf.org/arch/browse/vcon/.  Subscribe at
-   https://www.ietf.org/mailman/listinfo/vcon/.
+   Conversations Working Group mailing list (mailto:vcon@ietf.org),
+   which is archived at https://mailarchive.ietf.org/arch/browse/vcon/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/vcon/.
 
    Source for this draft and an issue tracker can be found at
    https://github.com/ietf-wg-vcon/draft-ietf-vcon-vcon-overview.
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 January 2026.
+   This Internet-Draft will expire on 6 January 2026.
 
 Copyright Notice
 
@@ -82,31 +82,24 @@ Table of Contents
    1.  Introduction
      1.1.  What's in a vCon?
      1.2.  Use Cases and Requirements
-       1.2.1.  Contact Center Use Case
-       1.2.2.  Messaging Use Case
-       1.2.3.  ECRIT Use Case
    2.  Conventions and Definitions
      2.1.  Terminology
-     2.2.  Inline Files
-     2.3.  Externally Referenced Files
-   3.  vCon JSON Object
-     3.1.  uuid
-       3.1.1.  parties
-       3.1.2.  dialog
-       3.1.3.  attachments
-       3.1.4.  analysis
-       3.1.5.  redacted
-       3.1.6.  appended
-       3.1.7.  vCon groups
+   3.  vCon JSON Container
+     3.1.  Inline Files
+     3.2.  Externally Referenced Files
+     3.3.  Appended Use Cases
+       3.3.1.  signed vCon modified for correction, or addition of
+               conversational informaiton or analysis
+       3.3.2.  Capture of vCon in various life cycle stages signed or
+               unsigned
    4.  Security Considerations
      4.1.  Signing Externally Referenced Files
      4.2.  Signed Form of vCon Object
      4.3.  Encrypted Form of vCon Object
    5.  IANA Considerations
-   6.  Non-Upward Compatible Changes to the vCon Container
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   6.  References
+     6.1.  Normative References
+     6.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -179,11 +172,8 @@ Table of Contents
 
 1.2.  Use Cases and Requirements
 
-1.2.1.  Contact Center Use Case
-
-1.2.2.  Messaging Use Case
-
-1.2.3.  ECRIT Use Case
+   The initial focus for vCon will be on the following: * Contact Center
+   Use Cases * Messaging Use Cases * ECRIT Use Cases
 
    May of the initial set of use cases for vCons are expected to be in
    the interchange between front end and back end application and lower
@@ -320,11 +310,7 @@ Table of Contents
    *  signed form - JWS signed document with the unsigned vCon form
       contained in the payload
 
-2.2.  Inline Files
-
-2.3.  Externally Referenced Files
-
-3.  vCon JSON Object
+3.  vCon JSON Container
 
    The JSON form of a vCon is contained in a JSON object in one of three
    forms:
@@ -335,17 +321,24 @@ Table of Contents
 
    *  encrypted
 
-3.1.  uuid
+   A vCon supports the following concepts:
 
-3.1.1.  parties
+   *  uuid - a unique identifier for each vCon instance accross space
+      and time
 
-3.1.2.  dialog
+   *  parties - participants in the vCon conversation, human or
+      otherwise
 
-3.1.3.  attachments
+   *  dialog - that actual conversation in the original mode: text,
+      voice and/or video
 
-3.1.4.  analysis
+   *  attachments - documents that are part of the conversation
 
-3.1.5.  redacted
+   *  analysis - manual, algorithmic, ML or AI based analysis of the
+      conversation
+
+   *  redaction - the conversation with information removed or redacted
+      for some purpose such as privacy
 
                    --------------
    Signed          | JWS        |
@@ -381,9 +374,22 @@ Table of Contents
 
                     Figure 1: redacted vCon object tree
 
-3.1.6.  appended
+   *  appended - an updated, corrected or sumplemented vCon with
+      reference to the prior version of interest
 
-3.1.7.  vCon groups
+   *  groups - aggregation of multiple vCons to construct a larger
+      conversation scope
+
+3.1.  Inline Files
+
+3.2.  Externally Referenced Files
+
+3.3.  Appended Use Cases
+
+3.3.1.  signed vCon modified for correction, or addition of
+        conversational informaiton or analysis
+
+3.3.2.  Capture of vCon in various life cycle stages signed or unsigned
 
 4.  Security Considerations
 
@@ -395,11 +401,12 @@ Table of Contents
 
 5.  IANA Considerations
 
-6.  Non-Upward Compatible Changes to the vCon Container
+   This document has no IANA considerations.  They will be addressed in
+   other vCon documents.
 
-7.  References
+6.  References
 
-7.1.  Normative References
+6.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -414,7 +421,7 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-7.2.  Informative References
+6.2.  Informative References
 
    [CBOR]     Bormann, C. and P. Hoffman, "Concise Binary Object
               Representation (CBOR)", STD 94, RFC 8949,
