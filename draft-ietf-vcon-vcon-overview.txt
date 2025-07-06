@@ -5,8 +5,8 @@
 Virtualized Conversations                                    D. G Petrie
 Internet-Draft                                                 SIPez LLC
 Intended status: Informational                          T. McCarthy-Howe
-Expires: 6 January 2026                                          Strolid
-                                                             5 July 2025
+Expires: 7 January 2026                                          Strolid
+                                                             6 July 2025
 
 
            The vCon - Conversation Data Container - Overview
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 January 2026.
+   This Internet-Draft will expire on 7 January 2026.
 
 Copyright Notice
 
@@ -341,32 +341,34 @@ Table of Contents
       for some purpose such as privacy
 
                    --------------
-   Signed          | JWS        |
-   redacted vCon:  |            | payload parameter
-                   |    payload-|-- contains unsigned
-                   -------------- / redacted vCon
+   Signed          | JWS   uuid-|-- redacted vCon uuid in header
+   redacted vCon:  |            |
+                   |    payload-|-- unsigned redacted vCon in
+                   -------------- / payload parameter
                                  /
                -------------    /
    vCon which  |vCon       |<---
-   has been    |           | redacted parameter contains
-   redacted:   |  redacted-|-- or refers to JWE
-               ------------- / encrypted unredacted vCon
-                            /
+   has been    |           |
+   redacted:   |  redacted-|-- Redacted Object
+               ------------- / refers to JWE
+                            / encrypted unredacted vCon
                            /
                           /
                          /
                         /
-                       / ---------------
-                       ->| JWE         | cyphertext
-   Encrypted signed      |             | parameter
-   unredacted vCon:      |  cyphertext-|--- contains
-                         ---------------  / JWS signed
-                                         / unredacted
-                     -------------      / vCon
-   Signed            |JWS        |<-----
-   unredacted vcon:  |           | payload contains
-                     |   payload-|-- unsigned
-                     -------------  \ unredacted vCon
+                       / ---------------   signed unredacted vCon
+                       ->| JWE    uuid-|-- uuid in unprotected
+   Encrypted signed      |             |
+   unredacted vCon:      |  cyphertext-|--- JWS signed
+                         ---------------  / unredacted vCon
+                                         / in cyphertext
+                    /-------------------/ parameter
+                   /
+                  /  -------------
+   Signed         -> |JWS   uuid-|-- unredacted vCon uuid in header
+   unredacted vcon:  |           |
+                     |   payload-|-- unsigned unredacted vCon
+                     -------------  \ in payload
                                      \   ----------
                                       -->| vCon   |
    Unsigned unredacted vCon:             |        |
