@@ -1228,6 +1228,17 @@ A standardized conversation container enables many applications, establishes a c
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.6">
                 <p id="section-toc.1-1.3.2.6.1"><a href="#section-3.6" class="auto internal xref">3.6</a>.  <a href="#name-relationships-between-vcons" class="internal xref">Relationships between vCons</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7">
+                <p id="section-toc.1-1.3.2.7.1"><a href="#section-3.7" class="auto internal xref">3.7</a>.  <a href="#name-appended-use-cases" class="internal xref">Appended Use Cases</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7.2.1">
+                    <p id="section-toc.1-1.3.2.7.2.1.1"><a href="#section-3.7.1" class="auto internal xref">3.7.1</a>.  <a href="#name-signed-vcon-modified-for-co" class="internal xref">signed vCon modified for correction, or addition of conversational informaiton or analysis</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.7.2.2">
+                    <p id="section-toc.1-1.3.2.7.2.2.1"><a href="#section-3.7.2" class="auto internal xref">3.7.2</a>.  <a href="#name-capture-of-vcon-in-various-" class="internal xref">Capture of vCon in various life cycle stages signed or unsigned</a></p>
+</li>
+                </ul>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
@@ -1652,6 +1663,64 @@ By clearly documenting what analysis has been performed and linking it back to s
 Groups of vCons can be expressed, to indicate general interlationships.
 Redactions are at the heart of data minimization, a primary technique of personal data protection.
 vCons enable the sharing of limited data through redaction, while retaining the ability of systems to guarantee the accuracy of the redaction itself.<a href="#section-3.6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="appended-use-cases">
+<section id="section-3.7">
+        <h3 id="name-appended-use-cases">
+<a href="#section-3.7" class="section-number selfRef">3.7. </a><a href="#name-appended-use-cases" class="section-name selfRef">Appended Use Cases</a>
+        </h3>
+<p id="section-3.7-1">A vCon will often evolve over time.
+It is not always created with all of its metadata, conversation media, attachments, and analysis at once.
+There are several reasons for this:<a href="#section-3.7-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.7-2.1">
+            <p id="section-3.7-2.1.1">Different components of the vCon may be produced by different application platforms or entities.<a href="#section-3.7-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.7-2.2">
+            <p id="section-3.7-2.2.1">The vCon may pass across multiple trust boundaries during its lifecycle, with entities on either side contributing content.<a href="#section-3.7-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.7-2.3">
+            <p id="section-3.7-2.3.1">Each of these entities may wish to sign the vCon to attest to its integrity or to the authenticity of their contributions.<a href="#section-3.7-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.7-3">Once a vCon has been signed, it becomes immutable.
+Any modification will invalidate the signature.
+To address this, a new vCon can be created containing the updated or additional content.
+This new vCon can reference the previously signed version, preserving the integrity of the earlier state while allowing the overall conversation record to evolve.<a href="#section-3.7-3" class="pilcrow">¶</a></p>
+<p id="section-3.7-4">This approach can also be applied even when a vCon is unsigned, for scenarios where maintaining a historical snapshot is important.
+For example, an application may wish to preserve a point-in-time representation of the vCon at a significant stage in its lifecycle.<a href="#section-3.7-4" class="pilcrow">¶</a></p>
+<p id="section-3.7-5">There are two competing requirements in this use case:<a href="#section-3.7-5" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.7-6.1">
+            <p id="section-3.7-6.1.1"><strong>Ease of use and access to the latest version of the vCon</strong><a href="#section-3.7-6.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.7-6.2">
+            <p id="section-3.7-6.2.1"><strong>Data size minimization and normalization</strong><a href="#section-3.7-6.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.7-7">For ease of use, it is often desirable to work with a fully composed vCon that contains all prior and newly added or updated content.
+This has sometimes been referred to in vCon discussions as a "deep copy." Such a vCon requires no special handling, redirection, or reconstruction.
+It contains all relevant information in a single, self-contained structure.<a href="#section-3.7-7" class="pilcrow">¶</a></p>
+<p id="section-3.7-8">However, this approach introduces duplication and increases document size.
+To address concerns around efficiency and data normalization, a more compact representation using <em>patches</em> or <em>incremental updates</em> may be preferred.
+This method allows changes to be recorded relative to earlier versions, reducing redundancy.
+Additionally, it enables labeling or referencing specific stages in the vCon's lifecycle, offering a flexible way to manage changes.
+In vCon discussions, this method has been referred to as representing <em>incremental changes</em>.<a href="#section-3.7-8" class="pilcrow">¶</a></p>
+<div id="signed-vcon-modified-for-correction-or-addition-of-conversational-informaiton-or-analysis">
+<section id="section-3.7.1">
+          <h4 id="name-signed-vcon-modified-for-co">
+<a href="#section-3.7.1" class="section-number selfRef">3.7.1. </a><a href="#name-signed-vcon-modified-for-co" class="section-name selfRef">signed vCon modified for correction, or addition of conversational informaiton or analysis</a>
+        </h4>
+</section>
+</div>
+<div id="capture-of-vcon-in-various-life-cycle-stages-signed-or-unsigned">
+<section id="section-3.7.2">
+          <h4 id="name-capture-of-vcon-in-various-">
+<a href="#section-3.7.2" class="section-number selfRef">3.7.2. </a><a href="#name-capture-of-vcon-in-various-" class="section-name selfRef">Capture of vCon in various life cycle stages signed or unsigned</a>
+        </h4>
+</section>
+</div>
 </section>
 </div>
 </section>
